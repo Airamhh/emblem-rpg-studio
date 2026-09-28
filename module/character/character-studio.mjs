@@ -29,6 +29,7 @@ import {
   actorArtFolder
 } from '../editor/io.mjs';
 import { openStudioContextMenu, closeStudioContextMenu } from '../editor/context-menu.mjs';
+import { scopeStudioKeys } from '../editor/key-scope.mjs';
 import {
   CHARACTER_STUDIO_ACTOR_TYPES, CHARACTER_STUDIO_TEMPLATE, MODULE_ID, STUDIO_ACCESS_HOOK
 } from '../constants.mjs';
@@ -789,39 +790,18 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
   /* -------------------------------------------- */
 
   /**
-   * Stop keystrokes escaping the studio, and route undo and redo when no canvas is hovered.
+   * Keep keystrokes in the studio (editor/key-scope.mjs), and route undo and redo when no canvas is hovered.
    *
    * Each canvas has its own window-level handler, which acts only while the canvas is hovered and stops propagation
-   * when it does, so this trap only sees keys pressed over the side panels and toolbar. Without it, an undo pressed
+   * when it does, so the scope only sees keys pressed over the side panels and toolbar. Without it, an undo pressed
    * there would reach Foundry instead of the studio.
    * @private
    */
   _installKeyTrap() {
     const root = this.element;
     if (!root) return;
-    const trap = (e) => {
-      if (!root.contains(e.target)) return;
-      if (e.type === 'keydown') {
-        const tag = (document.activeElement?.tagName ?? '').toLowerCase();
-        if (tag !== 'input' && tag !== 'textarea') {
-          const mod = e.ctrlKey || e.metaKey;
-          if (mod && !e.altKey) {
-            const key = e.key.toLowerCase();
-            if (key === 'z' || key === 'y') {
-              const tab  = this._activeTab;
-              const view = tab?.tokenView ?? tab?.avatarView;
-              if (view) {
-                e.preventDefault();
-                if (key === 'y' || e.shiftKey) view.redo();
-                else                            view.undo();
-              }
-            }
-          }
-        }
-      }
-      e.stopPropagation();
-    };
-    for (const type of ['keydown', 'keyup', 'keypress']) this._lifecycle.listen(root, type, trap);
+    const view = () => this._activeTab?.tokenView ?? this._activeTab?.avatarView;
+    this._lifecycle.onRelease(scopeStudioKeys(root, { undo: () => view()?.undo(), redo: () => view()?.redo() }));
   }
 
   /* -------------------------------------------- */

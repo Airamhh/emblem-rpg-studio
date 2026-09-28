@@ -103,7 +103,13 @@ export class EmblemStudioApp extends HandlebarsApplicationMixin(ApplicationV2) {
     return id;
   }
 
+  /**
+   * Close the window, except when Foundry closes windows on Escape (`options.closeKey`). A Studio window keeps its
+   * edits and closes only from its own buttons or a direct call.
+   * @returns {Promise<Application>}
+   */
   async close(options = {}) {
+    if (options.closeKey) return this;
     for (const [hook, id] of this._hooks) Hooks.off(hook, id);
     this._hooks = [];
     return super.close(options);

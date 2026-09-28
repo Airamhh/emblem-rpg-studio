@@ -12,6 +12,7 @@ import { publishItemArtFile } from '../foundry/publication-transport.mjs';
 import { pixelArtCropTransparent } from '../utils/pixel-art.mjs';
 import { FeccColourPanel } from '../character/fecc/fecc-colour-panel.mjs';
 import { EmblemApp } from '../editor/app.mjs';
+import { scopeStudioKeys } from '../editor/key-scope.mjs';
 
 /* -------------------------------------------- */
 /*  Reporting                                   */
@@ -241,6 +242,7 @@ export class EmblemSpriteStudio extends EmblemApp {
     const mount = root.querySelector('.ete-canvas-mount');
     if (!mount) return;
     this.view = new CanvasView({ mountEl: mount, side: 'avatar', initialScale: 1 });
+    this._releaseKeys = scopeStudioKeys(root, { undo: () => this.view?.undo(), redo: () => this.view?.redo() });
     // Keep the Recolour tray bound to the live layer, which changes on an import or a flatten.
     this.view.onSelectionChange = (layer) => this._colourPanel?.setActivePalette(null, null, layer ?? null);
     this.view.onSelectionMaskChange = (reason) => {
@@ -640,12 +642,14 @@ export class EmblemSpriteStudio extends EmblemApp {
   /* -------------------------------------------- */
 
   /**
-   * Tear down the canvas, the tray and the hook.
+   * Release the keys and tear down the canvas and the tray.
    *
    * Each step is isolated, so a failure in one still releases the others.
    * @returns {*}
    */
   _onClose(options) {
+    this._releaseKeys?.();
+    this._releaseKeys = null;
     try { this.view?.destroy(); } catch (_) {
       notify.failure('_onClose failed', _);
     }
