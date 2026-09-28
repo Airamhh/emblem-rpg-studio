@@ -48,7 +48,14 @@ export function typeOptionsFor(classKey) {
 
 /* -------------------------------------------- */
 
-/** Whether a variant type names one of the token-art slots, and so a key of `system.art.tokens`. */
+/** Whether a token is the absolute default. */
+export function isDefaultVariant(tuple) {
+  return (tuple?.classKey || 'Default') === 'Default' && (tuple?.type || 'default') !== 'default';
+}
+
+/* -------------------------------------------- */
+
+/** Whether a variant type names one of the token-art slots, and so a key of a class tab's `tokens`. */
 export function isTokenSlot(type) {
   return typeOptions().some(option => option.value === type);
 }
@@ -389,10 +396,10 @@ export function syncTokenTabRenames(actor, changes) {
 /* -------------------------------------------- */
 
 /**
- * The compositions to copy when a new class tab is seeded from the Default tab, served to the system as
- * `api.getCharacterClassSeed`. The image paths alone would give the new tab art with no layer stack behind it, so
- * the studio would open each variant as one flat layer. Existing keys under the new class are left alone, so
- * seeding never overwrites work already done there.
+ * The composition to copy when a new class tab is seeded from the Default tab, served to the system as
+ * `api.getCharacterClassSeed`. The Default token has only its default slot, so that is the one layer stack copied.
+ * The image path alone would give the new tab art with no layer stack behind it, so the studio would open it as one
+ * flat layer. An existing key under the new class is left alone, so seeding never overwrites work already done there.
  * @param {object} comp                   The composition store.
  * @param {string} className              The new tab's class.
  * @param {string} flagNamespace          Flag namespace the store lives under.
@@ -402,15 +409,10 @@ export function seedCompositionsFromDefault(comp, className, flagNamespace) {
   if (!comp) return null;
   const slug = compKeyClassSlug(className);
   if (slug === 'Default') return null;
-  const base = `flags.${flagNamespace}.tokenComp`;
-  const update = {};
-  for (const key of Object.keys(comp)) {
-    if (!key.startsWith('Default__')) continue;
-    const dest = `${slug}${key.slice('Default'.length)}`;
-    if (comp[dest] !== undefined) continue;
-    update[`${base}.${dest}`] = comp[key];
-  }
-  return Object.keys(update).length ? update : null;
+  const source = compKey({ classKey: 'Default', type: 'default' });
+  const dest = compKey({ classKey: className, type: 'default' });
+  if (comp[source] === undefined || comp[dest] !== undefined) return null;
+  return { [`flags.${flagNamespace}.tokenComp.${dest}`]: comp[source] };
 }
 
 /* -------------------------------------------- */

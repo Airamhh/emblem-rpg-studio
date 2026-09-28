@@ -42,11 +42,9 @@ import { FeccExportPanel } from './fecc/fecc-export-panel.mjs';
 import { recolourLayer } from './fecc/fecc-recolour.mjs';
 import { applyHairShadow } from './fecc/fecc-shadow.mjs';
 import { openActorConfiguration, refreshActorAuthoringPanel, refreshActorTokenArt } from '../foundry/document-refresh.mjs';
-// import { tokenTabsFor, tokenTabsWithEntryIds, updateActorArt, writeBaseTokenPath, writeTokenTabs } from './art-state.mjs';
 import { tokenTabsFor, updateActorArt, writeBaseTokenPath, writeTokenTabs } from './art-state.mjs';
 import { loadSchema, loadStudioWorkspace, getStudioWorkspace, saveStudioWorkspace } from './fecc/fecc-asset-schema.mjs';
-// import { typeOptions, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, legacyCompKey, withEntryIdentity, migrateCompositionKeys, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
-import { typeOptions, typeOptionsFor, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, withEntryIdentity, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
+import { typeOptions, typeOptionsFor, isDefaultVariant, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, withEntryIdentity, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
 import { snapshotInitial, viewPristine, withHeldWorkspaceActors } from './dirty-state.mjs';
 import { forcedDeletion } from '../foundry/data-operators.mjs';
 import { wireHorizontalWheelScroll } from '../utils/horizontal-wheel-scroll.mjs';
@@ -3550,8 +3548,10 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
   async _repointTab(tab, newTuple, { skipPrompt = false } = {}) {
     const actor = this._tabActor(tab) ?? this._boundActor;
     if (!actor) return;
-    // A safety check only. Submit's disabled tooltip already explains this where a user could reach it.
     if (tab.isSpritesheet) return;
+    if (isDefaultVariant(newTuple)) {
+      return;
+    }
 
     const tokenView  = tab.tokenView;
     const avatarView = tab.avatarView;
@@ -3989,6 +3989,10 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       return false;
     }
     if (!tab.bound) return false;
+    if (side === 'token' && isDefaultVariant(tab.tuple)) {
+      if (!quiet) notify.warn('The Default token has no variants, so this tab was not saved. Point it at a Class tab.');
+      return false;
+    }
     const view = viewOf(tab, side);
     if (!view) {
       if (!quiet) notify.warn('No ' + side + ' layers to save.');

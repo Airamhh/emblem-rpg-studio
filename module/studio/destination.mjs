@@ -12,7 +12,7 @@
  */
 
 import { tokenTabsFor } from '../character/art-state.mjs';
-import { tabIdForClass, tupleLabel, tuplesEqual } from '../character/variants.mjs';
+import { isDefaultVariant, tabIdForClass, tupleLabel, tuplesEqual } from '../character/variants.mjs';
 import { isPermanentTab } from './tab-model.mjs';
 
 /* -------------------------------------------- */
@@ -136,7 +136,7 @@ export function submitState({ tab, tabs, proposed }) {
       tooltip: "Spritesheet tabs are scratch canvases, so they can't be bound to a token field"
     };
   }
-  if ((proposed?.classKey || 'Default') === 'Default' && (proposed?.type || 'default') !== 'default') {
+  if (isDefaultVariant(proposed)) {
     return { disabled: true, tooltip: 'The Default token has no variants. Use a Class tab' };
   }
   if (tab.bound && tuplesEqual(tab.tuple, proposed)) {
