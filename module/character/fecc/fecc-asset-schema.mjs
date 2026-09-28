@@ -3,7 +3,7 @@
  * Two JSON files Character Studio keeps beside the world, in worlds/<world>/emblem/meta/:
  *   - schemas.json holds each imported asset's default palette. The import panel writes an entry for every asset it
  *     saves to the library, and the colour panel's Asset Default button reads it back. The Studio module's own
- *     assets/fecc/meta/schemas.json holds the shipped defaults under it, and Developer Mode imports write there.
+ *     assets/fecc/meta/schemas.json holds the shipped defaults under it.
  *   - workspace-<userId>.json holds a staff user's open actors and tabs, canvas modes, pane visibility and unsaved
  *     panes, so the studio reopens where it was left. Everyone else keeps the workspace in this browser's drafts
  *     instead, and it stays there if their Studio access is revoked.
@@ -82,12 +82,6 @@ let schemasCache  = null;
 let worldSchemas  = null;
 
 /**
- * The Studio module's shipped defaults, which Developer Mode imports add to.
- * @type {object|null}
- */
-let studioSchemas = null;
-
-/**
  * The loaded workspace, or null.
  * @type {object|null}
  */
@@ -117,9 +111,9 @@ function _assetsOf(parsed) {
  */
 export async function loadSchema() {
   if (schemasCache) return schemasCache;
-  studioSchemas = { version: 1, assets: _assetsOf(await fetchSidecarJson(studioMetaFolder(), SCHEMAS_FILENAME)) };
+  const studioAssets = _assetsOf(await fetchSidecarJson(studioMetaFolder(), SCHEMAS_FILENAME));
   worldSchemas  = { version: 1, assets: _assetsOf(await fetchSidecarJson(metaFolder(), SCHEMAS_FILENAME)) };
-  schemasCache  = { version: 1, assets: { ...studioSchemas.assets, ...worldSchemas.assets } };
+  schemasCache  = { version: 1, assets: { ...studioAssets, ...worldSchemas.assets } };
   return schemasCache;
 }
 
@@ -141,20 +135,17 @@ async function _persistSchemas(folder, layer) {
 /**
  * Record an asset's default palette. FeccImportPanel._convertOne calls it for every asset saved to the library.
  *
- * The entry goes into the merged view, so the running studio sees it at once, and into the layer that is written:
- * the world's own, or with `toStudio` the Studio module's shipped defaults. A Studio save also drops the world's
- * entry of the same name, which would otherwise hide the new shipped default in this world. Each file is re-read
- * before it is written, so a default another client saved since this one loaded is kept.
+ * The entry goes into the merged view, so the running studio sees it at once, and into the world's own file. The
+ * file is re-read before it is written, so a default another client saved since this one loaded is kept.
  *
  * The palette is deep-cloned, so later edits to the live palette can't change the stored default.
  * @param {string} assetName              Asset the palette belongs to.
  * @param {object} palette                The palette.
  * @param {object} [meta]
  * @param {string|null} [meta.category]   Category the asset files under.
- * @param {boolean} [meta.toStudio]       Save it as a shipped default in the Studio module.
  * @returns {Promise<void>}
  */
-export async function saveAssetSchema(assetName, palette, { category = null, toStudio = false } = {}) {
+export async function saveAssetSchema(assetName, palette, { category = null } = {}) {
   if (!assetName || !palette) return;
   const sc = await loadSchema();
   const entry = {
@@ -163,20 +154,8 @@ export async function saveAssetSchema(assetName, palette, { category = null, toS
     savedAt:  Date.now()
   };
   sc.assets[assetName] = entry;
-  if (!toStudio) {
-    worldSchemas.assets = { ...(await _freshWorldAssets()), [assetName]: entry };
-    await _persistSchemas(metaFolder(), worldSchemas);
-    return;
-  }
-  const shipped = _assetsOf(await fetchSidecarJson(studioMetaFolder(), SCHEMAS_FILENAME));
-  studioSchemas.assets = { ...shipped, [assetName]: entry };
-  await _persistSchemas(studioMetaFolder(), studioSchemas);
-  const world = await _freshWorldAssets();
-  if (assetName in world) {
-    delete world[assetName];
-    worldSchemas.assets = world;
-    await _persistSchemas(metaFolder(), worldSchemas);
-  }
+  worldSchemas.assets = { ...(await _freshWorldAssets()), [assetName]: entry };
+  await _persistSchemas(metaFolder(), worldSchemas);
 }
 
 /**

@@ -3,11 +3,9 @@ import { createStudioNotifier } from '../foundry/notify.mjs';
 import { CanvasView } from '../editor/canvas-view.mjs';
 import {
   downloadImage, pickLocalImage,
-  ensureFolderHierarchy, uploadBlob, itemArtFolder, itemArtFilename,
-  itemPackedAssetFolder, itemPackedAssetFilename, packedAssetPackageLabel,
-  developerMode, syncSaveToRootVisibility
+  ensureFolderHierarchy, uploadBlob,   itemArtFolder, itemArtFilename
 } from '../editor/io.mjs';
-import { DEVELOPER_MODE_HOOK, MODULE_ID, SPRITE_STUDIO_TEMPLATE } from '../constants.mjs';
+import { MODULE_ID, SPRITE_STUDIO_TEMPLATE } from '../constants.mjs';
 import { savedPixelArtUpdate } from '../foundry/documents.mjs';
 import { STUDIO_REFUSALS } from '../admission.mjs';
 import { isStudioStaff, refuseStudio } from '../foundry/access.mjs';
@@ -63,9 +61,7 @@ function bustedArtPath(path) {
  * It uses the shared editor canvas (`CanvasView` in editor/canvas-view.mjs), the same one Character Studio uses, so
  * item art and character art reduce, place and paint identically. It edits one destination: this item's image.
  *
- * Two save targets. The ordinary one writes into the world and points the item at it. Save To Root, shown only in
- * Developer Mode, writes into the Emblem RPG Content module's asset tree instead, beside the bundled art it will be
- * packed with, which is how the compendium source is edited.
+ * Saving writes the art into the world and points the item at it.
  */
 export class EmblemSpriteStudio extends EmblemApp {
   /* -------------------------------------------- */
@@ -115,7 +111,6 @@ export class EmblemSpriteStudio extends EmblemApp {
     position: { width: 560 + EmblemSpriteStudio.RECOLOUR_PANE_WIDTH, height: 660 },
     actions: {
       save:           EmblemSpriteStudio.#onSave,
-      saveToRoot:     EmblemSpriteStudio.#onSaveRoot,
       cancel:         EmblemSpriteStudio.#onCancel,
       importImage:    EmblemSpriteStudio.#onImport,
       clearArt:       EmblemSpriteStudio.#onClear,
@@ -195,9 +190,9 @@ export class EmblemSpriteStudio extends EmblemApp {
   /*  Rendering                                   */
   /* -------------------------------------------- */
 
-  /** Template data: the item's name, and whether Save To Root shows. */
+  /** Template data: the item's name. */
   async _prepareContext() {
-    return { itemName: this.item?.name ?? 'Item', showSaveToRoot: developerMode() };
+    return { itemName: this.item?.name ?? 'Item' };
   }
 
   /* -------------------------------------------- */
@@ -206,8 +201,7 @@ export class EmblemSpriteStudio extends EmblemApp {
    * Mount the canvas and wire everything, once.
    *
    * A mounted flag stops later renders from doing it again, because the canvas holds the art being edited and
-   * rebuilding it would discard the work. For the same reason, the Developer Mode hook shows or hides Save To Root
-   * without a re-render.
+   * rebuilding it would discard the work.
    *
    * Selection changes go to both trays. The recolour panel needs to know which pixels to act on, and the adjustment
    * tray has to discard a preview whose selection has moved.
@@ -223,11 +217,9 @@ export class EmblemSpriteStudio extends EmblemApp {
   _onRender(context, options) {
     super._onRender(context, options);
     this._paintWindowTitle();
-    syncSaveToRootVisibility(this.element);
     this._applyTray();
     if (this._mounted) return;
     this._mounted = true;
-    this._onHook(DEVELOPER_MODE_HOOK, (on) => syncSaveToRootVisibility(this.element, on));
     const root = this.element;
     const mount = root.querySelector('.ete-canvas-mount');
     if (!mount) return;
@@ -450,53 +442,6 @@ export class EmblemSpriteStudio extends EmblemApp {
 
   /* -------------------------------------------- */
 
-  /**
-   * Save into the Emblem RPG Content module's asset tree (`itemPackedAssetFolder` in editor/io.mjs), beside the
-   * bundled art. The button shows only in Developer Mode.
-   *
-   * The user confirms first, and the prompt names the exact destination and the package, because this overwrites
-   * compendium source.
-   * @returns {Promise<void>}
-   */
-  async _saveArtToRoot() {
-    if (!this._canWriteItem()) return;
-    const item = this.item;
-    let blob;
-    try { blob = await this._exportBlob(); } catch (e) {
-      notify.failure('Save to Studio assets failed.', e);
-      return;
-    }
-    if (!blob) return;
-
-    const folder = itemPackedAssetFolder(item);
-    const filename = itemPackedAssetFilename(item);
-    const dest = `${folder}/${filename}`;
-    const safeName = foundry.utils.escapeHTML(item.name);
-
-    const pkg = foundry.utils.escapeHTML(packedAssetPackageLabel());
-
-    const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: 'Save To Package Assets', icon: 'fas fa-box-archive' },
-      content: `<p>Save packed-content art for <strong>${safeName}</strong> to:</p>`
-        + `<p style="margin:.25rem 0;"><code>${dest}</code></p>`
-        + `<p style="opacity:.75;font-size:.9em;">This writes into <strong>${pkg}</strong>'s shipped asset tree (compendium source) and overwrites any existing file of that name.</p>`,
-      modal: true,
-      rejectClose: false
-    });
-    if (!confirmed) return;
-
-    try {
-      await ensureFolderHierarchy(folder);
-      const path = await uploadBlob(folder, filename, blob);
-      await item.update(savedArtUpdate(path));
-    } catch (e) {
-      notify.failure('Save to Studio assets failed.', e);
-      return;
-    }
-    notify.info(`Saved ${item.name} to ${folder}.`);
-    this.close();
-  }
-
   /* -------------------------------------------- */
   /*  Trays                                       */
   /* -------------------------------------------- */
@@ -700,9 +645,6 @@ export class EmblemSpriteStudio extends EmblemApp {
   /* -------------------------------------------- */
 
   static #onSave()     { return this._saveArt(); }
-  /* -------------------------------------------- */
-
-  static #onSaveRoot() { return this._saveArtToRoot(); }
   /* -------------------------------------------- */
 
   static #onCancel()   { return this.close(); }

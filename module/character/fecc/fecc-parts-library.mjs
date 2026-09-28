@@ -66,7 +66,7 @@ const CUSTOM_SHIPPED_TAB = 'Default';
 const RESERVED_SUBTAB_LABELS = ['Default', 'FECC'];
 
 /**
- * The list of every shipped part. Developer Mode imports add to it in place.
+ * The list of every shipped part.
  * @type {string}
  */
 const MANIFEST_FILENAME = 'parts-manifest.json';
@@ -181,7 +181,7 @@ let manifestCache = null;
 
 /**
  * Fetch and cache the parts manifest. The request revalidates with the server instead of trusting the HTTP cache,
- * since Developer Mode rewrites the file in place.
+ * so a module update's new manifest is picked up.
  * @returns {Promise<object>}
  */
 async function loadManifest() {
@@ -239,121 +239,6 @@ function disambiguateStem(stem, takenLower) {
   let n = 2;
   while (takenLower.has(`${stem}_${n}`.toLowerCase())) n++;
   return `${stem}_${n}`;
-}
-
-/* -------------------------------------------- */
-/*  Studio Library Writes                       */
-/* -------------------------------------------- */
-
-/**
- * The last manifest write. Each write waits for it, so two saves in one session never read the same manifest and
- * drop each other's entry.
- * @type {Promise<void>}
- */
-let manifestWrite = Promise.resolve();
-
-/**
- * Serialize the manifest in the same layout as the script that generates it (one field per line, brackets on their
- * own lines), so a regenerated manifest and a Developer Mode edit diff cleanly.
- */
-function serializeManifest(manifest) {
-  const entry = e => '{\n' + Object.entries(e).map(([k, v]) => `"${k}":${JSON.stringify(v)}`).join(',\n') + '\n}';
-  const list = a => a.length ? '\n' + a.map(entry).join(',\n') + '\n' : '\n\n';
-  const side = cats => Object.entries(cats).map(([c, a]) => `"${c}":[${list(a)}]`).join(',\n');
-  return '{' + Object.entries(manifest).map(([s, cats]) => `"${s}":{${side(cats)}}`).join(',') + '}';
-}
-
-/**
- * Add or replace one manifest entry and write the manifest back into the Studio module, for saveStudioPart. The
- * file is re-read first instead of patched from the session cache, so an entry another client added since this one
- * loaded is kept. Entries match by file, so saving a part again replaces its entry.
- * @param {string} side           'avatar' or 'token'.
- * @param {string} category       Category the entry files under.
- * @param {object} entry          The entry.
- * @returns {Promise<void>}
- */
-function commitManifestEntry(side, category, entry) {
-  const run = manifestWrite.then(async () => {
-    const res = await fetch(`${MANIFEST_URL}?_v=${Date.now()}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`Failed to load parts manifest (${res.status})`);
-    const manifest = await res.json();
-    manifest[side] ??= {};
-    const cats = manifest[side];
-    if (!Array.isArray(cats[category])) cats[category] = [];
-    const list = cats[category];
-    const i = list.findIndex(e => e.file === entry.file);
-    if (i >= 0) list[i] = entry;
-    else list.push(entry);
-    const blob = new Blob([serializeManifest(manifest)], { type: 'application/json' });
-    await uploadBlob(STUDIO_PARTS_ROOT, MANIFEST_FILENAME, blob);
-    manifestCache = manifest;
-  });
-  manifestWrite = run.catch((diagnosticError) => { notify.probe('Keep later manifest writes queued behind a failed one', diagnosticError); });
-  return run;
-}
-
-/**
- * The manifest entry for a new Developer Mode part, following the manifest's folder layout. In the idle, dodge and
- * attack categories each sub-folder names a sub-tab, so a part goes under the sub-tab its name routed to, or under
- * Default with the other shipped parts of the unfiled pane. Every other category keeps its parts untagged, directly
- * in the category folder.
- * @param {string} side                   'avatar' or 'token'.
- * @param {string} category               Category.
- * @param {string|null} subTab            Routed sub-tab, or null.
- * @param {string} name                   Part name.
- * @returns {object}
- */
-function newStudioEntry(side, category, subTab, name) {
-  const tab = SUBTAB_CATEGORIES.includes(category) ? (subTab ?? CUSTOM_SHIPPED_TAB) : null;
-  const file = [side, category, tab, `${name}.png`].filter(Boolean).join('/');
-  return tab ? { name, file, tab } : { name, file };
-}
-
-/**
- * Redraw every tray showing a category's shipped parts after saveStudioPart changed the manifest. For the idle,
- * dodge and attack categories the FECC tray is redrawn too, since it shows their untagged entries. The thumbnail
- * cache is cleared first, because an overwritten part keeps its URL.
- * @param {string} side           'avatar' or 'token'.
- * @param {string} category       Category that changed.
- */
-function rerenderShippedTrays(side, category) {
-  const affected = new Set([category]);
-  if (side === 'token' && SUBTAB_CATEGORIES.includes(category)) affected.add(FECC_CATEGORY);
-  for (const c of affected) invalidateThumbCache(c);
-  for (const tray of _liveTrays) {
-    if (tray.side !== side || !affected.has(tray.category)) continue;
-    try { tray._render(); tray._renderGrid(); }
-    catch (e) {
-      notify.failure('emblem-rpg-studio | tray refresh failed:', e);
-    }
-  }
-}
-
-/**
- * Save a part into the Studio module's own parts library, for a Developer Mode import (FeccImportPanel._convertOne):
- * the image into its manifest folder, then its manifest entry. A name the category already ships is overwritten in
- * place, keeping its file, sub-tab and spelling, so importing a shipped part again replaces it instead of adding a
- * second copy. The returned name is the one the manifest now holds, which the new layer takes as its part name.
- * @param {object} params
- * @param {string} params.side                    'avatar' or 'token'.
- * @param {string} params.category                Category.
- * @param {string|null} [params.subTab]           Routed sub-tab.
- * @param {string} params.name                    Part name.
- * @param {Blob} params.blob                      PNG contents.
- * @returns {Promise<{path: string, name: string}>}
- */
-export async function saveStudioPart({ side, category, subTab = null, name, blob }) {
-  const manifest = await loadManifest();
-  const lower = name.toLowerCase();
-  const shipped = _manifestEntries(manifest, side, category).find(e => e.name.toLowerCase() === lower);
-  const entry = shipped ? { ...shipped } : newStudioEntry(side, category, subTab, name);
-  const cut = entry.file.lastIndexOf('/');
-  const folder = `${STUDIO_PARTS_ROOT}/${entry.file.slice(0, cut)}`;
-  await ensureFolderHierarchy(folder);
-  const path = await uploadBlob(folder, entry.file.slice(cut + 1), blob);
-  await commitManifestEntry(side, category, entry);
-  rerenderShippedTrays(side, category);
-  return { path, name: entry.name };
 }
 
 /* -------------------------------------------- */

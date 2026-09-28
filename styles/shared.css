@@ -142,8 +142,6 @@
   color: var(--sts-rustb);
 }
 
-.emblem-rpg-studio .ete-save-root { color: var(--sts-teal); }
-.emblem-rpg-studio .ete-save-root:hover:not(:disabled) { color: var(--sts-tealb); }
 
 /* ---------- Fields ---------- */
 .emblem-rpg-studio input[type="text"],

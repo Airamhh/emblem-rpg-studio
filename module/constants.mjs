@@ -9,12 +9,6 @@ const MODULE_PATH = `modules/${MODULE_ID}`;
 export const STUDIO_ASSET_ROOT = `${MODULE_PATH}/assets`;
 
 /* -------------------------------------------- */
-/*  Packed Content                              */
-/* -------------------------------------------- */
-export const CONTENT_MODULE_ID = 'emblem-rpg-content';
-export const PACKED_ASSET_ROOT = `modules/${CONTENT_MODULE_ID}/assets`;
-
-/* -------------------------------------------- */
 /*  Host System Vocabulary                      */
 /* -------------------------------------------- */
 
@@ -31,12 +25,6 @@ export const DOCUMENT_ID_LENGTH = 16;
 
 /** The longest folder name one publication path segment may carry, enforced by `PATH_SEGMENT` in `publication.mjs`. */
 export const PUBLICATION_SEGMENT_MAX = 128;
-
-/* -------------------------------------------- */
-/*  Developer Mode                              */
-/* -------------------------------------------- */
-export const DEVELOPER_MODE_SETTING = 'developerMode';
-export const DEVELOPER_MODE_HOOK = 'emblemRpgStudioDeveloperModeChanged';
 
 /* -------------------------------------------- */
 /*  Studio Rendering                            */

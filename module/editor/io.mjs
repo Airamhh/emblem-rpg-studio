@@ -5,7 +5,7 @@ import { createStudioNotifier } from '../foundry/notify.mjs';
 import { loadImage } from '../utils/image.mjs';
 import { slugifyUnderscore } from '../utils/string.mjs';
 import {
-  CONTENT_MODULE_ID, DEVELOPER_MODE_SETTING, MODULE_ID, PACKED_ASSET_ROOT, STUDIO_ASSET_ROOT, STUDIO_CHARACTER_ART_TREE
+  STUDIO_ASSET_ROOT, STUDIO_CHARACTER_ART_TREE
 } from '../constants.mjs';
 
 /* -------------------------------------------- */
@@ -293,9 +293,7 @@ export async function pickClipboardImage() {
  *   export/              PNGs saved by the export panel (fecc-export-panel.mjs)
  *   meta/                schemas.json with each imported asset's default palette, and workspace-<userId>.json
  *                        with a staff user's open studio (fecc-asset-schema.mjs)
- *
- * In Developer Mode, imported templates go into the Studio module's own library instead (STUDIO_PARTS_ROOT), and
- * Save To Root writes finished art into the Content module (PACKED_ASSET_ROOT).
+
  */
 
 /**
@@ -477,168 +475,6 @@ function comparableItemArtPath(path) {
 export function sceneCropFolder() { return `${worldBase()}/emblem/destructibles`; }
 
 /* -------------------------------------------- */
-/*  Developer Mode                              */
-/* -------------------------------------------- */
-
-/**
- * Whether Developer Mode is on. It sends imported templates into the Studio module's own parts library and shows the
- * Save To Root buttons, which write finished art into the Content module. It is always off for anyone but staff,
- * since it is a client setting anyone can tick and both of its targets are shipped package folders.
- * @returns {boolean}
- */
-export function developerMode() {
-  if (!isStudioStaff()) return false;
-  try { return game.settings.get(MODULE_ID, DEVELOPER_MODE_SETTING) === true; }
-  catch (_) {
-    notify.probe('developerMode failed', _, globalThis.game?.ready !== true && /is not a registered game setting$/.test(String(_?.message ?? '')));
-    return false;
-  }
-}
-
-/* -------------------------------------------- */
-
-/**
- * The inline style that hides a Save To Root button outside Developer Mode, for Character Studio's pane markup.
- * It is inline rather than a `hidden` attribute, because the button's class rule sets a display that would win.
- * @returns {string}
- */
-export function saveToRootStyleAttr() {
-  return developerMode() ? '' : ' style="display:none"';
-}
-
-/* -------------------------------------------- */
-
-/**
- * Show or hide every Save To Root button in a subtree. The studios call it from the Developer Mode hook, so an open
- * studio follows the setting without a re-render that would lose what is on its canvas.
- * @param {HTMLElement} root              Subtree to update.
- * @param {boolean} [on]                  Whether the mode is on.
- */
-export function syncSaveToRootVisibility(root, on = developerMode()) {
-  root?.querySelectorAll?.('[data-action="saveToRoot"]')
-    .forEach(btn => { btn.style.display = on ? '' : 'none'; });
-}
-
-/* -------------------------------------------- */
-
-/**
- * The Content module's title, which the Save To Root confirm dialogs name as the destination.
- * @returns {string}
- */
-export function packedAssetPackageLabel() {
-  return game.modules.get(CONTENT_MODULE_ID)?.title ?? 'Emblem RPG Content';
-}
-
-/* -------------------------------------------- */
-/*  Asset Paths                                 */
-/* -------------------------------------------- */
-
-/**
- * Weapon families and their asset folders.
- * @type {Object<string, string>}
- */
-const WEAPON_FAMILY_FOLDER = {
-  blade: 'blades', bow: 'bows', heavy: 'heavy',
-  polearm: 'polearms', brawling: 'brawling', covert: 'covert'
-};
-/* -------------------------------------------- */
-
-/**
- * Spell schools and their asset folders.
- * @type {Object<string, string>}
- */
-const SPELL_SCHOOL_FOLDER = {
-  divine: 'divine', elemental: 'elemental', arcane: 'arcane', occult: 'occult'
-};
-/* -------------------------------------------- */
-
-/**
- * Consumable kinds and their asset folders.
- * @type {Object<string, string>}
- */
-const CONSUMABLE_KIND_FOLDER = {
-  potion: 'potions', bomb: 'bombs', booster: 'boosters', promotion: 'promotions'
-};
-
-/* -------------------------------------------- */
-
-/**
- * The subfolder of the Content module's assets that an item's art belongs in, matching where the shipped art
- * already is. It comes from the document type and item type. The weapon family and spell school come from the
- * weapon requirement (`system.weapon.req`), which is where an item records them.
- * @param {Item} item             Item being saved.
- * @returns {string}
- */
-function itemPackedAssetSubfolder(item) {
-  const sys = item?.system ?? {};
-  const itemType = String(sys.itemType ?? '');
-  const req = String(sys.weapon?.req ?? '').trim().toLowerCase();
-  switch (item?.type) {
-    case 'Spell':
-      return SPELL_SCHOOL_FOLDER[req] ? `spells/${SPELL_SCHOOL_FOLDER[req]}` : 'spells';
-    case 'Ability':
-      if (itemType === 'Active') return 'abilities/active';
-      if (itemType === 'Passive') return 'abilities/passive';
-      if (itemType === 'Weapon Art') return 'abilities/weapon-arts';
-      if (itemType === 'Mount') return 'abilities/mounts';
-      return 'abilities';
-    case 'Equipment':
-      if (itemType === 'Armor') return 'items/armor';
-      if (itemType === 'Shield') return 'items/shields';
-      if (itemType === 'Accessory') return 'items/accessories';
-      if (itemType.startsWith('Staff')) return 'items/weapons/staves';
-      if (itemType === 'Weapon')
-        return WEAPON_FAMILY_FOLDER[req] ? `items/weapons/${WEAPON_FAMILY_FOLDER[req]}` : 'items/weapons';
-      return 'items';
-    case 'Consumable':
-      return CONSUMABLE_KIND_FOLDER[itemType.toLowerCase()]
-        ? `items/consumables/${CONSUMABLE_KIND_FOLDER[itemType.toLowerCase()]}`
-        : 'items/consumables';
-    case 'Resource': return 'items/resources';
-    case 'Miscellaneous': return 'items/misc';
-    case 'Class': return 'classes';
-    default: return 'items';
-  }
-}
-
-/* -------------------------------------------- */
-
-/**
- * The Content module folder Save To Root writes an item's art into.
- * @param {Item} item             Item being saved.
- * @returns {string}
- */
-export function itemPackedAssetFolder(item) {
-  return `${PACKED_ASSET_ROOT}/${itemPackedAssetSubfolder(item)}`;
-}
-
-/* -------------------------------------------- */
-
-/** The Content module folder Save To Root writes a unit's art into, the counterpart of `actorArtFolder`. */
-export function actorPackedArtFolder(unitFolder) {
-  return `${PACKED_ASSET_ROOT}/actors/${unitFolder}`;
-}
-
-/* -------------------------------------------- */
-
-/**
- * The filename for an item's art in the Content module: its display name with the characters a filename can't hold
- * replaced by spaces. Spaces and case are kept, to match the shipped art's filenames. Leading and trailing dots are
- * removed too, so a name like `../..` can't leave a run of dots behind and write a hidden file.
- * @param {Item} item             Item being saved.
- * @returns {string}
- */
-export function itemPackedAssetFilename(item) {
-  const cleaned = String(item?.name ?? 'item')
-    .replace(/[<>:"/\\|?*\x00-\x1f]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/^[.\s]+/, '')
-    .replace(/[.\s]+$/, '');
-  return `${cleaned || 'item'}.png`;
-}
-
-/* -------------------------------------------- */
 
 /**
  * Where project files are saved (fecc-presets.mjs). It is one flat folder, since each project covers a whole actor:
@@ -664,8 +500,7 @@ export function metaFolder() { return `${worldBase()}/emblem/meta`; }
 /**
  * The Studio module's own parts library, the tree its parts manifest indexes.
  *
- * Every shipped template lives here and Developer Mode imports write here too, so there is one shipped library
- * rather than copies spread across packages.
+ * Every shipped template lives here, so there is one shipped library rather than copies spread across packages.
  * @type {string}
  */
 export const STUDIO_PARTS_ROOT = `${STUDIO_ASSET_ROOT}/fecc`;

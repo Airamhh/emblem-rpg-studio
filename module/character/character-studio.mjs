@@ -26,12 +26,11 @@ import { loadImage } from '../utils/image.mjs';
 import { CanvasView, GRID_LABELS, PIXEL_GRID_SIZE } from '../editor/canvas-view.mjs';
 import {
   downloadImage, pickLocalImage,
-  actorArtFolder, actorPackedArtFolder, packedAssetPackageLabel,
-  saveToRootStyleAttr, syncSaveToRootVisibility
+  actorArtFolder
 } from '../editor/io.mjs';
 import { openStudioContextMenu, closeStudioContextMenu } from '../editor/context-menu.mjs';
 import {
-  CHARACTER_STUDIO_ACTOR_TYPES, CHARACTER_STUDIO_TEMPLATE, DEVELOPER_MODE_HOOK, MODULE_ID, STUDIO_ACCESS_HOOK
+  CHARACTER_STUDIO_ACTOR_TYPES, CHARACTER_STUDIO_TEMPLATE, MODULE_ID, STUDIO_ACCESS_HOOK
 } from '../constants.mjs';
 import { STUDIO_ACCESS, STUDIO_REFUSALS } from '../admission.mjs';
 import { actorArtAccessFor, isStudioStaff, refuseStudio, studioAccessFor } from '../foundry/access.mjs';
@@ -316,7 +315,6 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       saveToken:        EmblemCharacterStudio.#onSaveToken,
       saveAllTabs:      EmblemCharacterStudio.#onSaveAllTabs,
       saveSheet:        EmblemCharacterStudio.#onSaveSheet,
-      saveToRoot:       EmblemCharacterStudio.#onSaveToRoot,
       toggleFullscreen: EmblemCharacterStudio.#onToggleFullscreen,
       openControlPanel: EmblemCharacterStudio.#onOpenControlPanel,
       uploadFile:       EmblemCharacterStudio.#onUploadFile,
@@ -830,8 +828,8 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
    * Follow what happens to the documents and the session outside this window.
    *
    * The Actor Control Panel edits the same `system.art` data, so a class renamed there would otherwise leave the
-   * studio's tuples naming a class that no longer exists. A deleted Actor, a Developer Mode change and a change of
-   * Studio access each reach the window through a hook too, and a browser refresh gets one last workspace write.
+   * studio's tuples naming a class that no longer exists. A deleted Actor and a change of Studio access each
+   * reach the window through a hook too, and a browser refresh gets one last workspace write.
    *
    * `this._lifecycle` holds every subscription, and `_onClose` releases them.
    * @private
@@ -856,9 +854,6 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       this._activeActorId = activeActorAfterUnload(this._actors, actor.id, this._activeActorId);
       notify.warn(`${actor.name} was deleted: its Emblem Character Studio tabs were closed.`);
       this._syncAll();
-    });
-    this._lifecycle.hook(DEVELOPER_MODE_HOOK, (on) => {
-      syncSaveToRootVisibility(this.element, on);
     });
     // A refresh or crash never runs _onClose. This async write may not land, but the debounced write keeps the
     // last saved state only seconds old.
@@ -2318,9 +2313,6 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     const saveGate = unbound
       ? ` disabled data-tooltip="${unboundTip}"`
       : ' data-tooltip="Save this pane to its destination on the actor"';
-    const saveRootGate = unbound
-      ? ` disabled data-tooltip="${unboundTip}"`
-      : ` data-tooltip="Save as packed content for compendium-bound actors"`;
     const toolbar = (side) => `
       <div class="ete-toolbar">
         <button type="button" class="acp-btn acp-btn-sm" data-action="uploadFile" data-tooltip="Upload from computer"><i class="fas fa-upload"></i></button>
@@ -2339,8 +2331,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
           ? (side === 'token' ? `<button type="button" class="acp-btn acp-btn-sm acp-btn-primary" data-action="saveSheet" data-tooltip="Save the spritesheet to the actor and its character folder"><i class="fas fa-stamp"></i> Save Sheet</button>` : '')
           : `
         <button type="button" class="acp-btn acp-btn-sm acp-btn-primary" data-action="save${side === 'avatar' ? 'Avatar' : 'Token'}"${saveGate}><i class="fas fa-stamp"></i> Save</button>
-        ${side === 'token' ? `<button type="button" class="acp-btn acp-btn-sm acp-btn-primary" data-action="saveAllTabs" data-tooltip="Save every open tab to its destination on the actor"><i class="fas fa-layer-group"></i> Save All</button>` : ''}
-        <button type="button" class="acp-btn acp-btn-sm ete-save-root" data-action="saveToRoot" data-side="${side}"${saveToRootStyleAttr()}${saveRootGate}><i class="fas fa-box-archive"></i> Save To Root</button>`}
+        ${side === 'token' ? `<button type="button" class="acp-btn acp-btn-sm acp-btn-primary" data-action="saveAllTabs" data-tooltip="Save every open tab to its destination on the actor"><i class="fas fa-layer-group"></i> Save All</button>` : ''}`}
       </div>
     `;
     const tools = `
@@ -3194,15 +3185,10 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     const tip = unbound
       ? 'No destination yet. Pick a Class / Entry / Type and press Submit first'
       : null;
-    for (const btn of tab.domRoot.querySelectorAll('[data-action="saveToken"], [data-action="saveAvatar"], [data-action="saveToRoot"]')) {
+    for (const btn of tab.domRoot.querySelectorAll('[data-action="saveToken"], [data-action="saveAvatar"]')) {
       if (btn.dataset.etsGated) continue;
       btn.disabled = unbound;
-      if (tip) btn.dataset.tooltip = tip;
-      else if (btn.dataset.action === 'saveToRoot') {
-        btn.dataset.tooltip = "Save as packed content for compendium-bound actors";
-      } else {
-        btn.dataset.tooltip = 'Save this pane to its destination on the actor';
-      }
+      btn.dataset.tooltip = tip ?? 'Save this pane to its destination on the actor';
     }
   }
 
@@ -3831,51 +3817,6 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
   /* -------------------------------------------- */
 
   /**
-   * Save into the Emblem RPG Content module's asset tree (`actorPackedArtFolder` in editor/io.mjs), beside its
-   * bundled art. The button shows only in Developer Mode.
-   * @returns {Promise<void>}
-   */
-  static async #onSaveToRoot(event, target) {
-    event.preventDefault();
-    event.stopPropagation();
-    const tab = this._activeTab;
-    // The confirm below awaits, and the save must land on the actor it described.
-    const actor = this._tabActor(tab);
-    if (!this._warnIfUnbound(tab) || !actor) return;
-
-    const side = target.dataset.side === 'avatar' ? 'avatar' : 'token';
-    if (side === 'avatar' && !avatarEditableFor(tab.tuple)) {
-      notify.warn('The profile avatar can only be edited from Default | Default.');
-      return;
-    }
-    const view = viewOf(tab, side);
-    if (!view || view.layers.length === 0) {
-      notify.warn(`No ${side} layers to save.`);
-      return;
-    }
-
-    const { folder: destFolder, filename: destFile } = this._artDestination(actor, tab, side, { toRoot: true });
-    const dest = `${destFolder}/${destFile}`;
-    const safeName = foundry.utils.escapeHTML(actor.name);
-    const pkg = foundry.utils.escapeHTML(packedAssetPackageLabel());
-
-    const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: 'Save To Package Assets', icon: 'fas fa-box-archive' },
-      content: `<p>Save packed-content ${side} art for <strong>${safeName}</strong> to:</p>`
-        + `<p style="margin:.25rem 0;"><code>${dest}</code></p>`
-        + `<p style="opacity:.75;font-size:.9em;">This writes into <strong>${pkg}</strong>'s shipped asset tree (compendium source) and overwrites any existing file of that name.</p>`,
-      modal: true,
-      rejectClose: false
-    });
-    if (!confirmed) return;
-
-    await this._saveSide(tab, side, { toRoot: true });
-    this._syncTabsStrip();
-  }
-
-  /* -------------------------------------------- */
-
-  /**
    * Save every tab that has something to save.
    *
    * Every tab is materialised first, since a tab not opened this session has no view to read and would otherwise be
@@ -3984,7 +3925,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
    * Capture the destination, the exported pixels and the editable layers before any save awaits. The file name is
    * chosen later, when the file is written.
    */
-  _captureSaveRequest(tab, side, { toRoot = false, sheet = false, empty = false } = {}) {
+  _captureSaveRequest(tab, side, { sheet = false, empty = false } = {}) {
     const actor = this._tabActor(tab);
     const view = viewOf(tab, side);
     const tuple = structuredClone(tab.tuple);
@@ -3992,7 +3933,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     const payload = side === 'token' ? structuredClone(this._serializeLayerPixels(view)) : null;
     const destination = Object.freeze({ tuple, isSpritesheet: !!tab.isSpritesheet, sheetId: tab.sheetId });
     const needsMigrate = side === 'avatar' ? tab.avatarNeedsMigrate : tab.tokenNeedsMigrate;
-    const reuse = !empty && !sheet && !toRoot && !needsMigrate && viewPristine(view, baselineOf(tab, side))
+    const reuse = !empty && !sheet && !needsMigrate && viewPristine(view, baselineOf(tab, side))
       ? storedPathForSide(actor, tuple, side) : '';
     const image = sheet && payload ? this._cropToContent(view.exportToCanvas(view.size)) : null;
     if (sheet && (!payload || !image)) return null;
@@ -4001,7 +3942,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
         blob => blob ? resolve(blob) : reject(new Error('toBlob returned null')), 'image/png'))
       : view.exportToBlob(view.size)).then(blob => ({ blob }), error => ({ error }));
     return Object.freeze({
-      actor, view, tuple, tupleSource: tab.tuple, baseline, payload, destination, toRoot, reuse, encoding,
+      actor, view, tuple, tupleSource: tab.tuple, baseline, payload, destination, reuse, encoding,
       sheetId: tab.sheetId, sheetName: tab.sheetName, sheetSize: tab.sheetSize ?? view.size
     });
   }
@@ -4010,7 +3951,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
 
   /**
    * Take the saved state as the pane's baseline, but only while the tab still addresses that destination
-   * (`acceptSaveBaseline` in studio/tab-model.mjs). Every tab save (Save, Save All, Save To Root and Save Sheet)
+   * (`acceptSaveBaseline` in studio/tab-model.mjs). Every tab save (Save, Save All and Save Sheet)
    * passes through here, so this is also where the side's FeccColourPanel drops the swatches the user enabled but
    * never painted with.
    */
@@ -4031,11 +3972,10 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
    * studio reopen the art as editable layers.
    * @param {object} [options]
    * @param {boolean} [options.quiet]               Suppress the notification, for batched saves.
-   * @param {boolean} [options.toRoot]              Write into the packed asset tree instead.
    * @returns {Promise<boolean>}                    Whether anything was written.
    * @private
    */
-  async _saveSide(tab, side, { quiet = false, toRoot = false } = {}) {
+  async _saveSide(tab, side, { quiet = false } = {}) {
     const actor = this._tabActor(tab);
     if (!actor) {
       // The tab's Actor left the world between the click and here, so say so instead of failing without a reason.
@@ -4053,24 +3993,18 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       if (!quiet) notify.failure("This tab's art did not load: reopen it before saving.");
       return false;
     }
-    if (view.layers.length === 0) {
-      if (toRoot) {
-        if (!quiet) notify.warn('No ' + side + ' layers to save.');
-        return false;
-      }
-      return this._clearSide(tab, side, actor, { quiet });
-    }
+    if (view.layers.length === 0) return this._clearSide(tab, side, actor, { quiet });
 
     try {
-      const request = this._captureSaveRequest(tab, side, { toRoot });
+      const request = this._captureSaveRequest(tab, side);
       return await queueActorSave(actor, async () => {
         const { tuple, payload, reuse } = request;
         let newPath = reuse;
         if (!newPath) {
           const encoded = await request.encoding;
           if (encoded.error) throw encoded.error;
-          const { folder, filename } = this._artDestination(actor, request.destination, side, { toRoot: request.toRoot });
-          newPath = await publishActorArtFile({ actor, folder, filename, blob: encoded.blob, toRoot: request.toRoot });
+          const { folder, filename } = this._artDestination(actor, request.destination, side);
+          newPath = await publishActorArtFile({ actor, folder, filename, blob: encoded.blob });
         }
         const written = side === 'avatar'
           ? await this._writeAvatarPath(actor, tuple, newPath)
@@ -4246,9 +4180,9 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
   /* -------------------------------------------- */
 
   /** Where one of a tab's saves lands: its unit folder and the file name chosen in it. */
-  _artDestination(actor, tab, side, { toRoot = false, stem = this._filePrefixFor(actor) } = {}) {
+  _artDestination(actor, tab, side, { stem = this._filePrefixFor(actor) } = {}) {
     const unit = this._unitFolderName(actor, stem);
-    const folder = toRoot ? actorPackedArtFolder(unit) : actorArtFolder(unit);
+    const folder = actorArtFolder(unit);
     const filename = savedArtFilename(actor, {
       folder, stem, side,
       tuple: tab.tuple ?? null,

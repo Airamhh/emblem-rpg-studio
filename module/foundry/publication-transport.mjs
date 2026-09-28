@@ -84,10 +84,9 @@ export function registerStudioPublication() {
  * @param {string} options.folder                 Folder a staff save writes into.
  * @param {string} options.filename               File name within the Actor's folder.
  * @param {Blob} options.blob                     PNG contents.
- * @param {boolean} [options.toRoot]              Whether this is a Save To Root into a package.
  * @returns {Promise<string>}                     The stored path.
  */
-export async function publishActorArtFile({ actor, folder, filename, blob, toRoot = false }) {
+export async function publishActorArtFile({ actor, folder, filename, blob }) {
   if (processingActive()) throw new StudioRefusal(STUDIO_REFUSALS.PROCESSING);
   const access = actorArtAccessFor(actor);
   if (access.access === STUDIO_ACCESS.STAFF) {
@@ -98,7 +97,6 @@ export async function publishActorArtFile({ actor, folder, filename, blob, toRoo
     return uploadBlob(folder, filename, blob);
   }
   if (access.access === STUDIO_ACCESS.DENIED) throw new StudioRefusal(access.code);
-  if (toRoot) throw new StudioRefusal(STUDIO_REFUSALS.STAFF_ONLY, 'Save To Root');
   if (!socket) {
     notify.failure('Studio publication has no socket; check that socketlib is active and the world was relaunched.');
     throw new StudioRefusal(STUDIO_REFUSALS.NO_HOST);

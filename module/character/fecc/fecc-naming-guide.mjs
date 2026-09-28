@@ -7,7 +7,6 @@
 
 import { describeRouting, routeAssetNameForSide } from './fecc-asset-routing.mjs';
 import { categoryLabel, TOKEN_RAIL_CATEGORIES, AVATAR_CATEGORIES } from './fecc-parts-library.mjs';
-import { developerMode } from '../../editor/io.mjs';
 import { whisperToCurrentUser } from '../../foundry/documents.mjs';
 import { createStudioNotifier } from '../../foundry/notify.mjs';
 
@@ -99,8 +98,6 @@ function namingGuideHtml(side) {
     <p>Characters other than letters, digits, <code>_</code> and <code>-</code> become <code>_</code>.
       A blank name saves as <code>custom_assetN</code>, and a name already in use asks whether to overwrite it,
       append a number, or rename it.</p>
-    ${developerMode() ? '<p><strong>Developer Mode is on</strong>, so saves go into the Studio module\'s shipped '
-      + 'library instead of this world\'s.</p>' : ''}
     <h4>Examples</h4>
     <ul>${examples}</ul>`;
   return avatar ? avatarGuideHtml(trays, shared) : tokenGuideHtml(rules, trays, shared);

@@ -177,8 +177,6 @@
 }
 .ete-toolbar .acp-btn-primary:hover:not(:disabled) { color: var(--sts-goldb); }
 
-.ete-toolbar .ete-save-root { color: var(--sts-teal); }
-.ete-toolbar .ete-save-root:hover:not(:disabled) { color: var(--sts-tealb); }
 
 /* ---------- Work row: tool column frames canvas + splitter + layers ---------- */
 .ete-pane-work {
@@ -439,8 +437,6 @@
  * need the same depth or they are silently eaten. */
 .emblem-rpg-studio .ete-footer .ete-save { color: var(--sts-goldb); }
 .emblem-rpg-studio .ete-footer .ete-save:hover:not(:disabled) { color: var(--sts-goldb); }
-.emblem-rpg-studio .ete-footer .ete-save-root { color: var(--sts-teal); }
-.emblem-rpg-studio .ete-footer .ete-save-root:hover:not(:disabled) { color: var(--sts-tealb); }
 
 /* ---------- Overlays (grid + cutoff + projection) ----------
  * Opt-in design aids toggled from the toolbar (cycleGrid / toggleBarCutoff /

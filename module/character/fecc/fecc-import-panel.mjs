@@ -3,8 +3,7 @@ import {
   ensureFolderHierarchy,
   uploadBlob,
   customTokenFolder,
-  nextCustomTokenName,
-  developerMode
+  nextCustomTokenName
 } from '../../editor/io.mjs';
 import {
   decodeForToken,
@@ -19,7 +18,7 @@ import { STUDIO_REFUSALS } from '../../admission.mjs';
 import { isStudioStaff, refuseStudio } from '../../foundry/access.mjs';
 import { routeAssetNameForSide } from './fecc-asset-routing.mjs';
 import { setEntry, getEntry, loadSidecar } from './fecc-custom-tabs.mjs';
-import { takenPartNames, shippedPartNames, refreshAllTraysForCategory, saveStudioPart } from './fecc-parts-library.mjs';
+import { takenPartNames, shippedPartNames, refreshAllTraysForCategory } from './fecc-parts-library.mjs';
 import { slugifyUnderscore as slugifyAssetName, disambiguateName } from '../../utils/string.mjs';
 import { Panel } from '../../editor/panel.mjs';
 import { createStudioNotifier } from '../../foundry/notify.mjs';
@@ -46,7 +45,7 @@ function caseFoldedLookup(lowerNames) {
  * batch into one palette-linked layer on a new sheet tab.
  *
  * The dialog's Save to library switch decides whether an asset is saved at all. A saved asset's tray comes from its
- * name (fecc-asset-routing.mjs), and in Developer Mode it goes into the Studio module's own library.
+ * name (fecc-asset-routing.mjs).
  */
 export class FeccImportPanel extends Panel {
   /**
@@ -521,8 +520,7 @@ export class FeccImportPanel extends Panel {
       }
     }
 
-    const library = developerMode() ? 'the Studio module\'s Parts Library' : 'the Parts Library';
-    const verb = mode.tier === 'full' ? `imported and saved to ${library}` : 'imported (this session only)';
+    const verb = mode.tier === 'full' ? 'imported and saved to the Parts Library' : 'imported (this session only)';
     const extra = captureNote
       ? [
           captureNote.dupes && `${captureNote.dupes} duplicate${captureNote.dupes === 1 ? '' : 's'} skipped`,
@@ -645,9 +643,8 @@ export class FeccImportPanel extends Panel {
   }
 
   /**
-   * Ask what to do about a name already in use. Outside Developer Mode a shipped part can't be overwritten, so only
-   * Append Number and Rename are offered. In Developer Mode the import writes into the Studio module itself, so
-   * Overwrite replaces the shipped part.
+   * Ask what to do about a name already in use. A shipped part can't be overwritten, so only Append Number and Rename
+   * are offered for one.
    * @param {string} slug                           The colliding name.
    * @param {string} category                       Category it would land in.
    * @param {object} [options]
@@ -658,22 +655,21 @@ export class FeccImportPanel extends Panel {
   async _promptNameCollision(slug, category, { shipped = false } = {}) {
     const name = foundry.utils.escapeHTML(slug);
     const tray = foundry.utils.escapeHTML(category);
-    const locked = shipped && !developerMode();
-    const content = locked
+    const content = shipped
       ? `<p><code>${name}</code> is a part the system ships in the <b>${tray}</b> tray, so it can't be overwritten.</p>
         <p style="font-size:11px;opacity:0.75;margin:4px 0 0;">
           <b>Append number</b> saves as <code>${name}_2</code>. <b>Rename</b> takes you back to the name field.
         </p>`
-      : `<p>An asset named <code>${name}</code> already ${shipped ? 'ships' : 'exists'} in the <b>${tray}</b> tray.</p>
+      : `<p>An asset named <code>${name}</code> already exists in the <b>${tray}</b> tray.</p>
         <p style="font-size:11px;opacity:0.75;margin:4px 0 0;">
-          <b>Overwrite</b> replaces it${shipped ? ' in the Studio module' : ''}. <b>Append number</b> saves as
+          <b>Overwrite</b> replaces it. <b>Append number</b> saves as
           <code>${name}_2</code>. <b>Rename</b> takes you back to the name field.
         </p>`;
     const buttons = [
       { action: 'append', label: 'Append Number', icon: 'fas fa-hashtag', default: true, callback: () => 'append' },
       { action: 'rename', label: 'Rename', icon: 'fas fa-pen', callback: () => 'rename' }
     ];
-    if (!locked) buttons.unshift({ action: 'overwrite', label: 'Overwrite', icon: 'fas fa-arrows-rotate', callback: () => 'overwrite' });
+    if (!shipped) buttons.unshift({ action: 'overwrite', label: 'Overwrite', icon: 'fas fa-arrows-rotate', callback: () => 'overwrite' });
     const choice = await foundry.applications.api.DialogV2.wait({
       window: { title: 'Asset name already in use' },
       content,
@@ -836,8 +832,7 @@ export class FeccImportPanel extends Panel {
    *
    * A permanent world import also clears any deleted flag left by an earlier asset of the same name, so an overwrite
    * shows in the grid again. A routed sub-tab wins, and otherwise the file keeps the tab the earlier asset was filed
-   * under, which may have been chosen by hand. In Developer Mode a permanent import goes into the Studio module's own
-   * library and manifest instead (saveStudioPart), with its default palette, and touches no world sidecar.
+   * under, which may have been chosen by hand.
    * @param {object} params                         The result and its destination.
    * @returns {Promise<object>}                     `{ converted, layerPalette, savedPath, baseName, layerName }`.
    */
@@ -854,34 +849,25 @@ export class FeccImportPanel extends Panel {
     let baseName  = null;
 
     if (mode.tier === 'full') {
-      const toStudio = developerMode();
       baseName = finalName || await nextCustomTokenName(category);
       const blob = await new Promise((resolve, reject) =>
         converted.toBlob(b => b ? resolve(b) : reject(new Error('toBlob failed')), 'image/png')
       );
 
-      if (toStudio) {
-        // The manifest entry may keep an existing shipped part's spelling, so
-        // the layer takes the name saveStudioPart returns.
-        ({ path: savedPath, name: baseName } = await saveStudioPart({
-          side: this.side, category, subTab, name: baseName, blob
-        }));
-      } else {
-        const folder = customTokenFolder(category);
-        const filename = `${baseName}.png`;
-        await ensureFolderHierarchy(folder);
-        savedPath = await uploadBlob(folder, filename, blob);
+      const folder = customTokenFolder(category);
+      const filename = `${baseName}.png`;
+      await ensureFolderHierarchy(folder);
+      savedPath = await uploadBlob(folder, filename, blob);
 
-        await loadSidecar(category);
-        const priorTab = getEntry(category, filename)?.tab ?? null;
-        await setEntry(category, filename, { tab: subTab ?? priorTab, deleted: false });
+      await loadSidecar(category);
+      const priorTab = getEntry(category, filename)?.tab ?? null;
+      await setEntry(category, filename, { tab: subTab ?? priorTab, deleted: false });
 
-        await refreshAllTraysForCategory(category);
-      }
+      await refreshAllTraysForCategory(category);
 
       // The colour panel's Asset Default button reads this back. It is keyed
       // by the part name, so it matches `layer.feccName`.
-      try { await saveAssetSchema(baseName, layerPalette, { category, toStudio }); }
+      try { await saveAssetSchema(baseName, layerPalette, { category }); }
       catch (e) {
         notify.failure('emblem-rpg-studio | saveAssetSchema failed:', e);
       }

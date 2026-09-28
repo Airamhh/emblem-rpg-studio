@@ -1,6 +1,6 @@
 // @ts-check
 /** @layer foundry */
-import { DEVELOPER_MODE_HOOK, DEVELOPER_MODE_SETTING, MODULE_ID } from '../constants.mjs';
+import { MODULE_ID } from '../constants.mjs';
 import { createStudioApi, openCharacterStudio } from '../api.mjs';
 import { STUDIO_ACCESS } from '../admission.mjs';
 import { syncTokenTabRenames } from '../character/variants.mjs';
@@ -36,17 +36,6 @@ export function installStudioHooks() {
 /*  Registration                                */
 /* -------------------------------------------- */
 function registerStudio() {
-  game.settings.register(MODULE_ID, DEVELOPER_MODE_SETTING, {
-    name: 'Developer Mode',
-    hint: 'Saves importer templates to the Studio module\'s own Parts Library instead of this world, and shows '
-      + 'Save To Root, which writes finished avatar, token and item art into the Emblem RPG Content module.',
-    scope: 'client',
-    config: true,
-    type: Boolean,
-    default: false,
-    onChange: value => Hooks.callAll(DEVELOPER_MODE_HOOK, value === true)
-  });
-
   registerStudioAccessSettings();
 
   const module = game.modules.get(MODULE_ID);
