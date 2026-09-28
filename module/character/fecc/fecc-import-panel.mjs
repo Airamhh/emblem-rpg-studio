@@ -14,8 +14,7 @@ import {
 } from './fecc-import.mjs';
 import { showManualClassifyDialog, paletteFromColourMap } from './fecc-import-manual.mjs';
 import { saveAssetSchema } from './fecc-asset-schema.mjs';
-import { STUDIO_REFUSALS } from '../../admission.mjs';
-import { isStudioStaff, refuseStudio } from '../../foundry/access.mjs';
+import { hasStudioToolAccess, refuseStudio, studioAccessFor } from '../../foundry/access.mjs';
 import { routeAssetNameForSide } from './fecc-asset-routing.mjs';
 import { setEntry, getEntry, loadSidecar } from './fecc-custom-tabs.mjs';
 import { takenPartNames, shippedPartNames, refreshAllTraysForCategory } from './fecc-parts-library.mjs';
@@ -499,8 +498,8 @@ export class FeccImportPanel extends Panel {
       return;
     }
     const { results } = outcome;
-    const permanent = !!outcome.permanent && isStudioStaff();
-    if (outcome.permanent && !permanent) refuseStudio(STUDIO_REFUSALS.STAFF_ONLY, 'save imports to the Parts Library');
+    const permanent = !!outcome.permanent && hasStudioToolAccess();
+    if (outcome.permanent && !permanent) refuseStudio(studioAccessFor().code);
     const mode = { tier: permanent ? 'full' : 'temp' };
     const isMulti = results.length > 1;
     const toSheet = outcome.toSheet;

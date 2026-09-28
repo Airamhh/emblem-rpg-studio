@@ -22,8 +22,7 @@
 import {
   customTokenFolder, writeSidecarJson, fetchSidecarJson
 } from '../../editor/io.mjs';
-import { STUDIO_REFUSALS } from '../../admission.mjs';
-import { isStudioStaff, refuseStudio } from '../../foundry/access.mjs';
+import { hasStudioToolAccess, refuseStudio, studioAccessFor } from '../../foundry/access.mjs';
 import { createStudioNotifier } from '../../foundry/notify.mjs';
 
 /* -------------------------------------------- */
@@ -101,19 +100,20 @@ export function getCachedSidecar(category) {
  * Apply one change to a category's sidecar and save it.
  *
  * The file is read again right before the change and the change applied to that copy, because the cache can be as
- * old as the session and another staff client may have changed the file since. Writing the cache back would undo
+ * old as the session and another Studio user may have changed the file since. Writing the cache back would undo
  * their sub-tabs, filings, names and hidden parts. The cache takes the saved copy once the write lands, so a
  * failed write shows no change.
  *
- * Only staff write the library, so anyone else is refused before anything changes. The callers run from click
+ * Only staff and listed Trusted Players write the library, so anyone else is refused before anything changes. A
+ * Trusted Player's write goes through the Gamemaster's browser (io.mjs routes it). The callers run from click
  * handlers that don't wait on the result, so a failed write is reported here instead of rejecting.
  * @param {string|null} category          Category.
  * @param {Function} change               Changes the fresh sidecar in place. Returning false skips the write.
  * @returns {Promise<*>}                  What `change` returned, or false when refused or not saved.
  */
 function changeSidecar(category, change) {
-  if (!isStudioStaff()) {
-    refuseStudio(STUDIO_REFUSALS.STAFF_ONLY, 'change the Parts Library');
+  if (!hasStudioToolAccess()) {
+    refuseStudio(studioAccessFor().code);
     return Promise.resolve(false);
   }
   const k = key(category);

@@ -33,7 +33,9 @@ import {
   CHARACTER_STUDIO_ACTOR_TYPES, CHARACTER_STUDIO_TEMPLATE, MODULE_ID, STUDIO_ACCESS_HOOK
 } from '../constants.mjs';
 import { STUDIO_ACCESS, STUDIO_REFUSALS } from '../admission.mjs';
-import { actorArtAccessFor, isStudioStaff, refuseStudio, studioAccessFor } from '../foundry/access.mjs';
+import {
+  actorArtAccessFor, hasStudioToolAccess, refuseStudio, studioAccessFor
+} from '../foundry/access.mjs';
 import { publishActorArtFile } from '../foundry/publication-transport.mjs';
 import { FeccPartsLibrary, TOKEN_RAIL_CATEGORIES, AVATAR_CATEGORIES, categoryLabel, categoryRailLabel, categoryIcon } from './fecc/fecc-parts-library.mjs';
 import { FeccColourPanel } from './fecc/fecc-colour-panel.mjs';
@@ -4628,13 +4630,13 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
   /* -------------------------------------------- */
 
   /**
-   * Save every tab of the active actor as a project file (fecc-presets.mjs). Staff only.
+   * Save every tab of the active actor as a project file (fecc-presets.mjs). Staff and listed Trusted Players.
    * @returns {Promise<void>}
    */
   static async #onSavePreset(event, target) {
     event.preventDefault();
     event.stopPropagation();
-    if (!isStudioStaff()) return void refuseStudio(STUDIO_REFUSALS.STAFF_ONLY, 'save Studio projects');
+    if (!hasStudioToolAccess()) return void refuseStudio(studioAccessFor().code);
     const { showProjectSaveDialog } = await import('./fecc/fecc-presets.mjs');
     await showProjectSaveDialog(this);
   }
@@ -4642,13 +4644,13 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
   /* -------------------------------------------- */
 
   /**
-   * Load a project file onto the active actor, rebuilding its tabs. Staff only.
+   * Load a project file onto the active actor, rebuilding its tabs. Staff and listed Trusted Players.
    * @returns {Promise<void>}
    */
   static async #onLoadPreset(event, target) {
     event.preventDefault();
     event.stopPropagation();
-    if (!isStudioStaff()) return void refuseStudio(STUDIO_REFUSALS.STAFF_ONLY, 'load Studio projects');
+    if (!hasStudioToolAccess()) return void refuseStudio(studioAccessFor().code);
     const { showProjectLoadDialog } = await import('./fecc/fecc-presets.mjs');
     await showProjectLoadDialog(this);
   }

@@ -19,7 +19,9 @@
  */
 import { createStudioNotifier } from '../../foundry/notify.mjs';
 
-import { ensureFolderHierarchy, uploadBlob, projectFolder as ioProjectFolder } from '../../editor/io.mjs';
+import {
+  ensureFolderHierarchy, listStudioFolder, uploadBlob, projectFolder as ioProjectFolder
+} from '../../editor/io.mjs';
 import { validatePaletteColours } from '../../utils/colour.mjs';
 import { slugifyHyphen } from '../../utils/string.mjs';
 import { tokenTabsFor, writeTokenTabs } from '../art-state.mjs';
@@ -381,28 +383,57 @@ async function applyProject(studio, project) {
 /* -------------------------------------------- */
 
 /**
- * Whether a project file of this name is already in the folder. Names are decoded before comparing, because the
- * browse listing returns them URL-encoded and a name with a space would otherwise never match. Case is ignored,
- * because a Windows host stores "hero.json" over "Hero.json".
+ * Whether a project file of this name is already in the folder. The listing comes from `listStudioFolder`, which
+ * asks the Gamemaster's browser for a user who can't browse files. Case is ignored, because a Windows host stores
+ * "hero.json" over "Hero.json".
  * @param {string} folder                 Folder to check.
  * @param {string} filename               File to look for.
  * @returns {Promise<boolean>}
  */
 async function projectFileExists(folder, filename) {
-  const FP = foundry.applications.apps.FilePicker.implementation;
-  try {
-    const result = await FP.browse('data', folder);
-    return (result?.files ?? []).some(p => {
-      let base = String(p).split('/').pop();
-      try { base = decodeURIComponent(base); } catch (_) {
-        notify.probe('projectFileExists probe', _);
-      }
-      return base.toLowerCase() === filename.toLowerCase();
-    });
-  } catch (_) {
-    notify.probe('projectFileExists probe', _, /ENOENT|does not exist|no such file or directory/i.test(String(_?.message ?? '')));
-    return false;
+  const wanted = filename.toLowerCase();
+  return (await listStudioFolder(folder)).some(name => name.toLowerCase() === wanted);
+}
+
+/**
+ * Whether the signed-in user may browse files with Foundry's own file picker.
+ * @returns {boolean}
+ */
+function canBrowseFiles() {
+  return game.user?.can?.('FILES_BROWSE') === true;
+}
+
+/**
+ * Pick a saved project by name, for a user who can't browse files. The names come from `listStudioFolder`, so the
+ * Gamemaster's browser lists the folder for them.
+ * @param {string} folder                 The projects folder.
+ * @returns {Promise<string|null>}        The chosen file's path, or null when there is none or the dialog closed.
+ */
+async function pickProjectPath(folder) {
+  const names = (await listStudioFolder(folder))
+    .filter(name => name.toLowerCase().endsWith(EXTENSION))
+    .sort((a, b) => a.localeCompare(b));
+  if (!names.length) {
+    notify.warn('No saved projects yet.');
+    return null;
   }
+  const esc = foundry.utils.escapeHTML;
+  const options = names.map(name => `<option value="${esc(name)}">${esc(name)}</option>`).join('');
+  const chosen = await foundry.applications.api.DialogV2.prompt({
+    window: { title: 'Load Studio Project', icon: 'fas fa-folder-open' },
+    content: `
+      <div class="form-group">
+        <label>Project</label>
+        <select name="projectFile">${options}</select>
+      </div>`,
+    ok: {
+      label: 'Load',
+      callback: (event, button) => button.form.elements.projectFile.value
+    },
+    rejectClose: false
+  });
+  if (!chosen || !names.includes(chosen)) return null;
+  return `${folder}/${encodeURIComponent(chosen)}`;
 }
 
 /**
@@ -500,8 +531,8 @@ function reportLoad(outcome) {
  * Pick a project file and load it onto the bound actor. Character Studio's project load button (#onLoadPreset)
  * calls it.
  *
- * Projects share the `.json` extension with much else Foundry writes, so the file's `kind` is checked too, and
- * picking an actor export by mistake fails before anything changes. A file older than version 5 is refused.
+ * A user who may browse files picks with Foundry's file picker. Anyone else, such as a listed Trusted Player, picks
+ * from a list of the saved projects, since core refuses them the file browser.
  * @param {object} studio                 Character Studio.
  * @returns {Promise<void>}
  */
@@ -516,6 +547,12 @@ export async function showProjectLoadDialog(studio) {
     notify.failure('showProjectLoadDialog failed', _);
   }
 
+  if (!canBrowseFiles()) {
+    const path = await pickProjectPath(folder);
+    if (path) await loadProjectFile(studio, actor, path);
+    return;
+  }
+
   const FP = foundry.applications.apps.FilePicker.implementation;
   if (!FP) {
     notify.error('FilePicker is unavailable.');
@@ -524,36 +561,48 @@ export async function showProjectLoadDialog(studio) {
   const picker = new FP({
     type: 'any',
     current: folder,
-    callback: async (path) => {
-      try {
-        if (!path.toLowerCase().endsWith(EXTENSION)) {
-          notify.warn(`Pick a ${EXTENSION} file.`);
-          return;
-        }
-        const res = await fetch(path);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const project = await res.json();
-        if (project?.kind !== PROJECT_KIND) {
-          throw new Error('Not a studio project file.');
-        }
-        if ((Number(project.version) || 0) < OLDEST_PROJECT_VERSION) throw new Error(OLD_PROJECT_MESSAGE);
-        const confirmed = await foundry.applications.api.DialogV2.confirm({
-          window: { title: 'Load Studio Project', icon: 'fas fa-folder-open' },
-          content: loadSummaryHtml(project, actor),
-          modal: true,
-          rejectClose: false
-        });
-        if (!confirmed) return;
-        reportLoad(await applyProject(studio, project));
-      } catch (e) {
-        const expected = e instanceof SyntaxError || e?.message === 'Not a studio project file.'
-          || e?.message === OLD_PROJECT_MESSAGE;
-        notify.validation(e instanceof SyntaxError ? 'Choose a project file containing valid JSON.'
-          : String(e?.message ?? 'The project could not be loaded.'), e, expected);
-      }
-    }
+    callback: path => loadProjectFile(studio, actor, path)
   });
   picker.browse();
+}
+
+/**
+ * Read a project file, confirm, and load it onto the actor. Both ways of picking a project end here.
+ *
+ * Projects share the `.json` extension with much else Foundry writes, so the file's `kind` is checked too, and
+ * picking an actor export by mistake fails before anything changes. A file older than version 5 is refused.
+ * @param {object} studio                 Character Studio.
+ * @param {Actor} actor                   The bound actor.
+ * @param {string} path                   The project file's path.
+ * @returns {Promise<void>}
+ */
+async function loadProjectFile(studio, actor, path) {
+  try {
+    if (!path.toLowerCase().endsWith(EXTENSION)) {
+      notify.warn(`Pick a ${EXTENSION} file.`);
+      return;
+    }
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const project = await res.json();
+    if (project?.kind !== PROJECT_KIND) {
+      throw new Error('Not a studio project file.');
+    }
+    if ((Number(project.version) || 0) < OLDEST_PROJECT_VERSION) throw new Error(OLD_PROJECT_MESSAGE);
+    const confirmed = await foundry.applications.api.DialogV2.confirm({
+      window: { title: 'Load Studio Project', icon: 'fas fa-folder-open' },
+      content: loadSummaryHtml(project, actor),
+      modal: true,
+      rejectClose: false
+    });
+    if (!confirmed) return;
+    reportLoad(await applyProject(studio, project));
+  } catch (e) {
+    const expected = e instanceof SyntaxError || e?.message === 'Not a studio project file.'
+      || e?.message === OLD_PROJECT_MESSAGE;
+    notify.validation(e instanceof SyntaxError ? 'Choose a project file containing valid JSON.'
+      : String(e?.message ?? 'The project could not be loaded.'), e, expected);
+  }
 }
 
 /* -------------------------------------------- */

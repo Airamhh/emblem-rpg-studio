@@ -15,7 +15,7 @@ import {
 import { defaultPalette } from './fecc-recolour.mjs';
 import { pickLocalImage, pickClipboardImage } from '../../editor/io.mjs';
 import { activeShadesFor, codeForType, codesFor, shadesFor, slotToPaletteShade } from '../../utils/palette-pixels.mjs';
-import { isStudioStaff } from '../../foundry/access.mjs';
+import { hasStudioToolAccess } from '../../foundry/access.mjs';
 
 /* -------------------------------------------- */
 /*  Reporting                                   */
@@ -155,8 +155,8 @@ class MultiPuzzleClassifier {
     this.feccType = feccType;
     this.panels = [];
     // Save to the Parts Library, or keep the layers for this session only.
-    // Only staff can write the library.
-    this.permanent = isStudioStaff();
+    // Only staff and listed Trusted Players can write the library.
+    this.permanent = hasStudioToolAccess();
 
     // The drag in progress, or null. Shapes:
     //   { kind:'tone',   rgbKey }                      a whole tone, all panels

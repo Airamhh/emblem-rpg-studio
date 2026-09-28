@@ -2,10 +2,12 @@
 import { STUDIO_REFUSALS, StudioRefusal } from '../admission.mjs';
 import { isStudioStaff } from '../foundry/access.mjs';
 import { createStudioNotifier } from '../foundry/notify.mjs';
+import { comparableFilePath } from '../publication.mjs';
 import { loadImage } from '../utils/image.mjs';
 import { slugifyUnderscore } from '../utils/string.mjs';
 import {
-  STUDIO_ASSET_ROOT, STUDIO_CHARACTER_ART_TREE
+  STUDIO_ASSET_ROOT, STUDIO_AVATAR_PART_CATEGORIES, STUDIO_CHARACTER_ART_TREE, STUDIO_TOKEN_PART_CATEGORIES,
+  STUDIO_WORLD_FOLDERS
 } from '../constants.mjs';
 
 /* -------------------------------------------- */
@@ -14,27 +16,83 @@ import {
 const notify = createStudioNotifier(import.meta.url);
 
 /* -------------------------------------------- */
+/*  File Routing                                */
+/* -------------------------------------------- */
+
+/**
+ * The host route for a user Foundry won't let upload or browse, registered by foundry/publication-transport.mjs once
+ * its socket is open. This file never imports the transport, which imports it.
+ * @type {{write: (folder: string, filename: string, blob: Blob) => Promise<string>,
+ *   list: (folder: string) => Promise<string[]>}|null}
+ */
+let sharedFileRoute = null;
+
+/* -------------------------------------------- */
+
+/**
+ * Register the host route for writes and listings a user can't make directly, or clear it with null.
+ * @param {{write: (folder: string, filename: string, blob: Blob) => Promise<string>,
+ *   list: (folder: string) => Promise<string[]>}|null} route
+ */
+export function setSharedFileRoute(route) {
+  sharedFileRoute = route ?? null;
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Whether the signed-in user writes files through Foundry's own file API. Studio decides who may save. This decides
+ * only which way the file travels: directly, or through the host route. Only staff go direct, because Foundry's
+ * server creates folders for Assistant GMs and the Gamemaster alone, so a Trusted Player granted the upload
+ * permission still couldn't make the folder a first save needs.
+ * @returns {boolean}
+ */
+export function canUploadFiles() {
+  return hasFilePermission('FILES_UPLOAD') && isStudioStaff(globalThis.game?.user);
+}
+
+/**
+ * Whether the signed-in user may browse folders through Foundry's own file API.
+ * @returns {boolean}
+ */
+function canBrowseFiles() {
+  return hasFilePermission('FILES_BROWSE');
+}
+
+/**
+ * Foundry's permission test for the signed-in user. A user record without one, which a live client never has, keeps
+ * Studio's earlier rule: it browses directly, and uploads directly only as Studio staff.
+ * @param {string} permission
+ * @returns {boolean}
+ */
+function hasFilePermission(permission) {
+  const user = globalThis.game?.user;
+  if (typeof user?.can === 'function') return user.can(permission) === true;
+  return permission === 'FILES_BROWSE' || isStudioStaff(user);
+}
+
+/* -------------------------------------------- */
 /*  Filesystem                                  */
 /* -------------------------------------------- */
 
 /**
  * Create every missing folder along a path. It goes one segment at a time, because Foundry's createDirectory only
  * makes one level, and browses each level first so an existing folder isn't created again. A create that loses a
- * race and reports that the folder already exists is ignored, since the folder is there either way. Staff only.
+ * race and reports that the folder already exists is ignored, since the folder is there either way. For a user who
+ * can't upload it does nothing, since the host creates the folder as it writes.
  * @param {string} fullPath               Folder path to ensure.
  * @returns {Promise<void>}
  */
 export async function ensureFolderHierarchy(fullPath) {
-  refuseSharedWriteUnlessStaff();
+  if (!fullPath || !canUploadFiles()) return;
   const FP = foundry.applications.apps.FilePicker.implementation;
-  if (!fullPath) return;
   const segments = fullPath.split('/').filter(Boolean);
   let walked = '';
   for (const seg of segments) {
     walked = walked ? `${walked}/${seg}` : seg;
     try {
       await FP.browse('data', walked);
-    } catch (diagnosticError) { notify.probe('Check folder existence', diagnosticError, /ENOENT|does not exist|no such file or directory/i.test(String(diagnosticError?.message ?? ''))); 
+    } catch (diagnosticError) { notify.probe('Check folder existence', diagnosticError, /ENOENT|does not exist|no such file or directory/i.test(String(diagnosticError?.message ?? '')));
       try {
         await FP.createDirectory('data', walked, {});
       } catch (e) {
@@ -59,17 +117,8 @@ export async function ensureFolderHierarchy(fullPath) {
  * @returns {Promise<object|null>}
  */
 export async function fetchSidecarJson(folder, filename) {
-  const FP = foundry.applications.apps.FilePicker.implementation;
   if (!folder || !filename) return null;
-  let listed;
-  try {
-    const result = await FP.browse('data', folder);
-    listed = (result?.files ?? []).some(p => decodePathBasename(p) === filename);
-  } catch (_) {
-    notify.probe('Check optional sidecar folder', _, /ENOENT|does not exist|no such file or directory/i.test(String(_?.message ?? '')));
-    return null;
-  }
-  if (!listed) return null;
+  if (!(await listStudioFolder(folder)).includes(filename)) return null;
   try {
     const res = await fetch(`${folder}/${filename}?_v=${Date.now()}`);
     if (!res.ok) return null;
@@ -85,14 +134,18 @@ export async function fetchSidecarJson(folder, filename) {
 /**
  * Upload a blob and return where it landed. It throws on failure instead of returning an empty path, because
  * callers save art and sidecars through it, and a silent failure would leave the studio believing it had saved.
- * Staff only.
+ * A user who can't upload sends it through the host route, which decides again whether the file may be written
+ * there, and a refusal throws a StudioRefusal.
  * @param {string} folder                 Destination folder.
  * @param {string} filename               File name.
  * @param {Blob} blob                     Contents.
  * @returns {Promise<string>}             The stored path.
  */
 export async function uploadBlob(folder, filename, blob) {
-  refuseSharedWriteUnlessStaff();
+  if (!canUploadFiles()) {
+    if (!sharedFileRoute) throw new StudioRefusal(STUDIO_REFUSALS.NO_HOST);
+    return sharedFileRoute.write(folder, filename, blob);
+  }
   const FP = foundry.applications.apps.FilePicker.implementation;
   const file = new File([blob], filename, { type: blob.type });
   const result = await FP.upload('data', folder, file, {}, { notify: false });
@@ -103,12 +156,53 @@ export async function uploadBlob(folder, filename, blob) {
 /* -------------------------------------------- */
 
 /**
- * Refuse a direct file write from anyone but staff. Only the Gamemaster and Assistant GMs write Studio's files
- * directly. A Trusted Player's art is published through the host (publication.mjs) and their drafts stay in their
- * own browser, so a direct write from them is refused with a StudioRefusal before any request is made.
+ * The decoded file names in one folder, browsed directly or asked of the host route. A folder that doesn't exist
+ * yet, or one that can't be listed, counts as empty.
+ * @param {string} folder                 Folder to list.
+ * @returns {Promise<string[]>}
  */
-function refuseSharedWriteUnlessStaff() {
-  if (!isStudioStaff()) throw new StudioRefusal(STUDIO_REFUSALS.STAFF_ONLY, 'save shared Studio files');
+export async function listStudioFolder(folder) {
+  return (await listFolderPaths(folder) ?? []).map(decodePathBasename);
+}
+
+/* -------------------------------------------- */
+
+/**
+ * The file paths in one folder as browse returns them, URL-encoded, or null when the folder is missing or can't be
+ * listed. A name the host route lists is encoded here to match.
+ * @param {string} folder                 Folder to list.
+ * @returns {Promise<string[]|null>}
+ */
+async function listFolderPaths(folder) {
+  if (!folder) return null;
+  if (canBrowseFiles()) {
+    try {
+      const result = await foundry.applications.apps.FilePicker.implementation.browse('data', folder);
+      return (result?.files ?? []).map(String);
+    } catch (diagnosticError) {
+      notify.probe('Check optional Studio folder', diagnosticError, isMissingFolderError(diagnosticError));
+      return null;
+    }
+  }
+  if (!sharedFileRoute) return null;
+  try {
+    const names = await sharedFileRoute.list(folder);
+    return names.map(name => `${folder}/${encodeURIComponent(name)}`);
+  } catch (diagnosticError) {
+    notify.probe('List a Studio folder through the host', diagnosticError, diagnosticError instanceof StudioRefusal);
+    return null;
+  }
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Whether a browse failed only because the folder isn't there yet.
+ * @param {*} error
+ * @returns {boolean}
+ */
+function isMissingFolderError(error) {
+  return /ENOENT|does not exist|no such file or directory/i.test(String(error?.message ?? ''));
 }
 
 /* -------------------------------------------- */
@@ -298,16 +392,16 @@ export async function pickClipboardImage() {
 
 /**
  * The token side's parts-library categories, which are also its folder names.
- * @type {string[]}
+ * @type {readonly string[]}
  */
-export const CUSTOM_TOKEN_CATEGORIES = ['idle', 'dodge', 'attack', 'weapon', 'part', 'effect'];
+export const CUSTOM_TOKEN_CATEGORIES = STUDIO_TOKEN_PART_CATEGORIES;
 /* -------------------------------------------- */
 
 /**
  * The avatar side's parts-library categories, likewise its folder names.
- * @type {string[]}
+ * @type {readonly string[]}
  */
-const CUSTOM_AVATAR_CATEGORIES = ['body', 'face', 'hair', 'hair-back', 'accessory'];
+const CUSTOM_AVATAR_CATEGORIES = STUDIO_AVATAR_PART_CATEGORIES;
 /* -------------------------------------------- */
 
 /**
@@ -336,7 +430,7 @@ function worldBase() {
  * @returns {string}
  */
 export function customTokenFolder(category = null) {
-  const base = `${worldBase()}/emblem/parts`;
+  const base = `${worldBase()}/${STUDIO_WORLD_FOLDERS.parts}`;
   if (category && CUSTOM_PART_CATEGORIES.includes(category)) {
     return `${base}/${category}`;
   }
@@ -354,7 +448,7 @@ export function actorArtFolder(unitFolder) { return `${worldBase()}/${STUDIO_CHA
  * Where Sprite Studio saves item art in the world.
  * @returns {string}
  */
-export function itemArtFolder() { return `${worldBase()}/emblem/items`; }
+export function itemArtFolder() { return `${worldBase()}/${STUDIO_WORLD_FOLDERS.items}`; }
 
 /* -------------------------------------------- */
 
@@ -375,7 +469,7 @@ export async function itemArtFilename(item, folder = itemArtFolder()) {
   const plain = `${slug}.png`;
   const taken = await listFilenames(folder);
   const others = otherItemArtPaths(item);
-  const free = (filename) => !others.has(comparableItemArtPath(`${folder}/${filename}`));
+  const free = (filename) => !others.has(comparableFilePath(`${folder}/${filename}`));
   const tail = String(item?.uuid ?? item?.id ?? '').replace(/[^A-Za-z0-9_]+/g, '');
   const suffixed = [];
   for (let length = Math.min(3, tail.length); length <= tail.length && tail; length++) {
@@ -397,15 +491,7 @@ export async function itemArtFilename(item, folder = itemArtFolder()) {
  * @returns {Promise<Set<string>>}
  */
 async function listFilenames(folder) {
-  const FP = foundry.applications.apps.FilePicker.implementation;
-  if (!folder) return new Set();
-  try {
-    const result = await FP.browse('data', folder);
-    return new Set((result?.files ?? []).map(decodePathBasename));
-  } catch (e) {
-    notify.probe('Check item art folder', e, /ENOENT|does not exist|no such file or directory/i.test(String(e?.message ?? '')));
-    return new Set();
-  }
+  return new Set(await listStudioFolder(folder));
 }
 
 /* -------------------------------------------- */
@@ -419,8 +505,8 @@ async function listFilenames(folder) {
  * @returns {boolean}
  */
 function itemHoldsArtFile(item, folder, filename) {
-  const held = comparableItemArtPath(item?.img);
-  return !!held && held === comparableItemArtPath(`${folder}/${filename}`);
+  const held = comparableFilePath(item?.img);
+  return !!held && held === comparableFilePath(`${folder}/${filename}`);
 }
 
 /* -------------------------------------------- */
@@ -436,7 +522,7 @@ function otherItemArtPaths(item) {
   const own = item?.uuid || null;
   const add = (other) => {
     if (!other || other === item || (own && other.uuid === own)) return;
-    const path = comparableItemArtPath(other.img);
+    const path = comparableFilePath(other.img);
     if (path) paths.add(path);
   };
   const g = globalThis.game;
@@ -447,22 +533,6 @@ function otherItemArtPaths(item) {
     for (const entry of pack.index ?? []) add(entry);
   }
   return paths;
-}
-
-/* -------------------------------------------- */
-
-/**
- * An art path in the form two references to one file share: without a query, URL-decoded and lowercased, since
- * a Windows host treats paths that differ only in case as one file.
- * @param {string} path                   Stored path.
- * @returns {string}                      Comparable path, or '' for none.
- */
-function comparableItemArtPath(path) {
-  const raw = String(path ?? '').split('?')[0];
-  if (!raw) return '';
-  let decoded = raw;
-  try { decoded = decodeURIComponent(raw); } catch (_) { notify.probe('Decode item art path', _); }
-  return decoded.toLowerCase();
 }
 
 /* -------------------------------------------- */
@@ -482,8 +552,16 @@ export function sceneCropFolder() { return `${worldBase()}/emblem/destructibles`
  * @returns {string}
  */
 export function projectFolder() {
-  return `${worldBase()}/emblem/projects`;
+  return `${worldBase()}/${STUDIO_WORLD_FOLDERS.projects}`;
 }
+
+/* -------------------------------------------- */
+
+/**
+ * Where the export panel (fecc-export-panel.mjs) saves the PNGs it renders.
+ * @returns {string}
+ */
+export function exportFolder() { return `${worldBase()}/${STUDIO_WORLD_FOLDERS.export}`; }
 
 /* -------------------------------------------- */
 
@@ -491,7 +569,7 @@ export function projectFolder() {
  * Where the world's schemas.json and workspace files are saved (fecc-asset-schema.mjs).
  * @returns {string}
  */
-export function metaFolder() { return `${worldBase()}/emblem/meta`; }
+export function metaFolder() { return `${worldBase()}/${STUDIO_WORLD_FOLDERS.meta}`; }
 
 /* -------------------------------------------- */
 /*  Studio Parts Library                        */
@@ -533,28 +611,22 @@ function decodePathBasename(path) {
 /* -------------------------------------------- */
 
 /**
- * List the PNGs in a folder as parts-library entries. If the folder can't be browsed, staff create it, so a
- * category the world has never imported into is ready for its first upload. Anyone else sees the category as empty.
- * Errors give an empty list instead of throwing, since a missing category folder is normal in a world that has
- * imported nothing.
+ * List the PNGs in a folder as parts-library entries. If the folder can't be listed, a user who can upload creates
+ * it, so a category the world has never imported into is ready for its first upload. Anyone else sees the category
+ * as empty until the host writes into it. Errors give an empty list instead of throwing, since a missing category
+ * folder is normal in a world that has imported nothing.
  * @param {string} folder                         Folder to list.
  * @param {string|null} category                  Category the entries belong to.
  * @returns {Promise<object[]>}
  */
 async function _listPngs(folder, category) {
-  const FP = foundry.applications.apps.FilePicker.implementation;
-  let result = null;
-  try {
-    result = await FP.browse('data', folder);
-  } catch (_) { notify.probe('Check optional image folder', _, /ENOENT|does not exist|no such file or directory/i.test(String(_?.message ?? ''))); 
-    if (!isStudioStaff()) return [];
+  let files = await listFolderPaths(folder);
+  if (files === null) {
+    if (!canUploadFiles()) return [];
     await ensureFolderHierarchy(folder).catch((diagnosticError) => { notify.failure('_listPngs failed', diagnosticError); });
-    try { result = await FP.browse('data', folder); } catch (_) {
-      notify.failure('_listPngs failed', _);
-      return [];
-    }
+    files = await listFolderPaths(folder) ?? [];
   }
-  return (result?.files ?? [])
+  return files
     .filter(p => p.toLowerCase().endsWith('.png'))
     .map(path => {
       const name = decodePathBasename(path).replace(/\.png$/i, '');

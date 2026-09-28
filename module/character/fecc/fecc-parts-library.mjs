@@ -12,7 +12,7 @@
  * matching hair-back layer behind it.
  */
 
-import { isStudioStaff } from '../../foundry/access.mjs';
+import { hasStudioToolAccess } from '../../foundry/access.mjs';
 import { createStudioNotifier } from '../../foundry/notify.mjs';
 import {
   downloadImage, listCustomTokens,
@@ -489,7 +489,7 @@ export class FeccPartsLibrary extends Panel {
     if (!tabs.some(t => t.key === this.activeTab)) this.activeTab = tabs[0]?.key ?? DEFAULT_TAB;
     const subTabsHtml = this._isShippedOnly() ? '' : `<div class="fecc-panel-tabs">
           ${tabs.map(t => `<button type="button" class="fecc-tab${t.key === this.activeTab ? ' is-active' : ''}" data-tab="${foundry.utils.escapeHTML(t.key)}"${t.builtin ? ' data-builtin="1"' : ''}>${foundry.utils.escapeHTML(t.label)}</button>`).join('')}
-          ${isStudioStaff() ? '<button type="button" class="fecc-tab fecc-tab-add" data-add-tab data-tooltip="Create a new sub-tab">+</button>' : ''}
+          ${hasStudioToolAccess() ? '<button type="button" class="fecc-tab fecc-tab-add" data-add-tab data-tooltip="Create a new sub-tab">+</button>' : ''}
         </div>`;
     this.root.innerHTML = `
       <header class="fecc-panel-header">
@@ -1005,12 +1005,12 @@ export class FeccPartsLibrary extends Panel {
   /**
    * Open a part's right-click menu. A shipped part belongs to the Studio module, so it can only be copied into the
    * world's library. A world part can be moved to another sub-tab or tray, renamed or deleted. Every one of these
-   * writes the world's library, which only staff can, so nobody else gets the menu.
+   * writes the world's library, which only staff and listed Trusted Players can, so nobody else gets the menu.
    * @param {object} entry                  The part.
    * @param {string} url                    Its URL.
    */
   _openCustomTokenMenu(entry, url, clientX, clientY) {
-    if (!isStudioStaff()) return;
+    if (!hasStudioToolAccess()) return;
     const sc = getCachedSidecar(this.category);
     const sections = [
       `<div class="fecc-tok-ctx-header">${foundry.utils.escapeHTML(entry.name)}</div>`
@@ -1066,9 +1066,12 @@ export class FeccPartsLibrary extends Panel {
     });
   }
 
-  /** Open the right-click menu of a sub-tab a user made: rename or delete. Staff only, like the library it changes. */
+  /**
+   * Open the right-click menu of a sub-tab a user made: rename or delete. Staff and listed Trusted Players only, like
+   * the library it changes.
+   */
   _openSubTabMenu(name, clientX, clientY) {
-    if (!isStudioStaff()) return;
+    if (!hasStudioToolAccess()) return;
     const html = `
       <div class="fecc-tok-ctx-header">${foundry.utils.escapeHTML(name)}</div>
       <button type="button" class="fecc-tok-ctx-item" data-action="renametab"><i class="fas fa-pen"></i> Rename…</button>

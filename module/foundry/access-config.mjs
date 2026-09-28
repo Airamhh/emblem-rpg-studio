@@ -24,7 +24,8 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 export function registerStudioAccessSettings() {
   game.settings.register(MODULE_ID, TRUSTED_ALLOWLIST_SETTING, {
     name: 'Trusted Player Studio Access',
-    hint: 'Trusted Players who may use Emblem Character Studio for Actors they own.',
+    hint: 'Trusted Players who may use Emblem RPG Studio: Character Studio for Actors they own, Sprite Studio for '
+      + 'Items they own.',
     scope: 'world',
     config: false,
     type: Array,
@@ -34,8 +35,8 @@ export function registerStudioAccessSettings() {
   game.settings.registerMenu(MODULE_ID, STUDIO_ACCESS_MENU, {
     name: 'Trusted Player Studio Access',
     label: 'Choose Trusted Players',
-    hint: 'Lists the Trusted Players who may use Emblem Character Studio on Actors they own, with their art saved '
-      + 'by the Gamemaster\'s browser.',
+    hint: 'Lists the Trusted Players who may use Emblem RPG Studio: Character Studio for Actors they own and Sprite '
+      + 'Studio for Items they own. The Gamemaster\'s browser saves their files.',
     icon: 'fas fa-user-lock',
     type: StudioAccessConfig,
     restricted: true
@@ -47,7 +48,7 @@ export function registerStudioAccessSettings() {
 /* -------------------------------------------- */
 
 /**
- * The Gamemaster's list of Trusted Players who may use Emblem Character Studio.
+ * The Gamemaster's list of Trusted Players who may use Emblem RPG Studio.
  *
  * Only the Gamemaster can save it. An Assistant GM can open it to see who is listed, because Foundry shows restricted
  * menus to every user who may modify world settings.

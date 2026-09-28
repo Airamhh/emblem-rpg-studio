@@ -2,7 +2,7 @@
 import { MODULE_ID, STUDIO_ACCESS_HOOK, TRUSTED_ALLOWLIST_SETTING } from '../constants.mjs';
 import {
   STUDIO_ACCESS, STUDIO_REFUSALS, canManageAllowlist, normalizeAllowlist, refusalMessage, resolveActorArtAccess,
-  resolveStudioAccess
+  resolveItemArtAccess, resolveStudioAccess
 } from '../admission.mjs';
 import { createStudioNotifier } from './notify.mjs';
 
@@ -68,6 +68,44 @@ export function actorArtAccessFor(actor, user = game.user) {
 export function ownsActor(user, actor) {
   if (!user || !actor) return false;
   return actor.testUserPermission?.(user, 'OWNER') === true;
+}
+
+/* -------------------------------------------- */
+
+/**
+ * What a user, by default the signed-in one, may do with one Item's art in Sprite Studio.
+ * @param {Item} item
+ * @param {User} [user]
+ * @returns {Readonly<{access: string, code: string, userId: string}>}
+ */
+export function itemArtAccessFor(item, user = game.user) {
+  return resolveItemArtAccess(user, { allowlist: readTrustedAllowlist(), ownsItem: ownsItem(user, item) });
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Whether a user owns an Item, by Foundry's own permission test. An Item in a compendium, or on an Actor in one,
+ * never counts as owned, since Studio saves art only for the world's own documents.
+ * @param {User} user
+ * @param {Item} item
+ * @returns {boolean}
+ */
+export function ownsItem(user, item) {
+  if (!user || !item || item.pack || item.parent?.pack) return false;
+  return item.testUserPermission?.(user, 'OWNER') === true;
+}
+
+/* -------------------------------------------- */
+
+/**
+ * Whether a user, by default the signed-in one, may use Studio's tools at all: staff, or a Trusted Player the
+ * Gamemaster has listed. Scene Crop, the allowlist and staff drafts ask isStudioStaff instead.
+ * @param {User} [user]
+ * @returns {boolean}
+ */
+export function hasStudioToolAccess(user = game.user) {
+  return studioAccessFor(user).access !== STUDIO_ACCESS.DENIED;
 }
 
 /* -------------------------------------------- */

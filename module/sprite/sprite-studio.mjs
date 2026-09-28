@@ -2,13 +2,13 @@
 import { createStudioNotifier } from '../foundry/notify.mjs';
 import { CanvasView } from '../editor/canvas-view.mjs';
 import {
-  downloadImage, pickLocalImage,
-  ensureFolderHierarchy, uploadBlob,   itemArtFolder, itemArtFilename
+  downloadImage, pickLocalImage, itemArtFolder, itemArtFilename
 } from '../editor/io.mjs';
 import { MODULE_ID, SPRITE_STUDIO_TEMPLATE } from '../constants.mjs';
 import { savedPixelArtUpdate } from '../foundry/documents.mjs';
-import { STUDIO_REFUSALS } from '../admission.mjs';
-import { isStudioStaff, refuseStudio } from '../foundry/access.mjs';
+import { STUDIO_ACCESS, STUDIO_REFUSALS } from '../admission.mjs';
+import { itemArtAccessFor, refuseStudio } from '../foundry/access.mjs';
+import { publishItemArtFile } from '../foundry/publication-transport.mjs';
 import { pixelArtCropTransparent } from '../utils/pixel-art.mjs';
 import { FeccColourPanel } from '../character/fecc/fecc-colour-panel.mjs';
 import { EmblemApp } from '../editor/app.mjs';
@@ -17,6 +17,19 @@ import { EmblemApp } from '../editor/app.mjs';
 /*  Reporting                                   */
 /* -------------------------------------------- */
 const notify = createStudioNotifier(import.meta.url);
+
+/* -------------------------------------------- */
+/*  Admission                                   */
+/* -------------------------------------------- */
+
+/**
+ * Whether an Item is carried by an unlinked token's synthetic Actor, which its parent or its UUID shows.
+ * @param {Item} item
+ * @returns {boolean}
+ */
+function onUnlinkedToken(item) {
+  return item?.parent?.isToken === true || /(^|\.)Token\./.test(String(item?.uuid ?? ''));
+}
 
 /* -------------------------------------------- */
 
@@ -56,7 +69,7 @@ function bustedArtPath(path) {
 
 /**
  * The item art editor: a single-layer pixel canvas with recolour and adjustment trays. The system's
- * `openStudioForItem` opens it through `api.openSpriteStudio` when a GM right-clicks an item sheet's portrait.
+ * `openStudioForItem` opens it through `api.openSpriteStudio` when an author right-clicks an item sheet's portrait.
  *
  * It uses the shared editor canvas (`CanvasView` in editor/canvas-view.mjs), the same one Character Studio uses, so
  * item art and character art reduce, place and paint identically. It edits one destination: this item's image.
@@ -155,13 +168,17 @@ export class EmblemSpriteStudio extends EmblemApp {
   /**
    * Open the studio for an item, refusing an opening with nothing to edit.
    *
-   * Staff only: a Trusted Player may edit art only for Actors they own, and item art isn't that.
+   * Staff edit any Item's art. A listed Trusted Player edits art only for Items they own, and never for an Item in a
+   * compendium, whether stored there or embedded in a compendium Actor. Nobody, staff included, opens it on an Item
+   * carried by an unlinked token's Actor, whose art no save can reach.
    * @param {Item} item                             Item to edit.
    * @returns {EmblemSpriteStudio|null}
    */
   static open(item) {
     if (!item) return null;
-    if (!isStudioStaff()) return refuseStudio(STUDIO_REFUSALS.STAFF_ONLY, 'use Sprite Studio');
+    if (onUnlinkedToken(item)) return refuseStudio(STUDIO_REFUSALS.UNLINKED_TOKEN_ITEM);
+    const access = itemArtAccessFor(item);
+    if (access.access === STUDIO_ACCESS.DENIED) return refuseStudio(access.code);
     return super.open(item);
   }
 
@@ -417,8 +434,9 @@ export class EmblemSpriteStudio extends EmblemApp {
   /**
    * Save into the world and point the item at it.
    *
-   * The file is named after the item, and the folder is created before the name is chosen because the name is
-   * settled against what that folder already holds.
+   * The file is named after the item, settled against what the item art folder already holds.
+   * `publishItemArtFile` writes it: staff who can upload write directly, and a Trusted Player's file goes through
+   * the Gamemaster's browser, which checks the Item again.
    * @returns {Promise<void>}
    */
   async _saveArt() {
@@ -428,9 +446,8 @@ export class EmblemSpriteStudio extends EmblemApp {
     try {
       const blob = await this._exportBlob();
       if (!blob) return;
-      await ensureFolderHierarchy(folder);
       const filename = await itemArtFilename(item, folder);
-      const path = await uploadBlob(folder, filename, blob);
+      const path = await publishItemArtFile({ item, folder, filename, blob });
       await item.update(savedArtUpdate(path));
     } catch (e) {
       notify.failure('Item art save failed.', e);

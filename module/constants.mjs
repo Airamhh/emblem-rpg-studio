@@ -41,9 +41,34 @@ export const CHARACTER_STUDIO_ACTOR_TYPES = Object.freeze(['Character', 'Vendor'
 export const STUDIO_CHARACTER_ART_TREE = 'emblem/character';
 
 /* -------------------------------------------- */
+/*  Studio World Folders                        */
+/* -------------------------------------------- */
+
+/**
+ * Studio's other folders under a world's data root. editor/io.mjs builds its paths from these, and the publication
+ * host (publication.mjs) builds the exact folders it will write into from the same names.
+ */
+export const STUDIO_WORLD_FOLDERS = Object.freeze({
+  parts: 'emblem/parts',
+  items: 'emblem/items',
+  projects: 'emblem/projects',
+  meta: 'emblem/meta',
+  export: 'emblem/export'
+});
+
+/** The token side's parts-library categories, which are also its folder names. */
+export const STUDIO_TOKEN_PART_CATEGORIES = Object.freeze(['idle', 'dodge', 'attack', 'weapon', 'part', 'effect']);
+
+/** The avatar side's parts-library categories, likewise its folder names. */
+export const STUDIO_AVATAR_PART_CATEGORIES = Object.freeze(['body', 'face', 'hair', 'hair-back', 'accessory']);
+
+/* -------------------------------------------- */
 /*  Studio Access                               */
 /* -------------------------------------------- */
 export const TRUSTED_ALLOWLIST_SETTING = 'trustedAllowlist';
 export const STUDIO_ACCESS_MENU = 'trustedAccess';
 export const STUDIO_ACCESS_HOOK = 'emblemRpgStudioAccessChanged';
 export const STUDIO_PUBLICATION_OPERATION = 'art.publish.v1';
+export const STUDIO_FILE_WRITE_OPERATION = 'files.write.v1';
+export const STUDIO_FILE_LIST_OPERATION = 'files.list.v1';
+export const STUDIO_ITEM_ART_OPERATION = 'item-art.publish.v1';

@@ -1,5 +1,5 @@
 /** @layer character-studio/fecc */
-import { ensureFolderHierarchy, uploadBlob } from '../../editor/io.mjs';
+import { ensureFolderHierarchy, exportFolder, uploadBlob } from '../../editor/io.mjs';
 import { slugifyUnderscore } from '../../utils/string.mjs';
 import { Panel } from '../../editor/panel.mjs';
 import { createStudioNotifier } from '../../foundry/notify.mjs';
@@ -20,18 +20,6 @@ const DISK_SCALES = [
   { key: 'small', label: 'Small', mult: 10 },
   { key: 'full',  label: 'Full',  mult: 20 }
 ];
-
-/**
- * The folder under the world's `emblem` directory that exports go to.
- * @type {string}
- */
-const EXPORT_FOLDER = 'export';
-
-/** Where this world's exports go. */
-function exportFolder() {
-  const worldId = game.world?.id ?? 'default';
-  return `worlds/${worldId}/emblem/${EXPORT_FOLDER}`;
-}
 
 /** A sortable timestamp for export filenames, so repeated exports of the same art don't overwrite each other. */
 function timestamp() {
@@ -92,7 +80,7 @@ export class FeccExportPanel extends Panel {
 
       <section class="fecc-export-section">
         <p class="fecc-export-hint">
-          Saves this canvas as a PNG to <code>worlds/&lt;id&gt;/emblem/${EXPORT_FOLDER}/</code>.
+          Saves this canvas as a PNG to <code>worlds/&lt;id&gt;/emblem/export/</code>.
         </p>
         <div class="fecc-export-options">${diskButtons}</div>
       </section>
