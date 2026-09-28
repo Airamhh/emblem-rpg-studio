@@ -86,9 +86,10 @@ export const PLACEHOLDER_ART = 'icons/svg/mystery-man.svg';
 /* -------------------------------------------- */
 
 /**
- * The flag recording the texture a base-token clear left on the prototype Token. A clear can't empty that texture,
- * so Foundry keeps showing the portrait there, and this marks it as no art of the actor's own. Art set on the
- * prototype Token afterwards no longer matches, and reads as stored art again.
+ * The flag recording the texture a base-token clear left on the prototype Token of an actor type without
+ * `system.art.tokens`, such as a Vendor or Convoy. A clear can't empty that texture, so Foundry keeps showing the
+ * portrait there, and this marks it as no art of the actor's own. Art set on the prototype Token afterwards no
+ * longer matches, and reads as stored art again.
  */
 export const CLEARED_TOKEN_FLAG = 'clearedTokenSrc';
 
@@ -137,25 +138,24 @@ export function findEntryIndex(entries, tuple) {
  * The file path currently stored at a destination, or ''.
  *
  * A destination is the actor's base default slot in `system.art.tokens`, or a class tab's own slot, or a slot on
- * one of its conditional entries. The base default slot also falls back to the prototype token's texture, which is
- * where art set outside the studio lives. Foundry's placeholder portrait comes back as nothing set.
+ * one of its conditional entries. An actor type without `system.art.tokens` keeps its base default token on the
+ * prototype token's texture instead. Foundry's placeholder portrait comes back as nothing set.
  * @param {Actor} actor
  * @param {object} tuple          Destination tuple.
  * @returns {string}
  */
 export function resolveTokenPath(actor, tuple) {
-  const tokens = actor?.system?.art?.tokens ?? {};
+  const tokens = actor?.system?.art?.tokens;
   const slot = tuple.type;
   if (!isTokenSlot(slot)) return '';
   const real = (p) => (isPlaceholderArt(p) ? '' : p);
   if (tuple.classKey === 'Default') {
-    if (slot === 'default') {
-      // A clear in the studio leaves the portrait on the prototype Token and records it, so it reads as no art.
-      const prototype = real(actor.prototypeToken?.texture?.src);
-      const cleared = !!prototype && prototype === actor.getFlag?.(MODULE_ID, CLEARED_TOKEN_FLAG);
-      return real(tokens.default) || (cleared ? '' : prototype) || '';
-    }
-    return '';
+    if (slot !== 'default') return '';
+    if (tokens) return real(tokens.default) || '';
+    // A clear in the studio leaves the portrait on the prototype Token and records it, so it reads as no art.
+    const prototype = real(actor.prototypeToken?.texture?.src);
+    const cleared = !!prototype && prototype === actor.getFlag?.(MODULE_ID, CLEARED_TOKEN_FLAG);
+    return cleared ? '' : prototype;
   }
   const tabs = tokenTabsFor(actor);
   const tab = tabs[findActorTabIndex(tabs, tuple)] ?? null;

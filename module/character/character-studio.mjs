@@ -4269,8 +4269,10 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
   /* -------------------------------------------- */
 
   /**
-   * Point a destination's token slot at a path, in `system.art` (and the prototype token for the base default
-   * slot). Called by `_saveSide` and `_clearSide`.
+   * Point a destination's token slot at a path in `system.art`. The system derives a Character's prototype token
+   * from that art, and a base clear resets it to the portrait as the Actor Control Panel's clear does. An actor type
+   * without `system.art.tokens` keeps its base token on the prototype token alone. Called by `_saveSide` and
+   * `_clearSide`.
    * @param {object} tuple                          The destination.
    * @param {object} [options]
    * @param {boolean} [options.refresh]             Refresh the board afterwards.
@@ -4285,18 +4287,19 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     const slot = tuple.type;
     if (!isTokenSlot(slot)) return false;
     if (tuple.classKey === 'Default') {
-      await writeBaseTokenPath(actor, slot, cleanPath);
-      if (tuple.type === 'default') {
+      const clearedFlag = `flags.${STUDIO_FLAG}.${CLEARED_TOKEN_FLAG}`;
+      const dropClearedFlag = actor.getFlag(STUDIO_FLAG, CLEARED_TOKEN_FLAG) === undefined ? {}
+        : forcedDeletion(clearedFlag);
+      const portrait = actor.img || DEFAULT_PORTRAIT;
+      const clearedPrototype = cleanPath ? {} : { 'prototypeToken.texture.src': portrait };
+      if (!await writeBaseTokenPath(actor, slot, cleanPath, { ...clearedPrototype, ...dropClearedFlag })) {
         // A cleared path drops the prototype token back to the portrait (Foundry's own default), because an empty
         // texture src isn't a valid path. The flag records that texture, so the studio reads the slot as cleared.
-        const src = cleanPath || actor.img || DEFAULT_PORTRAIT;
-        const clearedFlag = `flags.${STUDIO_FLAG}.${CLEARED_TOKEN_FLAG}`;
+        const src = cleanPath || portrait;
         await updateActorArt(actor, {
           'prototypeToken.texture.src': src,
           'prototypeToken.randomImg': false,
-          ...(cleanPath
-            ? (actor.getFlag(STUDIO_FLAG, CLEARED_TOKEN_FLAG) !== undefined ? forcedDeletion(clearedFlag) : {})
-            : { [clearedFlag]: src })
+          ...(cleanPath ? dropClearedFlag : { [clearedFlag]: src })
         }, { diff: false });
       }
       if (refresh) await refreshActorTokenArt(actor);

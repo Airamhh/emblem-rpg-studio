@@ -43,13 +43,14 @@ export async function writeTokenTabs(actor, tabs, extra = {}) {
  * @param {Actor} actor
  * @param {string} slot One of the slot keys `typeOptions` in `variants.mjs` returns as `value`.
  * @param {string} path The stored path, or '' to clear the slot.
+ * @param {object} [extra] Further update keys to write in the same call.
  * @returns {Promise<boolean>} Whether the slot was written.
  * @throws {StudioRefusal} When the slot is a variant.
  */
-export async function writeBaseTokenPath(actor, slot, path) {
+export async function writeBaseTokenPath(actor, slot, path, extra = {}) {
   if (slot !== 'default') throw new StudioRefusal(STUDIO_REFUSALS.ART_UNSUPPORTED, 'Default token variants');
   if (actor?.system?.art?.tokens === undefined) return false;
-  await updateActorArt(actor, { [`system.art.tokens.${slot}`]: path });
+  await updateActorArt(actor, { ...extra, [`system.art.tokens.${slot}`]: path });
   return true;
 }
 
