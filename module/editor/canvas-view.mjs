@@ -4026,6 +4026,32 @@ export class CanvasView {
   /* -------------------------------------------- */
 
   /**
+   * The floating layer's pixels and position as `_commitMove` would leave them, drawn on a copy so the canvas and
+   * the float stay as they are. Null for any other layer. Character Studio's workspace write reads it, since
+   * committing from its timer would stamp down a move the user is still making.
+   * @param {object} layer          The layer.
+   * @returns {{image: HTMLCanvasElement, x: number, y: number}|null}
+   */
+  floatingLayerAsCommitted(layer) {
+    const fl = this._floating;
+    if (!fl || !layer || fl.layerId !== layer.id) return null;
+    const grows = layer.width < this.size || layer.height < this.size;
+    const frame = grows
+      ? expandOrigin(layer, this.size, layer.width, layer.height)
+      : (fl._frameOffset ?? { x: 0, y: 0 });
+    const image = document.createElement('canvas');
+    image.width = grows ? this.size : layer.width;
+    image.height = grows ? this.size : layer.height;
+    const ctx = image.getContext('2d', READ_BACK);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(layer.image, grows ? frame.x : 0, grows ? frame.y : 0);
+    ctx.drawImage(fl.sourceCanvas, frame.x + fl.offsetX, frame.y + fl.offsetY);
+    return { image, x: grows ? 0 : layer.x, y: grows ? 0 : layer.y };
+  }
+
+  /* -------------------------------------------- */
+
+  /**
    * Grow a layer to the full grid if a move would otherwise push pixels outside it.
    * @param {object} layer          The layer.
    * @private

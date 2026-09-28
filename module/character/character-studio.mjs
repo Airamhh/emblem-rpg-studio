@@ -635,7 +635,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       : savedSheet ? !viewPristine(view, tab.initialToken)
       : view.layers.length > 0;
     if (!unsaved) return null;
-    return this._serializeLayerPixels(view) ?? { layers: [] };
+    return this._serializeLayerPixels(view, { commit: false }) ?? { layers: [] };
   }
 
   /* -------------------------------------------- */
@@ -2478,6 +2478,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       initialScale: 1
     });
     view.onLayerStateChanged = (layer) => {
+      this._workspace.schedule();
       const panel = tab.feccPanels[side].colour;
       if (panel && panel._layer === layer) {
         const expected = layer?.isFecc ? layer._feccPalette : tab.palettes[side];
@@ -3126,19 +3127,24 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
 
   /**
    * Serialise a view's layers, pixels included, for storage.
+   * @param {object} [options]
+   * @param {boolean} [options.commit]              Commit a floating Move first. Without it, the floating layer is
+   *                                                read as the commit would leave it and the canvas stays as it is.
    * @returns {object|null}
    * @private
    */
-  _serializeLayerPixels(view) {
+  _serializeLayerPixels(view, { commit = true } = {}) {
     if (!view) return null;
     // A floating Move keeps its pixels off the layer sources read here, so fold it back in first, or the saved
     // layers would miss artwork that is visible on the canvas.
-    view.commitPendingEdits();
+    if (commit) view.commitPendingEdits();
     const layers = view.layers.map(layer => {
+      const floating = commit ? null : view.floatingLayerAsCommitted(layer);
+      const source = floating?.image ?? layer.image;
       let imageData = null;
       try {
-        const cv = layer.image instanceof HTMLCanvasElement
-          ? layer.image
+        const cv = source instanceof HTMLCanvasElement
+          ? source
           : (() => {
               const c = document.createElement('canvas');
               c.width  = layer.width;
@@ -3151,8 +3157,8 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
         notify.failure('layers failed', _);
       }
       return {
-        x:        layer.x,
-        y:        layer.y,
+        x:        floating?.x ?? layer.x,
+        y:        floating?.y ?? layer.y,
         scale:    layer.scale,
         rotation: layer.rotation,
         flipX:    !!layer.flipX,
