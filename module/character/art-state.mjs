@@ -35,22 +35,20 @@ export async function writeTokenTabs(actor, tabs, extra = {}) {
 }
 
 /**
- * Point one of the actor's five base token slots at a path.
+ * Point the actor's base default token slot at a path.
  *
  * An actor type without the token-art schema keeps its base art on the prototype token, which
- * `EmblemCharacterStudio._writeTokenPath` writes straight after this call. The other four slots have nowhere to go
- * on such an actor, so they're refused instead of written where the game would never read them.
+ * `EmblemCharacterStudio._writeTokenPath` writes straight after this call. The armored, mounted and flying variants
+ * live only on Class tabs, so a base write to one is refused instead of written where the game would never read it.
  * @param {Actor} actor
  * @param {string} slot One of the slot keys `typeOptions` in `variants.mjs` returns as `value`.
  * @param {string} path The stored path, or '' to clear the slot.
  * @returns {Promise<boolean>} Whether the slot was written.
- * @throws {StudioRefusal} When the actor's type stores no art for the slot.
+ * @throws {StudioRefusal} When the slot is a variant.
  */
 export async function writeBaseTokenPath(actor, slot, path) {
-  if (actor?.system?.art?.tokens === undefined) {
-    if (slot !== 'default') throw new StudioRefusal(STUDIO_REFUSALS.ART_UNSUPPORTED, 'token variants');
-    return false;
-  }
+  if (slot !== 'default') throw new StudioRefusal(STUDIO_REFUSALS.ART_UNSUPPORTED, 'Default token variants');
+  if (actor?.system?.art?.tokens === undefined) return false;
   await updateActorArt(actor, { [`system.art.tokens.${slot}`]: path });
   return true;
 }

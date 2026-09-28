@@ -35,6 +35,19 @@ export function typeOptions() {
 
 /* -------------------------------------------- */
 
+/**
+ * The variant types a class offers. The Default class has only its default token, because the armored, mounted and
+ * flying variants live on Class tabs.
+ * @param {string} classKey
+ * @returns {Array<{value: string, label: string, fileWord: string}>}
+ */
+export function typeOptionsFor(classKey) {
+  const options = typeOptions();
+  return (classKey || 'Default') === 'Default' ? options.filter(option => option.value === 'default') : options;
+}
+
+/* -------------------------------------------- */
+
 /** Whether a variant type names one of the token-art slots, and so a key of `system.art.tokens`. */
 export function isTokenSlot(type) {
   return typeOptions().some(option => option.value === type);
@@ -116,7 +129,7 @@ export function findEntryIndex(entries, tuple) {
 /**
  * The file path currently stored at a destination, or ''.
  *
- * A destination is one of the actor's base slots in `system.art.tokens`, or a class tab's own slot, or a slot on
+ * A destination is the actor's base default slot in `system.art.tokens`, or a class tab's own slot, or a slot on
  * one of its conditional entries. The base default slot also falls back to the prototype token's texture, which is
  * where art set outside the studio lives. Foundry's placeholder portrait comes back as nothing set.
  * @param {Actor} actor
@@ -135,7 +148,7 @@ export function resolveTokenPath(actor, tuple) {
       const cleared = !!prototype && prototype === actor.getFlag?.(MODULE_ID, CLEARED_TOKEN_FLAG);
       return real(tokens.default) || (cleared ? '' : prototype) || '';
     }
-    return real(tokens[slot]) || '';
+    return '';
   }
   const tabs = tokenTabsFor(actor);
   const tab = tabs[findActorTabIndex(tabs, tuple)] ?? null;

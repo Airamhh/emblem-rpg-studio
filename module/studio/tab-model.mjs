@@ -12,7 +12,7 @@
 import { defaultPalette } from '../character/fecc/fecc-recolour.mjs';
 import { paneDirty, viewPristine, wouldLoseWork } from '../character/dirty-state.mjs';
 import {
-  typeOptions, avatarEditableFor, classListFor, entriesFor, resolveAvatarPath, resolveTokenPath, tabIdForClass,
+  typeOptionsFor, avatarEditableFor, classListFor, entriesFor, resolveAvatarPath, resolveTokenPath, tabIdForClass,
   tuplesEqual
 } from '../character/variants.mjs';
 
@@ -474,8 +474,8 @@ function classHasStoredType(actor, classKey, tabId, type) {
  * Spritesheets are listed under the base row only, and that row is kept even with no bound tab open there, or an
  * open sheet would become unreachable.
  *
- * A tab bound to a type `typeOptions` doesn't return still gets its row, so art in a slot the system no longer has
- * can still be found and cleared.
+ * A tab bound to a type its class doesn't offer (see `typeOptionsFor`) still gets its row, so an open tab with
+ * unsaved work is never hidden.
  * @returns {ClassRow[]}
  */
 export function classRows(binding, actor) {
@@ -506,11 +506,11 @@ export function classRows(binding, actor) {
   for (const classKey of classes) {
     add(classKey, 'default');
     const tabId = tabIdForClass(actor, classKey);
-    for (const { value } of typeOptions()) {
+    for (const { value } of typeOptionsFor(classKey)) {
       if (value === 'default') continue;
       if (fromTabs.get(classKey)?.has(value) || classHasStoredType(actor, classKey, tabId, value)) add(classKey, value);
     }
-    // A tab bound to a type typeOptions no longer returns still needs its row.
+    // A tab bound to a type its class no longer offers still needs its row.
     for (const type of fromTabs.get(classKey) ?? []) add(classKey, type);
   }
   return rows;

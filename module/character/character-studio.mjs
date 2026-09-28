@@ -46,7 +46,7 @@ import { openActorConfiguration, refreshActorAuthoringPanel, refreshActorTokenAr
 import { tokenTabsFor, updateActorArt, writeBaseTokenPath, writeTokenTabs } from './art-state.mjs';
 import { loadSchema, loadStudioWorkspace, getStudioWorkspace, saveStudioWorkspace } from './fecc/fecc-asset-schema.mjs';
 // import { typeOptions, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, legacyCompKey, withEntryIdentity, migrateCompositionKeys, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
-import { typeOptions, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, withEntryIdentity, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
+import { typeOptions, typeOptionsFor, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, withEntryIdentity, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
 import { snapshotInitial, viewPristine, withHeldWorkspaceActors } from './dirty-state.mjs';
 import { forcedDeletion } from '../foundry/data-operators.mjs';
 import { wireHorizontalWheelScroll } from '../utils/horizontal-wheel-scroll.mjs';
@@ -2094,7 +2094,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
 
     // A scratch tab takes the row's variant type too, so "+" on a "Class: Mounted" row proposes a mounted
     // destination, not the default type.
-    const typeSelectOptions = typeOptions().map(t => ({ value: t.value, label: t.label }));
+    const typeSelectOptions = typeOptionsFor(currentClass).map(t => ({ value: t.value, label: t.label }));
     const currentType = tab.bound ? tab.tuple.type : row.type;
     this._populateSelect(this._dom.typeSelect, typeSelectOptions, currentType);
 
@@ -2166,6 +2166,9 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     const entryValue = entries.some(entry => entry.value === prevEntry) ? prevEntry : '';
     this._populateSelect(this._dom.entrySelect, entryOpts, entryValue);
     this._dom.entrySelect.disabled = !entryEnabled;
+    const typeOpts = typeOptionsFor(cls).map(t => ({ value: t.value, label: t.label }));
+    const prevType = this._dom.typeSelect?.value || 'default';
+    this._populateSelect(this._dom.typeSelect, typeOpts, typeOpts.some(t => t.value === prevType) ? prevType : 'default');
     setSelection(binding, {
       classKey: cls, entryValue, entryEnabled, type: this._dom.typeSelect?.value || 'default'
     });
