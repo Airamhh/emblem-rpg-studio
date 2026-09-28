@@ -1,0 +1,3423 @@
+{
+ "hair": [
+  {
+   "lighter": "#e89088",
+   "light_mid": "#cc787a",
+   "base": "#b0606c",
+   "dark_mid": "#944d5c",
+   "darker": "#78394c"
+  },
+  {
+   "lighter": "#d2a7bd",
+   "light_mid": "#c488a7",
+   "base": "#b66893",
+   "dark_mid": "#a44c7e",
+   "darker": "#863c68"
+  },
+  {
+   "lighter": "#c99c9f",
+   "light_mid": "#bb7c83",
+   "base": "#ad5c67",
+   "dark_mid": "#934854",
+   "darker": "#763743"
+  },
+  {
+   "lighter": "#d8847c",
+   "light_mid": "#be6a6a",
+   "base": "#a45058",
+   "dark_mid": "#88424c",
+   "darker": "#6c3440"
+  },
+  {
+   "lighter": "#d8646c",
+   "light_mid": "#c2545e",
+   "base": "#ac4450",
+   "dark_mid": "#8e3a44",
+   "darker": "#703038"
+  },
+  {
+   "lighter": "#d45870",
+   "light_mid": "#b84a60",
+   "base": "#9c3c50",
+   "dark_mid": "#84344a",
+   "darker": "#6c2c44"
+  },
+  {
+   "lighter": "#bc3c58",
+   "light_mid": "#a0324a",
+   "base": "#84283c",
+   "dark_mid": "#6e243a",
+   "darker": "#582038"
+  },
+  {
+   "lighter": "#f08878",
+   "light_mid": "#dc706a",
+   "base": "#c8585c",
+   "dark_mid": "#a24650",
+   "darker": "#7c3444"
+  },
+  {
+   "lighter": "#f86860",
+   "light_mid": "#d25456",
+   "base": "#ac404c",
+   "dark_mid": "#8c363e",
+   "darker": "#6c2c30"
+  },
+  {
+   "lighter": "#f06060",
+   "light_mid": "#d24c54",
+   "base": "#b43848",
+   "dark_mid": "#90303e",
+   "darker": "#6c2834"
+  },
+  {
+   "lighter": "#e84c54",
+   "light_mid": "#c23e4a",
+   "base": "#9c3040",
+   "dark_mid": "#802c38",
+   "darker": "#642830"
+  },
+  {
+   "lighter": "#dc3848",
+   "light_mid": "#bc3444",
+   "base": "#9c3040",
+   "dark_mid": "#7c2834",
+   "darker": "#5c2028"
+  },
+  {
+   "lighter": "#ec3848",
+   "light_mid": "#c43246",
+   "base": "#9c2c44",
+   "dark_mid": "#7c2a40",
+   "darker": "#5c283c"
+  },
+  {
+   "lighter": "#e02c44",
+   "light_mid": "#b82a40",
+   "base": "#90283c",
+   "dark_mid": "#762638",
+   "darker": "#5c2434"
+  },
+  {
+   "lighter": "#d02838",
+   "light_mid": "#aa2436",
+   "base": "#842034",
+   "dark_mid": "#6e2032",
+   "darker": "#582030"
+  },
+  {
+   "lighter": "#c02034",
+   "light_mid": "#a22034",
+   "base": "#842034",
+   "dark_mid": "#6c1e30",
+   "darker": "#541c2c"
+  },
+  {
+   "lighter": "#b01830",
+   "light_mid": "#921a32",
+   "base": "#741c34",
+   "dark_mid": "#601a30",
+   "darker": "#4c182c"
+  },
+  {
+   "lighter": "#f8404c",
+   "light_mid": "#d23a48",
+   "base": "#ac3444",
+   "dark_mid": "#8a3040",
+   "darker": "#682c3c"
+  },
+  {
+   "lighter": "#f03848",
+   "light_mid": "#c63444",
+   "base": "#9c3040",
+   "dark_mid": "#802a3c",
+   "darker": "#642438"
+  },
+  {
+   "lighter": "#dc2c3c",
+   "light_mid": "#b22a3e",
+   "base": "#882840",
+   "dark_mid": "#70263c",
+   "darker": "#582438"
+  },
+  {
+   "lighter": "#d42434",
+   "light_mid": "#b22438",
+   "base": "#90243c",
+   "dark_mid": "#74223a",
+   "darker": "#582038"
+  },
+  {
+   "lighter": "#c42030",
+   "light_mid": "#a22232",
+   "base": "#802434",
+   "dark_mid": "#682236",
+   "darker": "#502038"
+  },
+  {
+   "lighter": "#f83830",
+   "light_mid": "#dc2e26",
+   "base": "#c0241c",
+   "dark_mid": "#9c2020",
+   "darker": "#781c24"
+  },
+  {
+   "lighter": "#f8302c",
+   "light_mid": "#da261e",
+   "base": "#bc1c10",
+   "dark_mid": "#981a18",
+   "darker": "#741820"
+  },
+  {
+   "lighter": "#f42c24",
+   "light_mid": "#d4221a",
+   "base": "#b41810",
+   "dark_mid": "#901616",
+   "darker": "#6c141c"
+  },
+  {
+   "lighter": "#f0241c",
+   "light_mid": "#ce1c14",
+   "base": "#ac140c",
+   "dark_mid": "#8c1212",
+   "darker": "#6c1018"
+  },
+  {
+   "lighter": "#ec1c18",
+   "light_mid": "#c81610",
+   "base": "#a41008",
+   "dark_mid": "#821010",
+   "darker": "#601018"
+  },
+  {
+   "lighter": "#d04c38",
+   "light_mid": "#b83e3c",
+   "base": "#a03040",
+   "dark_mid": "#86283a",
+   "darker": "#6c2034"
+  },
+  {
+   "lighter": "#dc3c34",
+   "light_mid": "#b83a3c",
+   "base": "#943844",
+   "dark_mid": "#782e42",
+   "darker": "#5c2440"
+  },
+  {
+   "lighter": "#b54a4e",
+   "light_mid": "#9a3d42",
+   "base": "#7e3036",
+   "dark_mid": "#61232a",
+   "darker": "#44181e"
+  },
+  {
+   "lighter": "#e83c38",
+   "light_mid": "#c23630",
+   "base": "#9c3028",
+   "dark_mid": "#822822",
+   "darker": "#68201c"
+  },
+  {
+   "lighter": "#dc3034",
+   "light_mid": "#b02c34",
+   "base": "#842834",
+   "dark_mid": "#6e2230",
+   "darker": "#581c2c"
+  },
+  {
+   "lighter": "#e43c28",
+   "light_mid": "#c8322e",
+   "base": "#ac2834",
+   "dark_mid": "#8c2834",
+   "darker": "#6c2834"
+  },
+  {
+   "lighter": "#fc8864",
+   "light_mid": "#e07052",
+   "base": "#c45840",
+   "dark_mid": "#a04636",
+   "darker": "#7c342c"
+  },
+  {
+   "lighter": "#f07048",
+   "light_mid": "#d25c3c",
+   "base": "#b44830",
+   "dark_mid": "#943e28",
+   "darker": "#743420"
+  },
+  {
+   "lighter": "#ec6838",
+   "light_mid": "#c45630",
+   "base": "#9c4428",
+   "dark_mid": "#843a1e",
+   "darker": "#6c3014"
+  },
+  {
+   "lighter": "#e84824",
+   "light_mid": "#c83e20",
+   "base": "#a8341c",
+   "dark_mid": "#942c1c",
+   "darker": "#80241c"
+  },
+  {
+   "lighter": "#ec542c",
+   "light_mid": "#d04026",
+   "base": "#b42c20",
+   "dark_mid": "#9a2420",
+   "darker": "#801c20"
+  },
+  {
+   "lighter": "#f88c38",
+   "light_mid": "#e27634",
+   "base": "#cc6030",
+   "dark_mid": "#ac562e",
+   "darker": "#8c4c2c"
+  },
+  {
+   "lighter": "#f48424",
+   "light_mid": "#dc7228",
+   "base": "#c4602c",
+   "dark_mid": "#a2522a",
+   "darker": "#804428"
+  },
+  {
+   "lighter": "#f88028",
+   "light_mid": "#e06b26",
+   "base": "#c85624",
+   "dark_mid": "#a84827",
+   "darker": "#883a2a"
+  },
+  {
+   "lighter": "#e5ac6c",
+   "light_mid": "#e09343",
+   "base": "#d47721",
+   "dark_mid": "#ae5d19",
+   "darker": "#874512"
+  },
+  {
+   "lighter": "#ec6424",
+   "light_mid": "#ca5626",
+   "base": "#a84828",
+   "dark_mid": "#8c3e26",
+   "darker": "#703424"
+  },
+  {
+   "lighter": "#e85c1c",
+   "light_mid": "#ca4e1c",
+   "base": "#ac401c",
+   "dark_mid": "#86361c",
+   "darker": "#602c1c"
+  },
+  {
+   "lighter": "#fc9450",
+   "light_mid": "#e27e4a",
+   "base": "#c86844",
+   "dark_mid": "#a45436",
+   "darker": "#804028"
+  },
+  {
+   "lighter": "#f8ac60",
+   "light_mid": "#de9050",
+   "base": "#c47440",
+   "dark_mid": "#a86036",
+   "darker": "#8c4c2c"
+  },
+  {
+   "lighter": "#f0b058",
+   "light_mid": "#d09448",
+   "base": "#b07838",
+   "dark_mid": "#8e5e34",
+   "darker": "#6c4430"
+  },
+  {
+   "lighter": "#ceab82",
+   "light_mid": "#c2905c",
+   "base": "#ac753f",
+   "dark_mid": "#885a30",
+   "darker": "#634022"
+  },
+  {
+   "lighter": "#e89c4c",
+   "light_mid": "#c6823e",
+   "base": "#a46830",
+   "dark_mid": "#86542c",
+   "darker": "#684028"
+  },
+  {
+   "lighter": "#d08838",
+   "light_mid": "#b47434",
+   "base": "#986030",
+   "dark_mid": "#80502c",
+   "darker": "#684028"
+  },
+  {
+   "lighter": "#d8a050",
+   "light_mid": "#c2864a",
+   "base": "#ac6c44",
+   "dark_mid": "#8a5840",
+   "darker": "#68443c"
+  },
+  {
+   "lighter": "#cc9448",
+   "light_mid": "#b47a42",
+   "base": "#9c603c",
+   "dark_mid": "#7e4c38",
+   "darker": "#603834"
+  },
+  {
+   "lighter": "#c48764",
+   "light_mid": "#bb6d44",
+   "base": "#9f5838",
+   "dark_mid": "#82452c",
+   "darker": "#643320"
+  },
+  {
+   "lighter": "#d19175",
+   "light_mid": "#c6704e",
+   "base": "#ab5535",
+   "dark_mid": "#853f28",
+   "darker": "#5f2b1c"
+  },
+  {
+   "lighter": "#c0803c",
+   "light_mid": "#a86a38",
+   "base": "#905434",
+   "dark_mid": "#744230",
+   "darker": "#58302c"
+  },
+  {
+   "lighter": "#ba745e",
+   "light_mid": "#aa5b46",
+   "base": "#904939",
+   "dark_mid": "#75382d",
+   "darker": "#592921"
+  },
+  {
+   "lighter": "#a86834",
+   "light_mid": "#905630",
+   "base": "#78442c",
+   "dark_mid": "#623628",
+   "darker": "#4c2824"
+  },
+  {
+   "lighter": "#9c6030",
+   "light_mid": "#84502e",
+   "base": "#6c402c",
+   "dark_mid": "#583228",
+   "darker": "#442424"
+  },
+  {
+   "lighter": "#f4e498",
+   "light_mid": "#e4c278",
+   "base": "#d4a058",
+   "dark_mid": "#aa7e4e",
+   "darker": "#805c44"
+  },
+  {
+   "lighter": "#e8d888",
+   "light_mid": "#d4b46c",
+   "base": "#c09050",
+   "dark_mid": "#9c7448",
+   "darker": "#785840"
+  },
+  {
+   "lighter": "#dcc484",
+   "light_mid": "#c4a06a",
+   "base": "#ac7c50",
+   "dark_mid": "#906646",
+   "darker": "#74503c"
+  },
+  {
+   "lighter": "#d0b470",
+   "light_mid": "#b8945c",
+   "base": "#a07448",
+   "dark_mid": "#866042",
+   "darker": "#6c4c3c"
+  },
+  {
+   "lighter": "#c09c50",
+   "light_mid": "#a48048",
+   "base": "#886440",
+   "dark_mid": "#725238",
+   "darker": "#5c4030"
+  },
+  {
+   "lighter": "#f4f8d0",
+   "light_mid": "#eadcb0",
+   "base": "#e0c090",
+   "dark_mid": "#c29c74",
+   "darker": "#a47858"
+  },
+  {
+   "lighter": "#f4f8bc",
+   "light_mid": "#eadca2",
+   "base": "#e0c088",
+   "dark_mid": "#be9a6c",
+   "darker": "#9c7450"
+  },
+  {
+   "lighter": "#f0f8bc",
+   "light_mid": "#e4dc9a",
+   "base": "#d8c078",
+   "dark_mid": "#b89660",
+   "darker": "#986c48"
+  },
+  {
+   "lighter": "#e4dca8",
+   "light_mid": "#d4c286",
+   "base": "#c4a864",
+   "dark_mid": "#a48656",
+   "darker": "#846448"
+  },
+  {
+   "lighter": "#e0c490",
+   "light_mid": "#caaa74",
+   "base": "#b49058",
+   "dark_mid": "#9e784c",
+   "darker": "#886040"
+  },
+  {
+   "lighter": "#ecd088",
+   "light_mid": "#dab06c",
+   "base": "#c89050",
+   "dark_mid": "#aa7640",
+   "darker": "#8c5c30"
+  },
+  {
+   "lighter": "#e4d86c",
+   "light_mid": "#d2b858",
+   "base": "#c09844",
+   "dark_mid": "#a67a3a",
+   "darker": "#8c5c30"
+  },
+  {
+   "lighter": "#dbc99e",
+   "light_mid": "#cdb174",
+   "base": "#c09849",
+   "dark_mid": "#9d7835",
+   "darker": "#745725"
+  },
+  {
+   "lighter": "#e8d854",
+   "light_mid": "#d8bc4e",
+   "base": "#c8a048",
+   "dark_mid": "#b2843c",
+   "darker": "#9c6830"
+  },
+  {
+   "lighter": "#fff4a0",
+   "light_mid": "#f4e070",
+   "base": "#e0c040",
+   "dark_mid": "#b89432",
+   "darker": "#8c6c28"
+  },
+  {
+   "lighter": "#eadea4",
+   "light_mid": "#e2ce7c",
+   "base": "#dabd52",
+   "dark_mid": "#d2aa2a",
+   "darker": "#ab8621"
+  },
+  {
+   "lighter": "#eadcae",
+   "light_mid": "#dec67f",
+   "base": "#d4b04f",
+   "dark_mid": "#bc932c",
+   "darker": "#8d6d20"
+  },
+  {
+   "lighter": "#f8fc88",
+   "light_mid": "#e0ec5c",
+   "base": "#bcd040",
+   "dark_mid": "#94a834",
+   "darker": "#6c7c2c"
+  },
+  {
+   "lighter": "#ffe088",
+   "light_mid": "#ecc050",
+   "base": "#cc9c34",
+   "dark_mid": "#a07828",
+   "darker": "#745420"
+  },
+  {
+   "lighter": "#d8dc60",
+   "light_mid": "#c6ba4e",
+   "base": "#b4983c",
+   "dark_mid": "#9a7a30",
+   "darker": "#805c24"
+  },
+  {
+   "lighter": "#e0e858",
+   "light_mid": "#cac248",
+   "base": "#b49c38",
+   "dark_mid": "#9c802e",
+   "darker": "#846424"
+  },
+  {
+   "lighter": "#d4bf7d",
+   "light_mid": "#caad59",
+   "base": "#bb973a",
+   "dark_mid": "#9a782d",
+   "darker": "#775b22"
+  },
+  {
+   "lighter": "#e4f483",
+   "light_mid": "#bad470",
+   "base": "#90b45c",
+   "dark_mid": "#749450",
+   "darker": "#587444"
+  },
+  {
+   "lighter": "#b4e46c",
+   "light_mid": "#88c868",
+   "base": "#5cac64",
+   "dark_mid": "#4c8a54",
+   "darker": "#3c6844"
+  },
+  {
+   "lighter": "#b0d858",
+   "light_mid": "#90b84c",
+   "base": "#709840",
+   "dark_mid": "#627e38",
+   "darker": "#546430"
+  },
+  {
+   "lighter": "#b0bf69",
+   "light_mid": "#a5b44b",
+   "base": "#8e993d",
+   "dark_mid": "#767d30",
+   "darker": "#5d6124"
+  },
+  {
+   "lighter": "#a8d048",
+   "light_mid": "#82b444",
+   "base": "#5c9840",
+   "dark_mid": "#4a8038",
+   "darker": "#386830"
+  },
+  {
+   "lighter": "#78c040",
+   "light_mid": "#63a332",
+   "base": "#4e8524",
+   "dark_mid": "#476922",
+   "darker": "#404c20"
+  },
+  {
+   "lighter": "#d0e46c",
+   "light_mid": "#b0c45a",
+   "base": "#90a448",
+   "dark_mid": "#728a47",
+   "darker": "#547045"
+  },
+  {
+   "lighter": "#b4cc54",
+   "light_mid": "#96ac4c",
+   "base": "#788c44",
+   "dark_mid": "#647444",
+   "darker": "#505c44"
+  },
+  {
+   "lighter": "#a4b448",
+   "light_mid": "#829a48",
+   "base": "#608048",
+   "dark_mid": "#4c683e",
+   "darker": "#385034"
+  },
+  {
+   "lighter": "#809434",
+   "light_mid": "#687e38",
+   "base": "#50683c",
+   "dark_mid": "#405430",
+   "darker": "#304024"
+  },
+  {
+   "lighter": "#647830",
+   "light_mid": "#54642a",
+   "base": "#445024",
+   "dark_mid": "#3e4022",
+   "darker": "#383020"
+  },
+  {
+   "lighter": "#98c45c",
+   "light_mid": "#82a650",
+   "base": "#6c8844",
+   "dark_mid": "#5a6e3a",
+   "darker": "#485430"
+  },
+  {
+   "lighter": "#8ca458",
+   "light_mid": "#748a4c",
+   "base": "#5c7040",
+   "dark_mid": "#4e5c36",
+   "darker": "#40482c"
+  },
+  {
+   "lighter": "#7ca84c",
+   "light_mid": "#668a42",
+   "base": "#506c38",
+   "dark_mid": "#4e5834",
+   "darker": "#4c4430"
+  },
+  {
+   "lighter": "#749838",
+   "light_mid": "#5e7c36",
+   "base": "#486034",
+   "dark_mid": "#464e32",
+   "darker": "#443c30"
+  },
+  {
+   "lighter": "#607428",
+   "light_mid": "#4c6228",
+   "base": "#385028",
+   "dark_mid": "#384224",
+   "darker": "#383420"
+  },
+  {
+   "lighter": "#d0dc90",
+   "light_mid": "#aec47a",
+   "base": "#8cac64",
+   "dark_mid": "#6a8a5c",
+   "darker": "#486854"
+  },
+  {
+   "lighter": "#c4cc78",
+   "light_mid": "#a2b266",
+   "base": "#809854",
+   "dark_mid": "#5e7c4e",
+   "darker": "#3c6048"
+  },
+  {
+   "lighter": "#a4b45c",
+   "light_mid": "#829852",
+   "base": "#607c48",
+   "dark_mid": "#4a6646",
+   "darker": "#345044"
+  },
+  {
+   "lighter": "#748440",
+   "light_mid": "#5a703c",
+   "base": "#405c38",
+   "dark_mid": "#344e3e",
+   "darker": "#284044"
+  },
+  {
+   "lighter": "#6c7834",
+   "light_mid": "#526832",
+   "base": "#385830",
+   "dark_mid": "#304a38",
+   "darker": "#283c40"
+  },
+  {
+   "lighter": "#c4f280",
+   "light_mid": "#9ecd6c",
+   "base": "#78a858",
+   "dark_mid": "#5c8a46",
+   "darker": "#406c34"
+  },
+  {
+   "lighter": "#90c46c",
+   "light_mid": "#6ca85e",
+   "base": "#488c50",
+   "dark_mid": "#366e46",
+   "darker": "#24503c"
+  },
+  {
+   "lighter": "#64a859",
+   "light_mid": "#528c51",
+   "base": "#407048",
+   "dark_mid": "#38603e",
+   "darker": "#305034"
+  },
+  {
+   "lighter": "#589c48",
+   "light_mid": "#468240",
+   "base": "#346838",
+   "dark_mid": "#325832",
+   "darker": "#30482c"
+  },
+  {
+   "lighter": "#549040",
+   "light_mid": "#467a40",
+   "base": "#386440",
+   "dark_mid": "#34543a",
+   "darker": "#304434"
+  },
+  {
+   "lighter": "#a8f894",
+   "light_mid": "#8adc8c",
+   "base": "#6cc084",
+   "dark_mid": "#549c6e",
+   "darker": "#3c7858"
+  },
+  {
+   "lighter": "#aee0c7",
+   "light_mid": "#89d4ad",
+   "base": "#64c991",
+   "dark_mid": "#40bd75",
+   "darker": "#329a5c"
+  },
+  {
+   "lighter": "#80d88c",
+   "light_mid": "#6cba86",
+   "base": "#589c80",
+   "dark_mid": "#46806c",
+   "darker": "#346458"
+  },
+  {
+   "lighter": "#68bc90",
+   "light_mid": "#509e7a",
+   "base": "#388064",
+   "dark_mid": "#32645a",
+   "darker": "#2c4850"
+  },
+  {
+   "lighter": "#449c64",
+   "light_mid": "#3e845a",
+   "base": "#386c50",
+   "dark_mid": "#305842",
+   "darker": "#284434"
+  },
+  {
+   "lighter": "#40804c",
+   "light_mid": "#366e4c",
+   "base": "#2c5c4c",
+   "dark_mid": "#2a4a46",
+   "darker": "#283840"
+  },
+  {
+   "lighter": "#8cf4b4",
+   "light_mid": "#6ece98",
+   "base": "#50a87c",
+   "dark_mid": "#448666",
+   "darker": "#386450"
+  },
+  {
+   "lighter": "#70dc98",
+   "light_mid": "#56b882",
+   "base": "#3c946c",
+   "dark_mid": "#347a5a",
+   "darker": "#2c6048"
+  },
+  {
+   "lighter": "#50c884",
+   "light_mid": "#42a872",
+   "base": "#348860",
+   "dark_mid": "#307052",
+   "darker": "#2c5844"
+  },
+  {
+   "lighter": "#59c06a",
+   "light_mid": "#40af4f",
+   "base": "#33913e",
+   "dark_mid": "#27732e",
+   "darker": "#1b551f"
+  },
+  {
+   "lighter": "#34bc68",
+   "light_mid": "#2e9c5c",
+   "base": "#287c50",
+   "dark_mid": "#266848",
+   "darker": "#245440"
+  },
+  {
+   "lighter": "#80f0a0",
+   "light_mid": "#48c870",
+   "base": "#2ca050",
+   "dark_mid": "#1f783c",
+   "darker": "#185828"
+  },
+  {
+   "lighter": "#30a460",
+   "light_mid": "#2c8c58",
+   "base": "#287450",
+   "dark_mid": "#225e46",
+   "darker": "#1c483c"
+  },
+  {
+   "lighter": "#90f4d4",
+   "light_mid": "#74dab6",
+   "base": "#58c098",
+   "dark_mid": "#42987c",
+   "darker": "#2c705f"
+  },
+  {
+   "lighter": "#a9dad0",
+   "light_mid": "#88cebe",
+   "base": "#66c2ab",
+   "dark_mid": "#45b596",
+   "darker": "#379579"
+  },
+  {
+   "lighter": "#60e0bc",
+   "light_mid": "#4abe9c",
+   "base": "#349c7c",
+   "dark_mid": "#287e6c",
+   "darker": "#1c605c"
+  },
+  {
+   "lighter": "#50d8ac",
+   "light_mid": "#42b494",
+   "base": "#34907c",
+   "dark_mid": "#286e6a",
+   "darker": "#1c4c58"
+  },
+  {
+   "lighter": "#59c0c0",
+   "light_mid": "#40afac",
+   "base": "#33918d",
+   "dark_mid": "#27736e",
+   "darker": "#1b554f"
+  },
+  {
+   "lighter": "#40b094",
+   "light_mid": "#3a928c",
+   "base": "#347484",
+   "dark_mid": "#325e70",
+   "darker": "#30485c"
+  },
+  {
+   "lighter": "#3cbc84",
+   "light_mid": "#359e7a",
+   "base": "#2e8070",
+   "dark_mid": "#296468",
+   "darker": "#244860"
+  },
+  {
+   "lighter": "#40e8c8",
+   "light_mid": "#38c4b8",
+   "base": "#30a0a8",
+   "dark_mid": "#30788e",
+   "darker": "#305074"
+  },
+  {
+   "lighter": "#34d8b8",
+   "light_mid": "#30b0a6",
+   "base": "#2c8894",
+   "dark_mid": "#2e647c",
+   "darker": "#304064"
+  },
+  {
+   "lighter": "#30c0a4",
+   "light_mid": "#2c9890",
+   "base": "#28707c",
+   "dark_mid": "#2c546a",
+   "darker": "#303858"
+  },
+  {
+   "lighter": "#2ca488",
+   "light_mid": "#28847c",
+   "base": "#246470",
+   "dark_mid": "#304a62",
+   "darker": "#3c3054"
+  },
+  {
+   "lighter": "#289080",
+   "light_mid": "#247272",
+   "base": "#205464",
+   "dark_mid": "#2a4056",
+   "darker": "#342c48"
+  },
+  {
+   "lighter": "#5ce8ec",
+   "light_mid": "#4cc0d4",
+   "base": "#3c98bc",
+   "dark_mid": "#40749e",
+   "darker": "#445080"
+  },
+  {
+   "lighter": "#98d3e1",
+   "light_mid": "#71c6d8",
+   "base": "#4abbcf",
+   "dark_mid": "#2fa8b9",
+   "darker": "#248994"
+  },
+  {
+   "lighter": "#85b2e0",
+   "light_mid": "#5c9dd8",
+   "base": "#338ad1",
+   "dark_mid": "#2674ae",
+   "darker": "#1c5c87"
+  },
+  {
+   "lighter": "#48e0ec",
+   "light_mid": "#3ebacc",
+   "base": "#3494ac",
+   "dark_mid": "#386e92",
+   "darker": "#3c4878"
+  },
+  {
+   "lighter": "#34c4cc",
+   "light_mid": "#32a0b8",
+   "base": "#307ca4",
+   "dark_mid": "#345c86",
+   "darker": "#383c68"
+  },
+  {
+   "lighter": "#2c9cac",
+   "light_mid": "#287e94",
+   "base": "#24607c",
+   "dark_mid": "#2c486a",
+   "darker": "#343058"
+  },
+  {
+   "lighter": "#3557b6",
+   "light_mid": "#2b4c9c",
+   "base": "#224081",
+   "dark_mid": "#1a3466",
+   "darker": "#12264a"
+  },
+  {
+   "lighter": "#208898",
+   "light_mid": "#226c82",
+   "base": "#24506c",
+   "dark_mid": "#2a3e5e",
+   "darker": "#302c50"
+  },
+  {
+   "lighter": "#9ce0ec",
+   "light_mid": "#88bcd6",
+   "base": "#7498c0",
+   "dark_mid": "#5e7aa2",
+   "darker": "#485c84"
+  },
+  {
+   "lighter": "#80c8e4",
+   "light_mid": "#72a6cc",
+   "base": "#6484b4",
+   "dark_mid": "#546e9a",
+   "darker": "#445880"
+  },
+  {
+   "lighter": "#68bcd0",
+   "light_mid": "#5c9aba",
+   "base": "#5078a4",
+   "dark_mid": "#44608a",
+   "darker": "#384870"
+  },
+  {
+   "lighter": "#81acbb",
+   "light_mid": "#659daf",
+   "base": "#4f8b9c",
+   "dark_mid": "#3f7682",
+   "darker": "#315f68"
+  },
+  {
+   "lighter": "#748bb4",
+   "light_mid": "#5978a9",
+   "base": "#496892",
+   "dark_mid": "#3b577a",
+   "darker": "#2e4661"
+  },
+  {
+   "lighter": "#93a5bd",
+   "light_mid": "#718aaa",
+   "base": "#547091",
+   "dark_mid": "#405670",
+   "darker": "#2b3d4f"
+  },
+  {
+   "lighter": "#489cb4",
+   "light_mid": "#3e809e",
+   "base": "#346488",
+   "dark_mid": "#365074",
+   "darker": "#383c60"
+  },
+  {
+   "lighter": "#34889c",
+   "light_mid": "#32708a",
+   "base": "#305878",
+   "dark_mid": "#364868",
+   "darker": "#3c3858"
+  },
+  {
+   "lighter": "#4ca8d8",
+   "light_mid": "#468ac0",
+   "base": "#406ca8",
+   "dark_mid": "#44568e",
+   "darker": "#484074"
+  },
+  {
+   "lighter": "#3c94c8",
+   "light_mid": "#3a7ab0",
+   "base": "#386098",
+   "dark_mid": "#3c4c80",
+   "darker": "#403868"
+  },
+  {
+   "lighter": "#3482b0",
+   "light_mid": "#346da0",
+   "base": "#345890",
+   "dark_mid": "#3a4878",
+   "darker": "#403860"
+  },
+  {
+   "lighter": "#2878a8",
+   "light_mid": "#326298",
+   "base": "#3c4c88",
+   "dark_mid": "#3e4076",
+   "darker": "#403464"
+  },
+  {
+   "lighter": "#20709c",
+   "light_mid": "#2a5a8e",
+   "base": "#344480",
+   "dark_mid": "#3a3868",
+   "darker": "#402c50"
+  },
+  {
+   "lighter": "#4490e0",
+   "light_mid": "#4078c6",
+   "base": "#3c60ac",
+   "dark_mid": "#384e92",
+   "darker": "#343c78"
+  },
+  {
+   "lighter": "#4070d0",
+   "light_mid": "#3a5cb0",
+   "base": "#344890",
+   "dark_mid": "#323e78",
+   "darker": "#303460"
+  },
+  {
+   "lighter": "#5c5cc1",
+   "light_mid": "#4144b3",
+   "base": "#353a97",
+   "dark_mid": "#292f7a",
+   "darker": "#1e245c"
+  },
+  {
+   "lighter": "#44589c",
+   "light_mid": "#424a82",
+   "base": "#403c68",
+   "dark_mid": "#38325e",
+   "darker": "#302854"
+  },
+  {
+   "lighter": "#3854ac",
+   "light_mid": "#364696",
+   "base": "#343880",
+   "dark_mid": "#2e2e6e",
+   "darker": "#28245c"
+  },
+  {
+   "lighter": "#344ca8",
+   "light_mid": "#32428e",
+   "base": "#303874",
+   "dark_mid": "#303066",
+   "darker": "#302858"
+  },
+  {
+   "lighter": "#6c7ca0",
+   "light_mid": "#5a688c",
+   "base": "#485478",
+   "dark_mid": "#44486c",
+   "darker": "#403c60"
+  },
+  {
+   "lighter": "#4c6894",
+   "light_mid": "#465882",
+   "base": "#404870",
+   "dark_mid": "#3c3e60",
+   "darker": "#383450"
+  },
+  {
+   "lighter": "#4c5878",
+   "light_mid": "#444c6a",
+   "base": "#3c405c",
+   "dark_mid": "#363650",
+   "darker": "#302c44"
+  },
+  {
+   "lighter": "#405474",
+   "light_mid": "#3a4868",
+   "base": "#343c5c",
+   "dark_mid": "#323250",
+   "darker": "#302844"
+  },
+  {
+   "lighter": "#344c6c",
+   "light_mid": "#324060",
+   "base": "#303454",
+   "dark_mid": "#302e4a",
+   "darker": "#302840"
+  },
+  {
+   "lighter": "#6080f0",
+   "light_mid": "#4e6cce",
+   "base": "#3c58ac",
+   "dark_mid": "#364e92",
+   "darker": "#304478"
+  },
+  {
+   "lighter": "#4c64d4",
+   "light_mid": "#3e54b4",
+   "base": "#304494",
+   "dark_mid": "#303e7a",
+   "darker": "#303860"
+  },
+  {
+   "lighter": "#385ca8",
+   "light_mid": "#344c8a",
+   "base": "#303c6c",
+   "dark_mid": "#32365c",
+   "darker": "#34304c"
+  },
+  {
+   "lighter": "#34488c",
+   "light_mid": "#303e76",
+   "base": "#2c3460",
+   "dark_mid": "#302e52",
+   "darker": "#342844"
+  },
+  {
+   "lighter": "#2c447c",
+   "light_mid": "#30386a",
+   "base": "#342c58",
+   "dark_mid": "#32284c",
+   "darker": "#302440"
+  },
+  {
+   "lighter": "#98b0ec",
+   "light_mid": "#8294da",
+   "base": "#6b78c8",
+   "dark_mid": "#5e5eaa",
+   "darker": "#50448c"
+  },
+  {
+   "lighter": "#abb0e3",
+   "light_mid": "#8791d9",
+   "base": "#6373cf",
+   "dark_mid": "#3e56c6",
+   "darker": "#2f47a7"
+  },
+  {
+   "lighter": "#7494e0",
+   "light_mid": "#6278ca",
+   "base": "#505cb4",
+   "dark_mid": "#48479a",
+   "darker": "#3f3280"
+  },
+  {
+   "lighter": "#6880f0",
+   "light_mid": "#5c66d4",
+   "base": "#504cb8",
+   "dark_mid": "#433e98",
+   "darker": "#362f78"
+  },
+  {
+   "lighter": "#5c63d4",
+   "light_mid": "#504fb0",
+   "base": "#443b8c",
+   "dark_mid": "#383176",
+   "darker": "#2b2760"
+  },
+  {
+   "lighter": "#5450c4",
+   "light_mid": "#4841a2",
+   "base": "#3b3280",
+   "dark_mid": "#352a6c",
+   "darker": "#2f2258"
+  },
+  {
+   "lighter": "#acb0e8",
+   "light_mid": "#9e96d2",
+   "base": "#907cbc",
+   "dark_mid": "#7a64a0",
+   "darker": "#644c84"
+  },
+  {
+   "lighter": "#9490d8",
+   "light_mid": "#8476ba",
+   "base": "#745c9c",
+   "dark_mid": "#604e86",
+   "darker": "#4c4070"
+  },
+  {
+   "lighter": "#7464b0",
+   "light_mid": "#6852a0",
+   "base": "#5c4090",
+   "dark_mid": "#52387c",
+   "darker": "#483068"
+  },
+  {
+   "lighter": "#644494",
+   "light_mid": "#583a84",
+   "base": "#4c3074",
+   "dark_mid": "#402a64",
+   "darker": "#342454"
+  },
+  {
+   "lighter": "#644088",
+   "light_mid": "#543a76",
+   "base": "#443464",
+   "dark_mid": "#402e56",
+   "darker": "#3c2848"
+  },
+  {
+   "lighter": "#bca0f8",
+   "light_mid": "#a886dc",
+   "base": "#946cc0",
+   "dark_mid": "#7c589e",
+   "darker": "#64447c"
+  },
+  {
+   "lighter": "#d0b8e0",
+   "light_mid": "#ba96d4",
+   "base": "#a274c8",
+   "dark_mid": "#8a52bc",
+   "darker": "#703da4"
+  },
+  {
+   "lighter": "#ac80ec",
+   "light_mid": "#9a6cd4",
+   "base": "#8858bc",
+   "dark_mid": "#704694",
+   "darker": "#58346c"
+  },
+  {
+   "lighter": "#c89cf8",
+   "light_mid": "#a474e0",
+   "base": "#8050c4",
+   "dark_mid": "#603c98",
+   "darker": "#442c6c"
+  },
+  {
+   "lighter": "#8c64d8",
+   "light_mid": "#8054bc",
+   "base": "#7444a0",
+   "dark_mid": "#603880",
+   "darker": "#4c2c60"
+  },
+  {
+   "lighter": "#a878e0",
+   "light_mid": "#8654c0",
+   "base": "#663c9c",
+   "dark_mid": "#4c2e78",
+   "darker": "#341e54"
+  },
+  {
+   "lighter": "#9e72ca",
+   "light_mid": "#8651c0",
+   "base": "#6d3caa",
+   "dark_mid": "#562f8b",
+   "darker": "#40236c"
+  },
+  {
+   "lighter": "#7c50c8",
+   "light_mid": "#6e44a6",
+   "base": "#603884",
+   "dark_mid": "#522e6a",
+   "darker": "#442450"
+  },
+  {
+   "lighter": "#6844ac",
+   "light_mid": "#5a3e8e",
+   "base": "#4c3870",
+   "dark_mid": "#44305c",
+   "darker": "#3c2848"
+  },
+  {
+   "lighter": "#c8ace4",
+   "light_mid": "#b096d6",
+   "base": "#9880c8",
+   "dark_mid": "#806caa",
+   "darker": "#68588c"
+  },
+  {
+   "lighter": "#b088dc",
+   "light_mid": "#9474c0",
+   "base": "#7860a4",
+   "dark_mid": "#684e88",
+   "darker": "#583c6c"
+  },
+  {
+   "lighter": "#9468ac",
+   "light_mid": "#7e5694",
+   "base": "#68447c",
+   "dark_mid": "#583a70",
+   "darker": "#483064"
+  },
+  {
+   "lighter": "#8450a4",
+   "light_mid": "#704692",
+   "base": "#5c3c80",
+   "dark_mid": "#523470",
+   "darker": "#482c60"
+  },
+  {
+   "lighter": "#7448bc",
+   "light_mid": "#6a40a0",
+   "base": "#603884",
+   "dark_mid": "#523072",
+   "darker": "#442860"
+  },
+  {
+   "lighter": "#eca0f8",
+   "light_mid": "#cc84da",
+   "base": "#ac68bc",
+   "dark_mid": "#8e56a0",
+   "darker": "#704484"
+  },
+  {
+   "lighter": "#cc84e0",
+   "light_mid": "#b270c2",
+   "base": "#985ca4",
+   "dark_mid": "#804c8c",
+   "darker": "#683c74"
+  },
+  {
+   "lighter": "#d8a0c4",
+   "light_mid": "#b87ca8",
+   "base": "#985888",
+   "dark_mid": "#743e68",
+   "darker": "#50284a"
+  },
+  {
+   "lighter": "#b86cd0",
+   "light_mid": "#a05ab2",
+   "base": "#884894",
+   "dark_mid": "#743c7e",
+   "darker": "#603068"
+  },
+  {
+   "lighter": "#a850c0",
+   "light_mid": "#9046a2",
+   "base": "#783c84",
+   "dark_mid": "#663470",
+   "darker": "#542c5c"
+  },
+  {
+   "lighter": "#a764b4",
+   "light_mid": "#944da4",
+   "base": "#7a3e8b",
+   "dark_mid": "#613171",
+   "darker": "#492456"
+  },
+  {
+   "lighter": "#9c40ac",
+   "light_mid": "#863c92",
+   "base": "#703878",
+   "dark_mid": "#603060",
+   "darker": "#502848"
+  },
+  {
+   "lighter": "#e894a0",
+   "light_mid": "#da7a8c",
+   "base": "#cc6078",
+   "dark_mid": "#b04864",
+   "darker": "#943050"
+  },
+  {
+   "lighter": "#e87c94",
+   "light_mid": "#da6a82",
+   "base": "#cc5870",
+   "dark_mid": "#a8485d",
+   "darker": "#843849"
+  },
+  {
+   "lighter": "#dc6c98",
+   "light_mid": "#c25a82",
+   "base": "#a8486c",
+   "dark_mid": "#8e3e66",
+   "darker": "#743460"
+  },
+  {
+   "lighter": "#c05c90",
+   "light_mid": "#ac4c8a",
+   "base": "#983c84",
+   "dark_mid": "#82366a",
+   "darker": "#6c3050"
+  },
+  {
+   "lighter": "#a84884",
+   "light_mid": "#96407c",
+   "base": "#843874",
+   "dark_mid": "#6a305e",
+   "darker": "#502848"
+  },
+  {
+   "lighter": "#f49498",
+   "light_mid": "#e27682",
+   "base": "#d0586c",
+   "dark_mid": "#ae465a",
+   "darker": "#8c3448"
+  },
+  {
+   "lighter": "#e4908c",
+   "light_mid": "#d27278",
+   "base": "#c05464",
+   "dark_mid": "#9e4254",
+   "darker": "#7c3044"
+  },
+  {
+   "lighter": "#d8747c",
+   "light_mid": "#bc5c6c",
+   "base": "#a0445c",
+   "dark_mid": "#82384c",
+   "darker": "#642c3c"
+  },
+  {
+   "lighter": "#c38379",
+   "light_mid": "#b7645a",
+   "base": "#a24c44",
+   "dark_mid": "#853a36",
+   "darker": "#672a28"
+  },
+  {
+   "lighter": "#bc7682",
+   "light_mid": "#b0596a",
+   "base": "#9a4759",
+   "dark_mid": "#7f384a",
+   "darker": "#642b3a"
+  },
+  {
+   "lighter": "#d05874",
+   "light_mid": "#ae4a66",
+   "base": "#8c3c58",
+   "dark_mid": "#78364c",
+   "darker": "#643040"
+  },
+  {
+   "lighter": "#a4465e",
+   "light_mid": "#8d3a51",
+   "base": "#752f44",
+   "dark_mid": "#5c2336",
+   "darker": "#431928"
+  },
+  {
+   "lighter": "#c44868",
+   "light_mid": "#aa3e5a",
+   "base": "#90344c",
+   "dark_mid": "#742e44",
+   "darker": "#58283c"
+  },
+  {
+   "lighter": "#fca8b4",
+   "light_mid": "#fa8aa8",
+   "base": "#f86c9c",
+   "dark_mid": "#d05484",
+   "darker": "#a83c6c"
+  },
+  {
+   "lighter": "#f898a8",
+   "light_mid": "#f27a98",
+   "base": "#ec5c88",
+   "dark_mid": "#c44a74",
+   "darker": "#9c3860"
+  },
+  {
+   "lighter": "#f47490",
+   "light_mid": "#e25c80",
+   "base": "#d04470",
+   "dark_mid": "#aa3a60",
+   "darker": "#843050"
+  },
+  {
+   "lighter": "#ff9ce0",
+   "light_mid": "#f070c8",
+   "base": "#d048a8",
+   "dark_mid": "#a83888",
+   "darker": "#802c68"
+  },
+  {
+   "lighter": "#f06084",
+   "light_mid": "#da4c74",
+   "base": "#c33864",
+   "dark_mid": "#983256",
+   "darker": "#6c2c48"
+  },
+  {
+   "lighter": "#e85078",
+   "light_mid": "#ca3e68",
+   "base": "#ac2c58",
+   "dark_mid": "#862c4e",
+   "darker": "#602c44"
+  },
+  {
+   "lighter": "#e864a8",
+   "light_mid": "#ca4c8a",
+   "base": "#ac346c",
+   "dark_mid": "#8a3260",
+   "darker": "#683054"
+  },
+  {
+   "lighter": "#d369be",
+   "light_mid": "#cb45b4",
+   "base": "#b530a1",
+   "dark_mid": "#942687",
+   "darker": "#731c6a"
+  },
+  {
+   "lighter": "#e0549c",
+   "light_mid": "#c04480",
+   "base": "#a03464",
+   "dark_mid": "#80305a",
+   "darker": "#602c50"
+  },
+  {
+   "lighter": "#e860b0",
+   "light_mid": "#c44890",
+   "base": "#a03470",
+   "dark_mid": "#7c2858",
+   "darker": "#5a1e44"
+  },
+  {
+   "lighter": "#d4488c",
+   "light_mid": "#b43a72",
+   "base": "#942c58",
+   "dark_mid": "#782850",
+   "darker": "#5c2448"
+  },
+  {
+   "lighter": "#c4387c",
+   "light_mid": "#a63066",
+   "base": "#882850",
+   "dark_mid": "#70244c",
+   "darker": "#582048"
+  },
+  {
+   "lighter": "#b43078",
+   "light_mid": "#922c62",
+   "base": "#70284c",
+   "dark_mid": "#5c2246",
+   "darker": "#481c40"
+  },
+  {
+   "lighter": "#9b3b48",
+   "light_mid": "#84303d",
+   "base": "#6c2633",
+   "dark_mid": "#531c27",
+   "darker": "#3a131c"
+  },
+  {
+   "lighter": "#f6f8ee",
+   "light_mid": "#e1ded7",
+   "base": "#ccc4c0",
+   "dark_mid": "#b0acaa",
+   "darker": "#949494"
+  },
+  {
+   "lighter": "#f4f4f8",
+   "light_mid": "#dad8de",
+   "base": "#c0bcc4",
+   "dark_mid": "#a49ea4",
+   "darker": "#888084"
+  },
+  {
+   "lighter": "#ffffff",
+   "light_mid": "#ececf0",
+   "base": "#d4d4dc",
+   "dark_mid": "#b4b4be",
+   "darker": "#909098"
+  },
+  {
+   "lighter": "#f0f0e8",
+   "light_mid": "#dad8d4",
+   "base": "#c4c0c0",
+   "dark_mid": "#a4a0a4",
+   "darker": "#848088"
+  },
+  {
+   "lighter": "#dcdcd4",
+   "light_mid": "#bec2bc",
+   "base": "#a0a8a4",
+   "dark_mid": "#868a8a",
+   "darker": "#6c6c70"
+  },
+  {
+   "lighter": "#e8e7e3",
+   "light_mid": "#cbc9c1",
+   "base": "#aeab9e",
+   "dark_mid": "#918d7a",
+   "darker": "#706c5c"
+  },
+  {
+   "lighter": "#d0ccc4",
+   "light_mid": "#b0b0a8",
+   "base": "#90948c",
+   "dark_mid": "#7a7a76",
+   "darker": "#646060"
+  },
+  {
+   "lighter": "#f8ecec",
+   "light_mid": "#e0d2d4",
+   "base": "#c8b8bc",
+   "dark_mid": "#aea0a4",
+   "darker": "#94888c"
+  },
+  {
+   "lighter": "#f0ecf0",
+   "light_mid": "#dad4d8",
+   "base": "#c4bcc0",
+   "dark_mid": "#a2989a",
+   "darker": "#807474"
+  },
+  {
+   "lighter": "#fcf4f0",
+   "light_mid": "#e0d8ce",
+   "base": "#c4bcac",
+   "dark_mid": "#a0988c",
+   "darker": "#7c746c"
+  },
+  {
+   "lighter": "#dcd4d8",
+   "light_mid": "#beb8be",
+   "base": "#a09ca4",
+   "dark_mid": "#888288",
+   "darker": "#70686c"
+  },
+  {
+   "lighter": "#dfe0e2",
+   "light_mid": "#babec2",
+   "base": "#969ca2",
+   "dark_mid": "#717981",
+   "darker": "#51575d"
+  },
+  {
+   "lighter": "#e8ecf4",
+   "light_mid": "#c0c8d4",
+   "base": "#98a0ae",
+   "dark_mid": "#6e7686",
+   "darker": "#4c5260"
+  },
+  {
+   "lighter": "#d8d0c8",
+   "light_mid": "#b6b0a8",
+   "base": "#949088",
+   "dark_mid": "#7c7872",
+   "darker": "#64605c"
+  },
+  {
+   "lighter": "#d8d0d0",
+   "light_mid": "#c0b2ba",
+   "base": "#a894a4",
+   "dark_mid": "#8a7684",
+   "darker": "#6c5864"
+  },
+  {
+   "lighter": "#d0c0c8",
+   "light_mid": "#b4a2ae",
+   "base": "#988494",
+   "dark_mid": "#7c6876",
+   "darker": "#604c58"
+  },
+  {
+   "lighter": "#c0b0b8",
+   "light_mid": "#a2929e",
+   "base": "#847484",
+   "dark_mid": "#6a5a68",
+   "darker": "#50404c"
+  },
+  {
+   "lighter": "#b3b6bc",
+   "light_mid": "#969ba3",
+   "base": "#797f8b",
+   "dark_mid": "#60656f",
+   "darker": "#464a53"
+  },
+  {
+   "lighter": "#c2c5cb",
+   "light_mid": "#9fa4af",
+   "base": "#7c8393",
+   "dark_mid": "#5d6472",
+   "darker": "#40454f"
+  },
+  {
+   "lighter": "#a898a4",
+   "light_mid": "#8a7a86",
+   "base": "#6c5c68",
+   "dark_mid": "#5a4856",
+   "darker": "#483444"
+  },
+  {
+   "lighter": "#979da5",
+   "light_mid": "#7b838e",
+   "base": "#626a74",
+   "dark_mid": "#4a5059",
+   "darker": "#32373e"
+  },
+  {
+   "lighter": "#a09098",
+   "light_mid": "#82707c",
+   "base": "#645060",
+   "dark_mid": "#543e50",
+   "darker": "#442c40"
+  },
+  {
+   "lighter": "#846c70",
+   "light_mid": "#705a60",
+   "base": "#5c4850",
+   "dark_mid": "#503c44",
+   "darker": "#443038"
+  },
+  {
+   "lighter": "#745c64",
+   "light_mid": "#664e58",
+   "base": "#58404c",
+   "dark_mid": "#4c3642",
+   "darker": "#402c38"
+  },
+  {
+   "lighter": "#6c5864",
+   "light_mid": "#604a58",
+   "base": "#543c4c",
+   "dark_mid": "#4a3442",
+   "darker": "#402c38"
+  },
+  {
+   "lighter": "#5c4c5c",
+   "light_mid": "#4e4050",
+   "base": "#403444",
+   "dark_mid": "#3a2e3c",
+   "darker": "#342834"
+  },
+  {
+   "lighter": "#584858",
+   "light_mid": "#4c3e4c",
+   "base": "#403440",
+   "dark_mid": "#3a2c3a",
+   "darker": "#342434"
+  },
+  {
+   "lighter": "#6c6c70",
+   "light_mid": "#4c4c50",
+   "base": "#343438",
+   "dark_mid": "#222226",
+   "darker": "#141416"
+  },
+  {
+   "lighter": "#787084",
+   "light_mid": "#665e74",
+   "base": "#544c64",
+   "dark_mid": "#4c4258",
+   "darker": "#44384c"
+  },
+  {
+   "lighter": "#767d93",
+   "light_mid": "#5f677c",
+   "base": "#4b5163",
+   "dark_mid": "#363b49",
+   "darker": "#22262f"
+  },
+  {
+   "lighter": "#6b6474",
+   "light_mid": "#5a5466",
+   "base": "#484458",
+   "dark_mid": "#403a4e",
+   "darker": "#383044"
+  },
+  {
+   "lighter": "#645c6c",
+   "light_mid": "#584e62",
+   "base": "#4c4058",
+   "dark_mid": "#44364e",
+   "darker": "#3c2c44"
+  },
+  {
+   "lighter": "#544c64",
+   "light_mid": "#4c405a",
+   "base": "#443450",
+   "dark_mid": "#3e2c46",
+   "darker": "#38243c"
+  },
+  {
+   "lighter": "#544460",
+   "light_mid": "#4c3a54",
+   "base": "#443048",
+   "dark_mid": "#402a42",
+   "darker": "#3c243c"
+  },
+  {
+   "lighter": "#9c5c4c",
+   "light_mid": "#885248",
+   "base": "#744844",
+   "dark_mid": "#663e3e",
+   "darker": "#583438"
+  },
+  {
+   "lighter": "#ac6448",
+   "light_mid": "#945846",
+   "base": "#7c4c44",
+   "dark_mid": "#6d4240",
+   "darker": "#5e383c"
+  },
+  {
+   "lighter": "#884c3c",
+   "light_mid": "#74423c",
+   "base": "#60383c",
+   "dark_mid": "#563236",
+   "darker": "#4c2c30"
+  },
+  {
+   "lighter": "#784434",
+   "light_mid": "#6a3c36",
+   "base": "#5c3438",
+   "dark_mid": "#522e32",
+   "darker": "#48282c"
+  },
+  {
+   "lighter": "#b47c40",
+   "light_mid": "#9e6c3e",
+   "base": "#885c3c",
+   "dark_mid": "#76503c",
+   "darker": "#64443c"
+  },
+  {
+   "lighter": "#ac784c",
+   "light_mid": "#96664a",
+   "base": "#805448",
+   "dark_mid": "#704844",
+   "darker": "#603c40"
+  },
+  {
+   "lighter": "#986c44",
+   "light_mid": "#865c3c",
+   "base": "#744c34",
+   "dark_mid": "#664030",
+   "darker": "#58342c"
+  },
+  {
+   "lighter": "#885c44",
+   "light_mid": "#744e3e",
+   "base": "#604038",
+   "dark_mid": "#563836",
+   "darker": "#4c3034"
+  },
+  {
+   "lighter": "#785038",
+   "light_mid": "#6a4636",
+   "base": "#5c3c34",
+   "dark_mid": "#52342e",
+   "darker": "#482c28"
+  },
+  {
+   "lighter": "#d8b49c",
+   "light_mid": "#be9886",
+   "base": "#a47c70",
+   "dark_mid": "#845c5e",
+   "darker": "#643c4c"
+  },
+  {
+   "lighter": "#c49c80",
+   "light_mid": "#a4806e",
+   "base": "#84645c",
+   "dark_mid": "#6e4e54",
+   "darker": "#58384c"
+  },
+  {
+   "lighter": "#a9807e",
+   "light_mid": "#9b6564",
+   "base": "#845253",
+   "dark_mid": "#6c4143",
+   "darker": "#543133"
+  },
+  {
+   "lighter": "#a07864",
+   "light_mid": "#866456",
+   "base": "#6c5048",
+   "dark_mid": "#5e4246",
+   "darker": "#503444"
+  },
+  {
+   "lighter": "#8c6854",
+   "light_mid": "#745448",
+   "base": "#5c403c",
+   "dark_mid": "#52343a",
+   "darker": "#482838"
+  },
+  {
+   "lighter": "#805c48",
+   "light_mid": "#6c4c40",
+   "base": "#583c38",
+   "dark_mid": "#4c3034",
+   "darker": "#402430"
+  }
+ ],
+ "skin": [
+  {
+   "name": "Emblem Ivory",
+   "group": "Emblem",
+   "lighter": "#f8f8dd",
+   "base": "#f1d38d",
+   "darker": "#dea25f",
+   "darker_darker": "#9c7856",
+   "darker_darker_darker": "#6b5455"
+  },
+  {
+   "name": "Candlelight",
+   "group": "Emblem",
+   "lighter": "#f8f0d0",
+   "base": "#f0d0a8",
+   "darker": "#f8a878",
+   "darker_darker": "#b87050",
+   "darker_darker_darker": "#705048"
+  },
+  {
+   "name": "FE Classic",
+   "group": "Emblem",
+   "lighter": "#f8f8c0",
+   "base": "#f8d070",
+   "darker": "#e89850",
+   "darker_darker": "#987048",
+   "darker_darker_darker": "#604848"
+  },
+  {
+   "name": "Emblem Cream",
+   "group": "Emblem",
+   "lighter": "#f9f6d0",
+   "base": "#f6ce7c",
+   "darker": "#e39a4d",
+   "darker_darker": "#9d714b",
+   "darker_darker_darker": "#684e50"
+  },
+  {
+   "name": "FE Gold",
+   "group": "Emblem",
+   "lighter": "#f8f0d8",
+   "base": "#f8c888",
+   "darker": "#e89858",
+   "darker_darker": "#987048",
+   "darker_darker_darker": "#604848"
+  },
+  {
+   "name": "Emblem Fair",
+   "group": "Emblem",
+   "lighter": "#fcf3c5",
+   "base": "#f6c983",
+   "darker": "#e89245",
+   "darker_darker": "#9e6b45",
+   "darker_darker_darker": "#64494c"
+  },
+  {
+   "name": "Emblem Peach",
+   "group": "Emblem",
+   "lighter": "#fceed1",
+   "base": "#f6c397",
+   "darker": "#ec8859",
+   "darker_darker": "#9e654d",
+   "darker_darker_darker": "#60464d"
+  },
+  {
+   "name": "Sunlit Ivory",
+   "group": "Emblem",
+   "lighter": "#f8f0d8",
+   "base": "#f4c19b",
+   "darker": "#dc8965",
+   "darker_darker": "#a45b59",
+   "darker_darker_darker": "#583f50"
+  },
+  {
+   "name": "Emblem Gold",
+   "group": "Emblem",
+   "lighter": "#fbebbb",
+   "base": "#f5c07e",
+   "darker": "#e78842",
+   "darker_darker": "#a25f35",
+   "darker_darker_darker": "#624247"
+  },
+  {
+   "name": "Emblem Tan",
+   "group": "Emblem",
+   "lighter": "#fbe6c1",
+   "base": "#f5b990",
+   "darker": "#ee7b51",
+   "darker_darker": "#9d5b47",
+   "darker_darker_darker": "#5c4048"
+  },
+  {
+   "name": "Straw",
+   "group": "Emblem",
+   "lighter": "#ffe19a",
+   "base": "#f4ba6b",
+   "darker": "#d98857",
+   "darker_darker": "#9c7757",
+   "darker_darker_darker": "#715757"
+  },
+  {
+   "name": "Emblem Amber",
+   "group": "Emblem",
+   "lighter": "#f9deaf",
+   "base": "#f4b084",
+   "darker": "#e47652",
+   "darker_darker": "#955645",
+   "darker_darker_darker": "#553b43"
+  },
+  {
+   "name": "Wheat Gold",
+   "group": "Emblem",
+   "lighter": "#f8de8b",
+   "base": "#eeac5a",
+   "darker": "#cd7b4a",
+   "darker_darker": "#885a41",
+   "darker_darker_darker": "#604848"
+  },
+  {
+   "name": "Emblem Bronze",
+   "group": "Emblem",
+   "lighter": "#f2d6a9",
+   "base": "#f2a480",
+   "darker": "#d57261",
+   "darker_darker": "#895149",
+   "darker_darker_darker": "#4c363f"
+  },
+  {
+   "name": "Emblem Umber",
+   "group": "Emblem",
+   "lighter": "#e5c9a5",
+   "base": "#e39a80",
+   "darker": "#c36c64",
+   "darker_darker": "#7c4b48",
+   "darker_darker_darker": "#433038"
+  },
+  {
+   "name": "Emblem Dusk",
+   "group": "Emblem",
+   "lighter": "#d8bf9b",
+   "base": "#d69176",
+   "darker": "#b6645b",
+   "darker_darker": "#71433f",
+   "darker_darker_darker": "#3a2930"
+  },
+  {
+   "name": "Milk",
+   "group": "Fair",
+   "lighter": "#f8f5f4",
+   "base": "#e6d2d1",
+   "darker": "#c3a7a8",
+   "darker_darker": "#947d80",
+   "darker_darker_darker": "#655c61"
+  },
+  {
+   "name": "Snowdrop",
+   "group": "Fair",
+   "lighter": "#f5f2f5",
+   "base": "#d7d2e1",
+   "darker": "#aea8bf",
+   "darker_darker": "#817e91",
+   "darker_darker_darker": "#5b5c64"
+  },
+  {
+   "name": "Porcelain",
+   "group": "Fair",
+   "lighter": "#f7f1ed",
+   "base": "#ecccbf",
+   "darker": "#ce9e90",
+   "darker_darker": "#9c746d",
+   "darker_darker_darker": "#68555a"
+  },
+  {
+   "name": "Buttermilk",
+   "group": "Fair",
+   "lighter": "#f4f2ea",
+   "base": "#e1d1b3",
+   "darker": "#c3a57b",
+   "darker_darker": "#97785b",
+   "darker_darker_darker": "#695453"
+  },
+  {
+   "name": "Peachbloom",
+   "group": "Fair",
+   "lighter": "#faeee4",
+   "base": "#f5c6aa",
+   "darker": "#dc9371",
+   "darker_darker": "#a76856",
+   "darker_darker_darker": "#6a4c52"
+  },
+  {
+   "name": "Bisque",
+   "group": "Fair",
+   "lighter": "#f6eee4",
+   "base": "#ebc9af",
+   "darker": "#d0997a",
+   "darker_darker": "#9f6f5c",
+   "darker_darker_darker": "#684f53"
+  },
+  {
+   "name": "Moonlit",
+   "group": "Fair",
+   "lighter": "#e8eff5",
+   "base": "#c7cfe7",
+   "darker": "#9ea5c9",
+   "darker_darker": "#787a97",
+   "darker_darker_darker": "#575764"
+  },
+  {
+   "name": "Alabaster",
+   "group": "Fair",
+   "lighter": "#f1eeeb",
+   "base": "#d9cdc4",
+   "darker": "#b5a197",
+   "darker_darker": "#877670",
+   "darker_darker_darker": "#5b5254"
+  },
+  {
+   "name": "Petal",
+   "group": "Fair",
+   "lighter": "#fceae4",
+   "base": "#f6c0bd",
+   "darker": "#dc8d90",
+   "darker_darker": "#a5656f",
+   "darker_darker_darker": "#664c5a"
+  },
+  {
+   "name": "Pallid",
+   "group": "Fair",
+   "lighter": "#eaece3",
+   "base": "#c6d0bb",
+   "darker": "#96aa8d",
+   "darker_darker": "#697e6a",
+   "darker_darker_darker": "#475654"
+  },
+  {
+   "name": "Sunburn",
+   "group": "Fair",
+   "lighter": "#fbe6dd",
+   "base": "#f5bbb1",
+   "darker": "#e0837d",
+   "darker_darker": "#a75b5f",
+   "darker_darker_darker": "#644453"
+  },
+  {
+   "name": "Pale Olive",
+   "group": "Fair",
+   "lighter": "#edeade",
+   "base": "#cecdae",
+   "darker": "#a0a779",
+   "darker_darker": "#6e7d5a",
+   "darker_darker_darker": "#435751"
+  },
+  {
+   "name": "Rose Quartz",
+   "group": "Fair",
+   "lighter": "#fbe0d8",
+   "base": "#f0bcae",
+   "darker": "#d8907e",
+   "darker_darker": "#a86460",
+   "darker_darker_darker": "#6e4044"
+  },
+  {
+   "name": "Freckled",
+   "group": "Fair",
+   "lighter": "#fbe3d6",
+   "base": "#f2bbab",
+   "darker": "#d98779",
+   "darker_darker": "#a25f5c",
+   "darker_darker_darker": "#634651"
+  },
+  {
+   "name": "Wan",
+   "group": "Fair",
+   "lighter": "#f1e4e2",
+   "base": "#dec1c6",
+   "darker": "#bd949e",
+   "darker_darker": "#8b6b76",
+   "darker_darker_darker": "#594d56"
+  },
+  {
+   "name": "Blush Porcelain",
+   "group": "Fair",
+   "lighter": "#f8dcd0",
+   "base": "#f0aca8",
+   "darker": "#f87888",
+   "darker_darker": "#b85064",
+   "darker_darker_darker": "#704854"
+  },
+  {
+   "name": "Blush Peach",
+   "group": "Peach",
+   "lighter": "#fbe2da",
+   "base": "#f5b2b1",
+   "darker": "#ca757c",
+   "darker_darker": "#92525e",
+   "darker_darker_darker": "#5d3f50"
+  },
+  {
+   "name": "Peach",
+   "group": "Peach",
+   "lighter": "#fadfce",
+   "base": "#f0b49c",
+   "darker": "#c07c69",
+   "darker_darker": "#8c564f",
+   "darker_darker_darker": "#5c4049"
+  },
+  {
+   "name": "Cream Tan",
+   "group": "Peach",
+   "lighter": "#ede1cd",
+   "base": "#d8bc9e",
+   "darker": "#a98768",
+   "darker_darker": "#7d5e4c",
+   "darker_darker_darker": "#564243"
+  },
+  {
+   "name": "Oat",
+   "group": "Peach",
+   "lighter": "#f4ddc8",
+   "base": "#e0b597",
+   "darker": "#bc8c6a",
+   "darker_darker": "#8c6450",
+   "darker_darker_darker": "#5c4038"
+  },
+  {
+   "name": "Nectar",
+   "group": "Peach",
+   "lighter": "#f9dabd",
+   "base": "#f2ad81",
+   "darker": "#c4744a",
+   "darker_darker": "#904f3a",
+   "darker_darker_darker": "#5e3941"
+  },
+  {
+   "name": "Honey",
+   "group": "Peach",
+   "lighter": "#f8dab6",
+   "base": "#e9b282",
+   "darker": "#bd7a4b",
+   "darker_darker": "#8b5339",
+   "darker_darker_darker": "#5d3c40"
+  },
+  {
+   "name": "Coral Flesh",
+   "group": "Peach",
+   "lighter": "#f9d5c7",
+   "base": "#f2a79f",
+   "darker": "#c37170",
+   "darker_darker": "#8e4f56",
+   "darker_darker_darker": "#5b3d4c"
+  },
+  {
+   "name": "Honeyed",
+   "group": "Peach",
+   "lighter": "#f7d79e",
+   "base": "#eba464",
+   "darker": "#c17d4a",
+   "darker_darker": "#8a6139",
+   "darker_darker_darker": "#5d4343"
+  },
+  {
+   "name": "Fawn",
+   "group": "Peach",
+   "lighter": "#ebd1bb",
+   "base": "#d9aa90",
+   "darker": "#ac755e",
+   "darker_darker": "#7c5045",
+   "darker_darker_darker": "#50393e"
+  },
+  {
+   "name": "Apricot Cream",
+   "group": "Peach",
+   "lighter": "#f8cd9c",
+   "base": "#de9c6a",
+   "darker": "#a86840",
+   "darker_darker": "#805840",
+   "darker_darker_darker": "#604840"
+  },
+  {
+   "name": "Peach Amber",
+   "group": "Peach",
+   "lighter": "#f8c089",
+   "base": "#dd9564",
+   "darker": "#c1774a",
+   "darker_darker": "#8a5548",
+   "darker_darker_darker": "#533e3e"
+  },
+  {
+   "name": "Warm Sand",
+   "group": "Peach",
+   "lighter": "#e9b788",
+   "base": "#ce8f63",
+   "darker": "#a76a4b",
+   "darker_darker": "#74453b",
+   "darker_darker_darker": "#523036"
+  },
+  {
+   "name": "Olive",
+   "group": "Olive",
+   "lighter": "#dbd8b7",
+   "base": "#c6b582",
+   "darker": "#9b8048",
+   "darker_darker": "#745631",
+   "darker_darker_darker": "#523834"
+  },
+  {
+   "name": "Sallow",
+   "group": "Olive",
+   "lighter": "#dcd5c0",
+   "base": "#bab693",
+   "darker": "#8e835d",
+   "darker_darker": "#69593f",
+   "darker_darker_darker": "#4c3b36"
+  },
+  {
+   "name": "Golden Olive",
+   "group": "Olive",
+   "lighter": "#e0d2b1",
+   "base": "#cead7f",
+   "darker": "#a37848",
+   "darker_darker": "#775133",
+   "darker_darker_darker": "#503636"
+  },
+  {
+   "name": "Khaki",
+   "group": "Olive",
+   "lighter": "#d6d1ba",
+   "base": "#bfae8d",
+   "darker": "#937b58",
+   "darker_darker": "#6b533c",
+   "darker_darker_darker": "#493635"
+  },
+  {
+   "name": "Grey Olive",
+   "group": "Olive",
+   "lighter": "#cfcfc2",
+   "base": "#b3ae99",
+   "darker": "#857b65",
+   "darker_darker": "#5e5344",
+   "darker_darker_darker": "#403633"
+  },
+  {
+   "name": "Umber Olive",
+   "group": "Olive",
+   "lighter": "#c3c4a6",
+   "base": "#ada477",
+   "darker": "#847240",
+   "darker_darker": "#604a28",
+   "darker_darker_darker": "#432d29"
+  },
+  {
+   "name": "Bronze",
+   "group": "Bronze",
+   "lighter": "#eecda9",
+   "base": "#dfa579",
+   "darker": "#b26e44",
+   "darker_darker": "#814932",
+   "darker_darker_darker": "#533238"
+  },
+  {
+   "name": "Copper",
+   "group": "Bronze",
+   "lighter": "#f6c29a",
+   "base": "#ea966d",
+   "darker": "#be5c39",
+   "darker_darker": "#883b2d",
+   "darker_darker_darker": "#532b38"
+  },
+  {
+   "name": "Clay",
+   "group": "Bronze",
+   "lighter": "#e6c5a9",
+   "base": "#d59e80",
+   "darker": "#a8694e",
+   "darker_darker": "#784538",
+   "darker_darker_darker": "#4b2f36"
+  },
+  {
+   "name": "Tawny",
+   "group": "Bronze",
+   "lighter": "#f5bb9b",
+   "base": "#e6907b",
+   "darker": "#b9584d",
+   "darker_darker": "#83383a",
+   "darker_darker_darker": "#4e2a3a"
+  },
+  {
+   "name": "Terracotta",
+   "group": "Bronze",
+   "lighter": "#edb69f",
+   "base": "#dc8d85",
+   "darker": "#ae5758",
+   "darker_darker": "#7a3840",
+   "darker_darker_darker": "#482939"
+  },
+  {
+   "name": "Amber Bronze",
+   "group": "Bronze",
+   "lighter": "#f5bd73",
+   "base": "#e08b4a",
+   "darker": "#a86a41",
+   "darker_darker": "#835229",
+   "darker_darker_darker": "#4d3738"
+  },
+  {
+   "name": "Cinnamon",
+   "group": "Bronze",
+   "lighter": "#dfbb89",
+   "base": "#d0945a",
+   "darker": "#a2612c",
+   "darker_darker": "#763b1b",
+   "darker_darker_darker": "#4a262b"
+  },
+  {
+   "name": "Burnt Peach",
+   "group": "Bronze",
+   "lighter": "#efaa65",
+   "base": "#dd8b59",
+   "darker": "#b1654b",
+   "darker_darker": "#824842",
+   "darker_darker_darker": "#463140"
+  },
+  {
+   "name": "Scorched Amber",
+   "group": "Bronze",
+   "lighter": "#f5c776",
+   "base": "#e08547",
+   "darker": "#a55f3a",
+   "darker_darker": "#785033",
+   "darker_darker_darker": "#4d3738"
+  },
+  {
+   "name": "Rosetan",
+   "group": "Bronze",
+   "lighter": "#e6a890",
+   "base": "#cc7c68",
+   "darker": "#a85850",
+   "darker_darker": "#7c4040",
+   "darker_darker_darker": "#502c30"
+  },
+  {
+   "name": "Saddle",
+   "group": "Bronze",
+   "lighter": "#d5a56d",
+   "base": "#bb7c53",
+   "darker": "#9a6143",
+   "darker_darker": "#754d3a",
+   "darker_darker_darker": "#513b3d"
+  },
+  {
+   "name": "Old Gold",
+   "group": "Bronze",
+   "lighter": "#d8a058",
+   "base": "#c07840",
+   "darker": "#985838",
+   "darker_darker": "#784830",
+   "darker_darker_darker": "#583828"
+  },
+  {
+   "name": "Umber",
+   "group": "Deep",
+   "lighter": "#d2a481",
+   "base": "#c17e60",
+   "darker": "#984c32",
+   "darker_darker": "#682c23",
+   "darker_darker_darker": "#3b1d27"
+  },
+  {
+   "name": "Walnut",
+   "group": "Deep",
+   "lighter": "#c4a080",
+   "base": "#b27d5d",
+   "darker": "#8a4d30",
+   "darker_darker": "#5e2d1f",
+   "darker_darker_darker": "#361b22"
+  },
+  {
+   "name": "Mahogany",
+   "group": "Deep",
+   "lighter": "#d09175",
+   "base": "#bd6c62",
+   "darker": "#933a3a",
+   "darker_darker": "#631f28",
+   "darker_darker_darker": "#341526"
+  },
+  {
+   "name": "Cocoa",
+   "group": "Deep",
+   "lighter": "#c28f71",
+   "base": "#b06c5a",
+   "darker": "#883c31",
+   "darker_darker": "#5b2021",
+   "darker_darker_darker": "#301420"
+  },
+  {
+   "name": "Coffee",
+   "group": "Deep",
+   "lighter": "#ab906d",
+   "base": "#99704d",
+   "darker": "#744420",
+   "darker_darker": "#4e2612",
+   "darker_darker_darker": "#2b1417"
+  },
+  {
+   "name": "Espresso",
+   "group": "Deep",
+   "lighter": "#ad856c",
+   "base": "#9b6555",
+   "darker": "#753a2e",
+   "darker_darker": "#4c1f1d",
+   "darker_darker_darker": "#261119"
+  },
+  {
+   "name": "Bark",
+   "group": "Deep",
+   "lighter": "#a87c60",
+   "base": "#986048",
+   "darker": "#784c40",
+   "darker_darker": "#604438",
+   "darker_darker_darker": "#483038"
+  },
+  {
+   "name": "Ash Umber",
+   "group": "Deep",
+   "lighter": "#968575",
+   "base": "#826a59",
+   "darker": "#5e4233",
+   "darker_darker": "#3c251d",
+   "darker_darker_darker": "#1e1315"
+  },
+  {
+   "name": "Ebony",
+   "group": "Deep",
+   "lighter": "#9d7865",
+   "base": "#8a5c52",
+   "darker": "#67342f",
+   "darker_darker": "#411a1c",
+   "darker_darker_darker": "#1e0e15"
+  },
+  {
+   "name": "Onyx",
+   "group": "Deep",
+   "lighter": "#886d5f",
+   "base": "#76544c",
+   "darker": "#55302b",
+   "darker_darker": "#341818",
+   "darker_darker_darker": "#150b0f"
+  },
+  {
+   "name": "Marble",
+   "group": "Ashen",
+   "lighter": "#f1f3f3",
+   "base": "#cdd5d9",
+   "darker": "#9da5aa",
+   "darker_darker": "#797e83",
+   "darker_darker_darker": "#5f6164"
+  },
+  {
+   "name": "Bone",
+   "group": "Ashen",
+   "lighter": "#eeeee5",
+   "base": "#d5ccb2",
+   "darker": "#a7987d",
+   "darker_darker": "#7f6f5c",
+   "darker_darker_darker": "#5e504e"
+  },
+  {
+   "name": "Pallor",
+   "group": "Ashen",
+   "lighter": "#e7dee6",
+   "base": "#c3bccf",
+   "darker": "#8e889e",
+   "darker_darker": "#636071",
+   "darker_darker_darker": "#44444d"
+  },
+  {
+   "name": "Ash",
+   "group": "Ashen",
+   "lighter": "#e3ded8",
+   "base": "#c6bbb2",
+   "darker": "#94867e",
+   "darker_darker": "#6a5e59",
+   "darker_darker_darker": "#484142"
+  },
+  {
+   "name": "Wraith",
+   "group": "Ashen",
+   "lighter": "#d0dcd6",
+   "base": "#a4beba",
+   "darker": "#6e8b89",
+   "darker_darker": "#4b6161",
+   "darker_darker_darker": "#364044"
+  },
+  {
+   "name": "Corpse",
+   "group": "Ashen",
+   "lighter": "#d3d9cd",
+   "base": "#abbaa8",
+   "darker": "#758876",
+   "darker_darker": "#4d5e53",
+   "darker_darker_darker": "#333f3e"
+  },
+  {
+   "name": "Granite",
+   "group": "Ashen",
+   "lighter": "#cdd4d2",
+   "base": "#a7b4b6",
+   "darker": "#748184",
+   "darker_darker": "#4e585b",
+   "darker_darker_darker": "#35393c"
+  },
+  {
+   "name": "Drowned",
+   "group": "Ashen",
+   "lighter": "#c1d5d2",
+   "base": "#95b5bc",
+   "darker": "#60838d",
+   "darker_darker": "#405962",
+   "darker_darker_darker": "#2f3941"
+  },
+  {
+   "name": "Slate",
+   "group": "Ashen",
+   "lighter": "#c0cad1",
+   "base": "#9fa8b9",
+   "darker": "#6e7688",
+   "darker_darker": "#4a4e5d",
+   "darker_darker_darker": "#313239"
+  },
+  {
+   "name": "Iron Grey",
+   "group": "Ashen",
+   "lighter": "#babec1",
+   "base": "#9b9ea4",
+   "darker": "#6a6d74",
+   "darker_darker": "#45474c",
+   "darker_darker_darker": "#2b2b2e"
+  },
+  {
+   "name": "Cinder Grey",
+   "group": "Ashen",
+   "lighter": "#a39a94",
+   "base": "#8b7d77",
+   "darker": "#62524d",
+   "darker_darker": "#3f3230",
+   "darker_darker_darker": "#221c1e"
+  },
+  {
+   "name": "Wild Fern",
+   "group": "Verdant",
+   "lighter": "#affa85",
+   "base": "#98e856",
+   "darker": "#7abf3d",
+   "darker_darker": "#608f2a",
+   "darker_darker_darker": "#606048"
+  },
+  {
+   "name": "Mint Sprite",
+   "group": "Verdant",
+   "lighter": "#9ef7d7",
+   "base": "#64eba4",
+   "darker": "#4ac17d",
+   "darker_darker": "#398a61",
+   "darker_darker_darker": "#435d43"
+  },
+  {
+   "name": "Spring Leaf",
+   "group": "Verdant",
+   "lighter": "#c7f89c",
+   "base": "#acde6a",
+   "darker": "#80a840",
+   "darker_darker": "#688040",
+   "darker_darker_darker": "#586040"
+  },
+  {
+   "name": "Bramble",
+   "group": "Verdant",
+   "lighter": "#a4f576",
+   "base": "#a2e047",
+   "darker": "#80a53a",
+   "darker_darker": "#5b7833",
+   "darker_darker_darker": "#4d4c37"
+  },
+  {
+   "name": "Venom",
+   "group": "Verdant",
+   "lighter": "#c9e7a9",
+   "base": "#8fcd81",
+   "darker": "#409d51",
+   "darker_darker": "#286d49",
+   "darker_darker_darker": "#194948"
+  },
+  {
+   "name": "Orc",
+   "group": "Verdant",
+   "lighter": "#c6deb8",
+   "base": "#92c392",
+   "darker": "#509364",
+   "darker_darker": "#28694c",
+   "darker_darker_darker": "#1c4546"
+  },
+  {
+   "name": "Lichen",
+   "group": "Verdant",
+   "lighter": "#d4d5ba",
+   "base": "#adb88f",
+   "darker": "#75895d",
+   "darker_darker": "#496144",
+   "darker_darker_darker": "#2a423e"
+  },
+  {
+   "name": "Goblin",
+   "group": "Verdant",
+   "lighter": "#ccd9a3",
+   "base": "#9bbf77",
+   "darker": "#5a9045",
+   "darker_darker": "#2a6638",
+   "darker_darker_darker": "#164340"
+  },
+  {
+   "name": "Bile",
+   "group": "Verdant",
+   "lighter": "#d9d3a6",
+   "base": "#b1b674",
+   "darker": "#76883d",
+   "darker_darker": "#45612f",
+   "darker_darker_darker": "#1c423a"
+  },
+  {
+   "name": "Moss",
+   "group": "Verdant",
+   "lighter": "#c7d6b4",
+   "base": "#99bb8d",
+   "darker": "#5c8c5e",
+   "darker_darker": "#346346",
+   "darker_darker_darker": "#204140"
+  },
+  {
+   "name": "Grass Ogre",
+   "group": "Verdant",
+   "lighter": "#90d858",
+   "base": "#88c040",
+   "darker": "#789838",
+   "darker_darker": "#607830",
+   "darker_darker_darker": "#485828"
+  },
+  {
+   "name": "Swamp",
+   "group": "Verdant",
+   "lighter": "#b6cdaf",
+   "base": "#86b28e",
+   "darker": "#498361",
+   "darker_darker": "#255a46",
+   "darker_darker_darker": "#19393a"
+  },
+  {
+   "name": "Jade Scale",
+   "group": "Verdant",
+   "lighter": "#6dd5a5",
+   "base": "#53bb7c",
+   "darker": "#439a61",
+   "darker_darker": "#3a754d",
+   "darker_darker_darker": "#3d513b"
+  },
+  {
+   "name": "Deep Forest",
+   "group": "Verdant",
+   "lighter": "#a2c2a1",
+   "base": "#6da886",
+   "darker": "#2e7a5c",
+   "darker_darker": "#1b4f42",
+   "darker_darker_darker": "#0e2f33"
+  },
+  {
+   "name": "Glacier",
+   "group": "Aquatic",
+   "lighter": "#daedeb",
+   "base": "#a4d0da",
+   "darker": "#6c9dab",
+   "darker_darker": "#4e717e",
+   "darker_darker_darker": "#414f5a"
+  },
+  {
+   "name": "Seafoam",
+   "group": "Aquatic",
+   "lighter": "#d0e8d8",
+   "base": "#99cbbe",
+   "darker": "#5d998e",
+   "darker_darker": "#3d6c69",
+   "darker_darker_darker": "#32494f"
+  },
+  {
+   "name": "Merfolk",
+   "group": "Aquatic",
+   "lighter": "#b4e6d6",
+   "base": "#70caca",
+   "darker": "#3c959a",
+   "darker_darker": "#276870",
+   "darker_darker_darker": "#254554"
+  },
+  {
+   "name": "Lagoon",
+   "group": "Aquatic",
+   "lighter": "#99e3d3",
+   "base": "#51c4cf",
+   "darker": "#388c98",
+   "darker_darker": "#24606d",
+   "darker_darker_darker": "#173f53"
+  },
+  {
+   "name": "Kelp",
+   "group": "Aquatic",
+   "lighter": "#add1b5",
+   "base": "#73b69c",
+   "darker": "#338571",
+   "darker_darker": "#205950",
+   "darker_darker_darker": "#15373e"
+  },
+  {
+   "name": "Shoal",
+   "group": "Aquatic",
+   "lighter": "#88bae9",
+   "base": "#63a2ce",
+   "darker": "#4b88a7",
+   "darker_darker": "#3b6a74",
+   "darker_darker_darker": "#30524c"
+  },
+  {
+   "name": "Abyssal",
+   "group": "Aquatic",
+   "lighter": "#97c3b7",
+   "base": "#61a6aa",
+   "darker": "#2e767d",
+   "darker_darker": "#1b4c55",
+   "darker_darker_darker": "#152d39"
+  },
+  {
+   "name": "Deep Current",
+   "group": "Aquatic",
+   "lighter": "#69b8b5",
+   "base": "#3e98b0",
+   "darker": "#27677a",
+   "darker_darker": "#154050",
+   "darker_darker_darker": "#082337"
+  },
+  {
+   "name": "Harbour",
+   "group": "Aquatic",
+   "lighter": "#64a2d0",
+   "base": "#5892b0",
+   "darker": "#417a8c",
+   "darker_darker": "#3e6470",
+   "darker_darker_darker": "#364e4a"
+  },
+  {
+   "name": "Slate Tide",
+   "group": "Aquatic",
+   "lighter": "#608ca8",
+   "base": "#488098",
+   "darker": "#406c78",
+   "darker_darker": "#385460",
+   "darker_darker_darker": "#304840"
+  },
+  {
+   "name": "Ice",
+   "group": "Azure",
+   "lighter": "#e4f0f1",
+   "base": "#b2d2e1",
+   "darker": "#7ea0b3",
+   "darker_darker": "#5e7686",
+   "darker_darker_darker": "#4c5660"
+  },
+  {
+   "name": "Frost",
+   "group": "Azure",
+   "lighter": "#d9eef3",
+   "base": "#a9cfea",
+   "darker": "#749bbc",
+   "darker_darker": "#56718c",
+   "darker_darker_darker": "#475161"
+  },
+  {
+   "name": "Sky Flesh",
+   "group": "Azure",
+   "lighter": "#bfe7f2",
+   "base": "#95c4e9",
+   "darker": "#5f90bb",
+   "darker_darker": "#456689",
+   "darker_darker_darker": "#3b465a"
+  },
+  {
+   "name": "Djinn",
+   "group": "Azure",
+   "lighter": "#aee3f8",
+   "base": "#8bbdf1",
+   "darker": "#5188ca",
+   "darker_darker": "#3c5e92",
+   "darker_darker_darker": "#353f5d"
+  },
+  {
+   "name": "Cirrus",
+   "group": "Azure",
+   "lighter": "#d8e0f8",
+   "base": "#88b8f8",
+   "darker": "#58a8e8",
+   "darker_darker": "#487098",
+   "darker_darker_darker": "#486060"
+  },
+  {
+   "name": "Cobalt",
+   "group": "Azure",
+   "lighter": "#a6daf6",
+   "base": "#8ab3f0",
+   "darker": "#517dcf",
+   "darker_darker": "#3c5494",
+   "darker_darker_darker": "#32385b"
+  },
+  {
+   "name": "Cornflower",
+   "group": "Azure",
+   "lighter": "#b4ccf4",
+   "base": "#7cb4e4",
+   "darker": "#509cc6",
+   "darker_darker": "#407090",
+   "darker_darker_darker": "#486060"
+  },
+  {
+   "name": "Storm",
+   "group": "Azure",
+   "lighter": "#b3d5e1",
+   "base": "#8eb2d3",
+   "darker": "#5b7fa5",
+   "darker_darker": "#3e5675",
+   "darker_darker_darker": "#303849"
+  },
+  {
+   "name": "Sapphire",
+   "group": "Azure",
+   "lighter": "#90cef3",
+   "base": "#7fa4ea",
+   "darker": "#506fbe",
+   "darker_darker": "#384785",
+   "darker_darker_darker": "#2b2d4e"
+  },
+  {
+   "name": "Twilight Blue",
+   "group": "Azure",
+   "lighter": "#9bc3e3",
+   "base": "#879cd4",
+   "darker": "#5969a7",
+   "darker_darker": "#3d4272",
+   "darker_darker_darker": "#292942"
+  },
+  {
+   "name": "Midnight",
+   "group": "Azure",
+   "lighter": "#86aac9",
+   "base": "#7785b8",
+   "darker": "#4e568e",
+   "darker_darker": "#33345e",
+   "darker_darker_darker": "#1f1d33"
+  },
+  {
+   "name": "Lavender",
+   "group": "Arcane",
+   "lighter": "#f2deef",
+   "base": "#cdbbe3",
+   "darker": "#9888b4",
+   "darker_darker": "#6b6285",
+   "darker_darker_darker": "#4a485b"
+  },
+  {
+   "name": "Orchid",
+   "group": "Arcane",
+   "lighter": "#f6cde6",
+   "base": "#cfaae0",
+   "darker": "#9b76b4",
+   "darker_darker": "#6b5384",
+   "darker_darker_darker": "#443d58"
+  },
+  {
+   "name": "Drow",
+   "group": "Arcane",
+   "lighter": "#dfd0e4",
+   "base": "#b5b0d4",
+   "darker": "#817da5",
+   "darker_darker": "#575776",
+   "darker_darker_darker": "#3a3c4c"
+  },
+  {
+   "name": "Wraithbloom",
+   "group": "Arcane",
+   "lighter": "#e6c7dd",
+   "base": "#bfa5d3",
+   "darker": "#8b73a6",
+   "darker_darker": "#5e4f77",
+   "darker_darker_darker": "#3b384d"
+  },
+  {
+   "name": "Eldritch",
+   "group": "Arcane",
+   "lighter": "#dfc0f5",
+   "base": "#a7a4ef",
+   "darker": "#756fc4",
+   "darker_darker": "#504b8c",
+   "darker_darker_darker": "#353455"
+  },
+  {
+   "name": "Lilac Veil",
+   "group": "Arcane",
+   "lighter": "#e8c0f8",
+   "base": "#c090f8",
+   "darker": "#8c58e8",
+   "darker_darker": "#684898",
+   "darker_darker_darker": "#484860"
+  },
+  {
+   "name": "Dusk",
+   "group": "Arcane",
+   "lighter": "#d6bfd7",
+   "base": "#aca0cb",
+   "darker": "#7a709e",
+   "darker_darker": "#504c70",
+   "darker_darker_darker": "#333346"
+  },
+  {
+   "name": "Orchid Flare",
+   "group": "Arcane",
+   "lighter": "#f8b8f8",
+   "base": "#d870f8",
+   "darker": "#9850e8",
+   "darker_darker": "#704898",
+   "darker_darker_darker": "#484860"
+  },
+  {
+   "name": "Nightshade",
+   "group": "Arcane",
+   "lighter": "#d2b1d9",
+   "base": "#a293d1",
+   "darker": "#6e62a5",
+   "darker_darker": "#443f73",
+   "darker_darker_darker": "#272943"
+  },
+  {
+   "name": "Void Violet",
+   "group": "Arcane",
+   "lighter": "#baa0c7",
+   "base": "#8b86bc",
+   "darker": "#5a5893",
+   "darker_darker": "#353864",
+   "darker_darker_darker": "#1d2238"
+  },
+  {
+   "name": "Wisteria",
+   "group": "Arcane",
+   "lighter": "#d385fa",
+   "base": "#a55eec",
+   "darker": "#8045c0",
+   "darker_darker": "#614293",
+   "darker_darker_darker": "#413f56"
+  },
+  {
+   "name": "Amethyst",
+   "group": "Arcane",
+   "lighter": "#c089f8",
+   "base": "#9564dd",
+   "darker": "#774ac1",
+   "darker_darker": "#55488a",
+   "darker_darker_darker": "#3e3e53"
+  },
+  {
+   "name": "Nightbloom",
+   "group": "Arcane",
+   "lighter": "#9764dc",
+   "base": "#7044bc",
+   "darker": "#543090",
+   "darker_darker": "#402a78",
+   "darker_darker_darker": "#2a2444"
+  },
+  {
+   "name": "Rosewater",
+   "group": "Blossom",
+   "lighter": "#f8e5e6",
+   "base": "#e4bdce",
+   "darker": "#b2899f",
+   "darker_darker": "#826477",
+   "darker_darker_darker": "#584c59"
+  },
+  {
+   "name": "Dawn",
+   "group": "Blossom",
+   "lighter": "#fadfdb",
+   "base": "#edb3bf",
+   "darker": "#bc7e90",
+   "darker_darker": "#895b6c",
+   "darker_darker_darker": "#5a4655"
+  },
+  {
+   "name": "Fae",
+   "group": "Blossom",
+   "lighter": "#f9d9da",
+   "base": "#f1a8ca",
+   "darker": "#bf729d",
+   "darker_darker": "#895176",
+   "darker_darker_darker": "#573f58"
+  },
+  {
+   "name": "Coral",
+   "group": "Blossom",
+   "lighter": "#f8cfc8",
+   "base": "#f39dad",
+   "darker": "#ca5f7d",
+   "darker_darker": "#90405f",
+   "darker_darker_darker": "#57344e"
+  },
+  {
+   "name": "Orchid Pink",
+   "group": "Blossom",
+   "lighter": "#f7c8d8",
+   "base": "#de9cd8",
+   "darker": "#ab67ad",
+   "darker_darker": "#774780",
+   "darker_darker_darker": "#483757"
+  },
+  {
+   "name": "Cherry",
+   "group": "Blossom",
+   "lighter": "#f7c6c5",
+   "base": "#f192b6",
+   "darker": "#c05a8b",
+   "darker_darker": "#873c67",
+   "darker_darker_darker": "#51314f"
+  },
+  {
+   "name": "Succubus",
+   "group": "Blossom",
+   "lighter": "#f6c0c5",
+   "base": "#ea8dc1",
+   "darker": "#b75597",
+   "darker_darker": "#7f386f",
+   "darker_darker_darker": "#4a2d4f"
+  },
+  {
+   "name": "Magenta Rose",
+   "group": "Blossom",
+   "lighter": "#f5b2d3",
+   "base": "#d488e0",
+   "darker": "#a150b8",
+   "darker_darker": "#6c3487",
+   "darker_darker_darker": "#3d2a56"
+  },
+  {
+   "name": "Peony",
+   "group": "Blossom",
+   "lighter": "#ff9ab8",
+   "base": "#f46ba5",
+   "darker": "#d957a8",
+   "darker_darker": "#9c577c",
+   "darker_darker_darker": "#715771"
+  },
+  {
+   "name": "Plum",
+   "group": "Blossom",
+   "lighter": "#e2a4b5",
+   "base": "#bf81b1",
+   "darker": "#8e4e88",
+   "darker_darker": "#5d305e",
+   "darker_darker_darker": "#32213c"
+  },
+  {
+   "name": "Fuchsia",
+   "group": "Blossom",
+   "lighter": "#f573ab",
+   "base": "#e04a9f",
+   "darker": "#a8417f",
+   "darker_darker": "#83295a",
+   "darker_darker_darker": "#4c374d"
+  },
+  {
+   "name": "Magma",
+   "group": "Ember",
+   "lighter": "#f8cfb1",
+   "base": "#f29f7a",
+   "darker": "#ce5b33",
+   "darker_darker": "#983426",
+   "darker_darker_darker": "#5c293b"
+  },
+  {
+   "name": "Oni",
+   "group": "Ember",
+   "lighter": "#f6bea8",
+   "base": "#f08b84",
+   "darker": "#ca4650",
+   "darker_darker": "#8e293e",
+   "darker_darker_darker": "#52253e"
+  },
+  {
+   "name": "Scarlet",
+   "group": "Ember",
+   "lighter": "#f5b99b",
+   "base": "#f08773",
+   "darker": "#cb403a",
+   "darker_darker": "#8e2531",
+   "darker_darker_darker": "#532139"
+  },
+  {
+   "name": "Ember",
+   "group": "Ember",
+   "lighter": "#f4b38b",
+   "base": "#eb8363",
+   "darker": "#be4731",
+   "darker_darker": "#852828",
+   "darker_darker_darker": "#4d2033"
+  },
+  {
+   "name": "Rust",
+   "group": "Ember",
+   "lighter": "#f3ad86",
+   "base": "#e4816a",
+   "darker": "#b7473b",
+   "darker_darker": "#80282d",
+   "darker_darker_darker": "#492033"
+  },
+  {
+   "name": "Crimson",
+   "group": "Ember",
+   "lighter": "#f3a48c",
+   "base": "#e5747a",
+   "darker": "#b63850",
+   "darker_darker": "#7c1f3b",
+   "darker_darker_darker": "#441b36"
+  },
+  {
+   "name": "Brick",
+   "group": "Ember",
+   "lighter": "#eaa387",
+   "base": "#d77974",
+   "darker": "#aa4249",
+   "darker_darker": "#742535",
+   "darker_darker_darker": "#401d31"
+  },
+  {
+   "name": "Blood",
+   "group": "Ember",
+   "lighter": "#ed947e",
+   "base": "#d56b77",
+   "darker": "#a7304f",
+   "darker_darker": "#6d1a38",
+   "darker_darker_darker": "#3b152f"
+  },
+  {
+   "name": "Cinder Red",
+   "group": "Ember",
+   "lighter": "#c59079",
+   "base": "#b26d64",
+   "darker": "#893d3c",
+   "darker_darker": "#5a2128",
+   "darker_darker_darker": "#2f1522"
+  },
+  {
+   "name": "Silver Plate",
+   "group": "Gilded",
+   "lighter": "#e8eced",
+   "base": "#b4bac0",
+   "darker": "#7e858b",
+   "darker_darker": "#606368",
+   "darker_darker_darker": "#4e4f52"
+  },
+  {
+   "name": "Gold Plate",
+   "group": "Gilded",
+   "lighter": "#f3e8bc",
+   "base": "#d6ae5d",
+   "darker": "#a07531",
+   "darker_darker": "#7e5222",
+   "darker_darker_darker": "#603f3c"
+  },
+  {
+   "name": "Steel",
+   "group": "Gilded",
+   "lighter": "#d2e0e4",
+   "base": "#a0adbc",
+   "darker": "#697789",
+   "darker_darker": "#4e5662",
+   "darker_darker_darker": "#3f4248"
+  },
+  {
+   "name": "Brass",
+   "group": "Gilded",
+   "lighter": "#d8dab3",
+   "base": "#b3a669",
+   "darker": "#866f2c",
+   "darker_darker": "#674c20",
+   "darker_darker_darker": "#503833"
+  },
+  {
+   "name": "Copper Plate",
+   "group": "Gilded",
+   "lighter": "#f2cba6",
+   "base": "#d78e64",
+   "darker": "#a8522a",
+   "darker_darker": "#78392a",
+   "darker_darker_darker": "#4f3139"
+  },
+  {
+   "name": "Verdigris",
+   "group": "Gilded",
+   "lighter": "#b3d8be",
+   "base": "#5baf9d",
+   "darker": "#2e776e",
+   "darker_darker": "#1e5451",
+   "darker_darker_darker": "#203c44"
+  },
+  {
+   "name": "Iron Plate",
+   "group": "Gilded",
+   "lighter": "#beb6b1",
+   "base": "#938681",
+   "darker": "#63544f",
+   "darker_darker": "#413735",
+   "darker_darker_darker": "#2b2628"
+  },
+  {
+   "name": "Blackened Bronze",
+   "group": "Gilded",
+   "lighter": "#baa893",
+   "base": "#99785c",
+   "darker": "#6f4528",
+   "darker_darker": "#4a2c1e",
+   "darker_darker_darker": "#2f1f21"
+  },
+  {
+   "name": "Tar Violet",
+   "group": "Umbral",
+   "lighter": "#937f96",
+   "base": "#6f6788",
+   "darker": "#474064",
+   "darker_darker": "#26243f",
+   "darker_darker_darker": "#11111d"
+  },
+  {
+   "name": "Gloom Green",
+   "group": "Umbral",
+   "lighter": "#748874",
+   "base": "#51715f",
+   "darker": "#244c3c",
+   "darker_darker": "#0c2c24",
+   "darker_darker_darker": "#061315"
+  },
+  {
+   "name": "Shadow",
+   "group": "Umbral",
+   "lighter": "#867e8c",
+   "base": "#66667a",
+   "darker": "#414055",
+   "darker_darker": "#242433",
+   "darker_darker_darker": "#101016"
+  },
+  {
+   "name": "Soot",
+   "group": "Umbral",
+   "lighter": "#827a72",
+   "base": "#6c6158",
+   "darker": "#493b33",
+   "darker_darker": "#2a1f1b",
+   "darker_darker_darker": "#110d0d"
+  },
+  {
+   "name": "Char Red",
+   "group": "Umbral",
+   "lighter": "#9c6c5a",
+   "base": "#884f4e",
+   "darker": "#64272d",
+   "darker_darker": "#3d101a",
+   "darker_darker_darker": "#180911"
+  },
+  {
+   "name": "Void",
+   "group": "Umbral",
+   "lighter": "#647685",
+   "base": "#555b72",
+   "darker": "#333850",
+   "darker_darker": "#1b1c2f",
+   "darker_darker_darker": "#0b0b11"
+  }
+ ]
+}

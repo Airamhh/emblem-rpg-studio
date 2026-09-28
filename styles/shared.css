@@ -1,0 +1,256 @@
+/* ===========================================================
+ * Emblem Studio — shared tokens and controls
+ * =========================================================== */
+/* Studio's shades of three system colours. They sit on Studio's own windows (the manual importer and the scene
+ * crop bar included), so every other window keeps the system's colours. */
+.emblem-rpg-studio,
+.emblem-fecc-manual {
+  --emblem-delete: #b5766c;
+  --emblem-delete-hover: #c98a80;
+  --emblem-accent-tool: #d8b36a;
+}
+
+.emblem-rpg-studio {
+  --sts-ground: #24212d;
+  --sts-panel: #2e2a39;
+  --sts-card: #393446;
+  --sts-ctrl: #433e52;
+  --sts-field: #1b1923;
+
+  --sts-tx: #e2dee8;
+  --sts-mu: #9992aa;
+  --sts-ttl: #f0edf4;
+  --sts-ptitle: #bfb8cd;
+
+  --sts-gold: #d8b36a;
+  --sts-goldb: #eccf90;
+  --sts-red: #b3574f;
+  --sts-redb: #c2635a;
+  --sts-teal: #8fd3cc;
+  --sts-tealb: #b8e6e0;
+  --sts-rust: #b5766c;
+  --sts-rustb: #c98a80;
+
+  --sts-sel: rgba(216, 179, 106, 0.08);
+  --sts-hair: rgba(255, 255, 255, 0.06);
+  --sts-rest: rgba(255, 255, 255, 0.025);
+  --sts-panel-fx: 0 2px 10px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --sts-card-fx: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --sts-chip-fx: 0 1px 0 rgba(0, 0, 0, 0.3);
+
+  --sts-gap: 11px;
+  --sts-paper: #c7c9d8;
+
+  --emblem-accent: var(--sts-gold);
+}
+
+/* ---------- Window chrome ---------- */
+.emblem-rpg-studio .window-header {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 10px 12px 11px 15px;
+}
+
+.emblem-rpg-studio .window-header .window-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sts-gold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emblem-rpg-studio .window-header > i,
+.emblem-rpg-studio .window-header .window-icon {
+  color: var(--sts-gold);
+  font-size: 13px;
+}
+
+.emblem-rpg-studio .window-title .sts-title-subject {
+  color: var(--sts-tx);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.emblem-rpg-studio .window-header .header-control {
+  color: var(--sts-mu);
+  background: transparent;
+  border: none;
+}
+
+.emblem-rpg-studio .window-header .header-control:hover {
+  color: var(--sts-tx);
+  background: transparent;
+}
+
+/* ---------- Buttons ---------- */
+.emblem-rpg-studio .acp-btn {
+  align-items: center;
+  background: var(--sts-ctrl);
+  border: none;
+  border-radius: 3px;
+  box-shadow: var(--sts-chip-fx);
+  box-sizing: border-box;
+  color: var(--sts-tx);
+  cursor: var(--cursor-pointer);
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  gap: 5px;
+  height: 22px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  min-height: 22px;
+  padding: 0 11px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.emblem-rpg-studio .acp-btn:hover:not(:disabled) {
+  background: var(--sts-ctrl);
+  color: var(--sts-ttl);
+}
+
+.emblem-rpg-studio .acp-btn:disabled {
+  cursor: var(--cursor-not-allowed);
+  opacity: 0.4;
+}
+
+.emblem-rpg-studio .acp-btn-sm {
+  font-size: 9.5px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0 8px;
+}
+
+.emblem-rpg-studio .acp-btn-primary { color: var(--sts-goldb); }
+.emblem-rpg-studio .acp-btn-primary:hover:not(:disabled) { color: var(--sts-goldb); }
+
+.emblem-rpg-studio .acp-btn-danger {
+  background: transparent;
+  box-shadow: none;
+  color: var(--sts-rust);
+}
+
+.emblem-rpg-studio .acp-btn-danger:hover:not(:disabled) {
+  background: transparent;
+  color: var(--sts-rustb);
+}
+
+.emblem-rpg-studio .ete-save-root { color: var(--sts-teal); }
+.emblem-rpg-studio .ete-save-root:hover:not(:disabled) { color: var(--sts-tealb); }
+
+/* ---------- Fields ---------- */
+.emblem-rpg-studio input[type="text"],
+.emblem-rpg-studio input[type="search"],
+.emblem-rpg-studio input[type="number"],
+.emblem-rpg-studio select {
+  background: var(--sts-field);
+  border: none;
+  border-radius: 3px;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--sts-tx);
+  font-family: inherit;
+  outline: none;
+}
+
+/* ---------- No focus state ----------
+ * Keyboard focus behaviour is retained, nothing is drawn for it. Core paints an
+ * outline AND a shadow (`button:focus` carries both, `button:hover` carries the
+ * shadow alone), so both are revoked on everything that can take focus and the
+ * few controls whose resting chip shadow is part of their shape re-assert it.
+ * Scoped to focusable elements rather than `:focus-within`, so a focused child
+ * can never blank the shadow of the panel around it. */
+.emblem-rpg-studio button:focus,
+.emblem-rpg-studio button:focus-visible,
+.emblem-rpg-studio button:hover,
+.emblem-rpg-studio input:focus,
+.emblem-rpg-studio input:focus-visible,
+.emblem-rpg-studio select:focus,
+.emblem-rpg-studio textarea:focus,
+.emblem-rpg-studio a:focus,
+.emblem-rpg-studio summary:focus,
+.emblem-rpg-studio details:focus,
+.emblem-rpg-studio [tabindex]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.emblem-rpg-studio .acp-btn:focus,
+.emblem-rpg-studio .acp-btn:hover,
+.emblem-rpg-studio .ets-submit:focus,
+.emblem-rpg-studio .ets-submit:hover,
+.emblem-rpg-studio .ets-pane-toggle:focus,
+.emblem-rpg-studio .ets-pane-toggle:hover,
+.emblem-rpg-studio .ets-pane-show:focus,
+.emblem-rpg-studio .ets-pane-show:hover,
+.emblem-rpg-studio .ets-class-tab.is-active:focus,
+.emblem-rpg-studio .ets-class-tab.is-active:hover,
+.emblem-rpg-studio .fecc-tab.is-active:focus,
+.emblem-rpg-studio .fecc-tab.is-active:hover,
+.emblem-rpg-studio .fecc-pz-btn:focus,
+.emblem-rpg-studio .fecc-pz-btn:hover {
+  box-shadow: var(--sts-chip-fx) !important;
+}
+
+/* The instrument strips are flat glyphs: colour is their only state channel. */
+.emblem-rpg-studio .ete-toolbar .acp-btn:focus,
+.emblem-rpg-studio .ete-toolbar .acp-btn:hover,
+.emblem-rpg-studio .ete-footer .acp-btn:focus,
+.emblem-rpg-studio .ete-footer .acp-btn:hover,
+.emblem-rpg-studio .acp-btn-danger:focus,
+.emblem-rpg-studio .acp-btn-danger:hover,
+.emblem-rpg-studio .ete-tool-btn:focus,
+.emblem-rpg-studio .fecc-rail-tab:focus {
+  background: transparent;
+  box-shadow: none !important;
+}
+
+/* ---------- Scene crop bar ----------
+ * Mounted on the document body while the canvas region tool is running, so it
+ * clears the sheet that launched it and the canvas it is drawn over. The
+ * stacking order is set inline, from the rendered windows. */
+.emblem-scene-crop-bar {
+  align-items: center;
+  background: var(--sts-panel);
+  border-radius: 4px;
+  box-shadow: var(--sts-panel-fx);
+  color: var(--sts-tx);
+  display: flex;
+  font-family: var(--font-primary, sans-serif);
+  gap: 8px;
+  left: 50%;
+  padding: 7px 12px;
+  position: fixed;
+  top: 16px;
+  transform: translateX(-50%);
+}
+
+.emblem-scene-crop-subject {
+  align-items: center;
+  color: var(--sts-gold);
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 600;
+  gap: 6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.emblem-scene-crop-yes:hover:not(:disabled) { color: #6cc070; }
+.emblem-scene-crop-no:hover:not(:disabled) { color: var(--emblem-delete-hover); }
+
+.emblem-scene-crop-legend {
+  color: var(--sts-mu);
+  font-size: 10.5px;
+  font-style: italic;
+  padding-left: 4px;
+  white-space: nowrap;
+}

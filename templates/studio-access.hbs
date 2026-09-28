@@ -1,0 +1,23 @@
+<div class="standard-form">
+  <p class="hint">Trusted Players cannot use Emblem Character Studio unless they are ticked here. A ticked player edits
+    art only for Actors they own, and the Gamemaster's browser saves it.</p>
+  {{#unless editable}}
+  <p class="hint"><i class="fas fa-lock"></i> Only the Gamemaster can change this list.</p>
+  {{/unless}}
+  {{#each players}}
+  <div class="form-group">
+    <label for="emblem-studio-access-{{id}}">{{name}}</label>
+    <div class="form-fields">
+      <input type="checkbox" id="emblem-studio-access-{{id}}" name="{{id}}" {{checked allowed}}
+        {{#unless ../editable}}disabled{{/unless}}>
+    </div>
+  </div>
+  {{else}}
+  <p class="hint">No user has the Trusted Player role.</p>
+  {{/each}}
+  {{#if editable}}
+  <footer class="form-footer">
+    <button type="submit"><i class="fas fa-floppy-disk"></i> Save</button>
+  </footer>
+  {{/if}}
+</div>

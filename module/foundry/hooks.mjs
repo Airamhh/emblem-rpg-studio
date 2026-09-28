@@ -1,0 +1,71 @@
+// @ts-check
+/** @layer foundry */
+import { DEVELOPER_MODE_HOOK, DEVELOPER_MODE_SETTING, MODULE_ID } from '../constants.mjs';
+import { createStudioApi, openCharacterStudio } from '../api.mjs';
+import { STUDIO_ACCESS } from '../admission.mjs';
+import { syncTokenTabRenames } from '../character/variants.mjs';
+import { onStudioUserUpdated, studioAccessFor, vetoAllowlistWrite } from './access.mjs';
+import { registerStudioAccessSettings } from './access-config.mjs';
+import { observeStudioErrors } from './notify.mjs';
+import { registerStudioPublication } from './publication-transport.mjs';
+
+/* -------------------------------------------- */
+/*  Lifecycle                                   */
+/* -------------------------------------------- */
+
+/**
+ * Register Studio's hooks and its error reporting. The module entry file (emblem-rpg-studio.mjs) calls this once
+ * at load.
+ *
+ * Nothing here opens Sprite Studio from an item sheet, because the system owns that entry point. Its sheets declare
+ * `imageStudio: true` and `EmblemSheetMixin` binds the portrait's right-click to `openStudioForItem`
+ * (`emblem-rpg/module/ui/apps/sheets/base.mjs`), which calls this module's `api.openSpriteStudio`.
+ */
+export function installStudioHooks() {
+  observeStudioErrors();
+  Hooks.once('init', registerStudio);
+  Hooks.once('socketlib.ready', registerStudioPublication);
+  Hooks.on('preUpdateActor', syncTokenTabRenames);
+  Hooks.on('preCreateSetting', vetoAllowlistWrite);
+  Hooks.on('preUpdateSetting', vetoAllowlistWrite);
+  Hooks.on('updateUser', onStudioUserUpdated);
+  Hooks.on('getSceneControlButtons', addCharacterStudioControl);
+}
+
+/* -------------------------------------------- */
+/*  Registration                                */
+/* -------------------------------------------- */
+function registerStudio() {
+  game.settings.register(MODULE_ID, DEVELOPER_MODE_SETTING, {
+    name: 'Developer Mode',
+    hint: 'Saves importer templates to the Studio module\'s own Parts Library instead of this world, and shows '
+      + 'Save To Root, which writes finished avatar, token and item art into the Emblem RPG Content module.',
+    scope: 'client',
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: value => Hooks.callAll(DEVELOPER_MODE_HOOK, value === true)
+  });
+
+  registerStudioAccessSettings();
+
+  const module = game.modules.get(MODULE_ID);
+  if (module) module.api = createStudioApi();
+}
+
+/* -------------------------------------------- */
+/*  Scene Controls                              */
+/* -------------------------------------------- */
+function addCharacterStudioControl(controls) {
+  const tokenControl = controls?.tokens;
+  if (!tokenControl?.tools || studioAccessFor().access === STUDIO_ACCESS.DENIED) return;
+  if (tokenControl.tools[MODULE_ID]) return;
+  tokenControl.tools[MODULE_ID] = {
+    name: MODULE_ID,
+    order: 90,
+    title: 'Emblem Character Studio',
+    icon: 'fas fa-palette',
+    button: true,
+    onChange: () => openCharacterStudio()
+  };
+}
