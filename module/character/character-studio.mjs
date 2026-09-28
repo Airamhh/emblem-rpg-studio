@@ -42,9 +42,11 @@ import { FeccExportPanel } from './fecc/fecc-export-panel.mjs';
 import { recolourLayer } from './fecc/fecc-recolour.mjs';
 import { applyHairShadow } from './fecc/fecc-shadow.mjs';
 import { openActorConfiguration, refreshActorAuthoringPanel, refreshActorTokenArt } from '../foundry/document-refresh.mjs';
-import { tokenTabsFor, tokenTabsWithEntryIds, updateActorArt, writeBaseTokenPath, writeTokenTabs } from './art-state.mjs';
+// import { tokenTabsFor, tokenTabsWithEntryIds, updateActorArt, writeBaseTokenPath, writeTokenTabs } from './art-state.mjs';
+import { tokenTabsFor, updateActorArt, writeBaseTokenPath, writeTokenTabs } from './art-state.mjs';
 import { loadSchema, loadStudioWorkspace, getStudioWorkspace, saveStudioWorkspace } from './fecc/fecc-asset-schema.mjs';
-import { typeOptions, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, legacyCompKey, withEntryIdentity, migrateCompositionKeys, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
+// import { typeOptions, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, legacyCompKey, withEntryIdentity, migrateCompositionKeys, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
+import { typeOptions, isTokenSlot, slugifyName, unitFileStem, savedArtFilename, resolveTokenPath, resolveAvatarPath, resolveOffsetY, resolveScale, avatarEditableFor, tupleLabel, tupleImportName, avatarImportName, tupleVariantLabel, classListFor, findActorTabIndex, findEntryIndex, compKey, withEntryIdentity, entryOptionsFor, PLACEHOLDER_ART, CLEARED_TOKEN_FLAG, actorFilePrefix, actorUnitFolderName } from './variants.mjs';
 import { snapshotInitial, viewPristine, withHeldWorkspaceActors } from './dirty-state.mjs';
 import { forcedDeletion } from '../foundry/data-operators.mjs';
 import { wireHorizontalWheelScroll } from '../utils/horizontal-wheel-scroll.mjs';
@@ -505,7 +507,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
         continue;
       }
       this._heldWorkspace.delete(actor.id);
-      await this._migrateConditionalCompositions(actor);
+//       await this._migrateConditionalCompositions(actor);
 
       const binding = createBinding(actor.id);
       this._actors.set(actor.id, binding);
@@ -1094,7 +1096,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       });
     }
     if (!this._actors.has(actor.id)) {
-      await this._migrateConditionalCompositions(actor);
+//       await this._migrateConditionalCompositions(actor);
       const binding = createBinding(actor.id);
       this._actors.set(actor.id, binding);
       this._createBaseTab(binding);
@@ -1120,32 +1122,32 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     });
   }
 
-  /* -------------------------------------------- */
+//   /* -------------------------------------------- */
 
-  /**
-   * Save entry IDs and copied compositions together before binding an actor's editable canvases. Runs once per
-   * actor (the `compositionKeyVersion` flag records it). A failed write mustn't stop the actor loading, so it's
-   * reported and the stored record is left as it was.
-   * @returns {Promise<void>}
-   * @private
-   */
-  async _migrateConditionalCompositions(actor) {
-    return queueActorSave(actor, async () => {
-      if (actor.getFlag(STUDIO_FLAG, 'compositionKeyVersion') === 2) return;
-      const tabs = tokenTabsWithEntryIds(tokenTabsFor(actor));
-      if (!tabs.some(tab => tab.entries?.length)) return;
-      const { updates, ambiguousKeys } = migrateCompositionKeys(actor.getFlag(STUDIO_FLAG, 'tokenComp'), tabs);
-      const extra = { ['flags.' + STUDIO_FLAG + '.compositionKeyVersion']: 2 };
-      for (const [key, payload] of Object.entries(updates)) extra['flags.' + STUDIO_FLAG + '.tokenComp.' + key] = payload;
-      try { await writeTokenTabs(actor, tabs, extra); }
-      catch (error) {
-        notify.failure(`Couldn't update ${actor.name}'s stored conditions.`, error);
-        return;
-      }
-      if (ambiguousKeys.length) notify.warn(actor.name
-        + ': old compositions shared a condition name. The originals are kept, and those conditions reopen as images.');
-    });
-  }
+//   /**
+//    * Save entry IDs and copied compositions together before binding an actor's editable canvases. Runs once per
+//    * actor (the `compositionKeyVersion` flag records it). A failed write mustn't stop the actor loading, so it's
+//    * reported and the stored record is left as it was.
+//    * @returns {Promise<void>}
+//    * @private
+//    */
+//   async _migrateConditionalCompositions(actor) {
+//     return queueActorSave(actor, async () => {
+//       if (actor.getFlag(STUDIO_FLAG, 'compositionKeyVersion') === 2) return;
+//       const tabs = tokenTabsWithEntryIds(tokenTabsFor(actor));
+//       if (!tabs.some(tab => tab.entries?.length)) return;
+//       const { updates, ambiguousKeys } = migrateCompositionKeys(actor.getFlag(STUDIO_FLAG, 'tokenComp'), tabs);
+//       const extra = { ['flags.' + STUDIO_FLAG + '.compositionKeyVersion']: 2 };
+//       for (const [key, payload] of Object.entries(updates)) extra['flags.' + STUDIO_FLAG + '.tokenComp.' + key] = payload;
+//       try { await writeTokenTabs(actor, tabs, extra); }
+//       catch (error) {
+//         notify.failure(`Couldn't update ${actor.name}'s stored conditions.`, error);
+//         return;
+//       }
+//       if (ambiguousKeys.length) notify.warn(actor.name
+//         + ': old compositions shared a condition name. The originals are kept, and those conditions reopen as images.');
+//     });
+//   }
 
   /* -------------------------------------------- */
 
@@ -3044,15 +3046,15 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
    */
   _compKey(tuple) { return compKey(tuple); }
 
-  /* -------------------------------------------- */
+//   /* -------------------------------------------- */
 
-  /**
-   * The older composition key, still read so older compositions load (legacyCompKey in variants.mjs).
-   * @param {object} tuple          The destination.
-   * @returns {string}
-   * @private
-   */
-  _legacyCompKey(tuple) { return legacyCompKey(tuple); }
+//   /**
+//    * The older composition key, still read so older compositions load (legacyCompKey in variants.mjs).
+//    * @param {object} tuple          The destination.
+//    * @returns {string}
+//    * @private
+//    */
+//   _legacyCompKey(tuple) { return legacyCompKey(tuple); }
 
   /* -------------------------------------------- */
 
@@ -3075,7 +3077,7 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
       tuple = { ...tuple, classKey: current.name };
     }
     const key = this._compKey(tuple);
-    const legacyKey = this._legacyCompKey(tuple);
+//     const legacyKey = this._legacyCompKey(tuple);
     const stored = actor.getFlag(STUDIO_FLAG, 'tokenComp') ?? {};
 
     // One dotted update, not setFlag, because setFlag merges and a dropped key would survive. These entries hold
@@ -3084,10 +3086,10 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     const update = {};
     if (payload) update[`${base}.${key}`] = payload;
     else if (stored[key] !== undefined) Object.assign(update, forcedDeletion(`${base}.${key}`));
-    // Drop the older index key in the same write.
-    if (!tuple.entryId && legacyKey !== key && stored[legacyKey] !== undefined) {
-      Object.assign(update, forcedDeletion(`${base}.${legacyKey}`));
-    }
+//     // Drop the older index key in the same write.
+//     if (!tuple.entryId && legacyKey !== key && stored[legacyKey] !== undefined) {
+//       Object.assign(update, forcedDeletion(`${base}.${legacyKey}`));
+//     }
     if (foundry.utils.isEmpty(update)) return true;
     try { await updateActorArt(actor, update); }
     catch (e) {
@@ -3109,10 +3111,11 @@ export class EmblemCharacterStudio extends HandlebarsApplicationMixin(Applicatio
     const actor = this._tabActor(tab);
     if (!actor) return false;
     const comp = actor.getFlag(STUDIO_FLAG, 'tokenComp') ?? {};
-    // A tuple without an entry ID may still have its composition under the older index key, which the next save
-    // moves. Tuples with an ID skip it, since _migrateConditionalCompositions copied theirs to the ID key.
-    const payload = comp[this._compKey(tab.tuple)]
-      ?? (tab.tuple.entryId ? null : comp[this._legacyCompKey(tab.tuple)]);
+//     // A tuple without an entry ID may still have its composition under the older index key, which the next save
+//     // moves. Tuples with an ID skip it, since _migrateConditionalCompositions copied theirs to the ID key.
+//     const payload = comp[this._compKey(tab.tuple)]
+//       ?? (tab.tuple.entryId ? null : comp[this._legacyCompKey(tab.tuple)]);
+    const payload = comp[this._compKey(tab.tuple)];
     return await this._applyLayerPayload(tab.tokenView, payload);
   }
 

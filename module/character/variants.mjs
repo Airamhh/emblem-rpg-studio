@@ -244,22 +244,22 @@ export function compKey(tuple) {
   return `${cls}__${ent}__${compKeyTypeSlug(tuple?.type)}`;
 }
 
-/* -------------------------------------------- */
+// /* -------------------------------------------- */
 
-/**
- * The older key, which puts an entry's index before its name. Nothing writes it now. A tuple without an entry ID
- * still loads a composition stored under it, and the next save of that variant moves it to the current key. For an
- * entry with an ID, migrateCompositionKeys copies it across. It matches the current key for tuples with no entry.
- * @param {object} tuple          Destination tuple.
- * @returns {string}
- */
-export function legacyCompKey(tuple) {
-  const cls = slugifyName(tuple?.classKey || 'Default') || 'Default';
-  let ent = 'none';
-  if (Number.isInteger(tuple?.entryIndex) && tuple.entryIndex >= 0) ent = `e${tuple.entryIndex}`;
-  else if (tuple?.entry) ent = slugifyName(tuple.entry) || 'entry';
-  return `${cls}__${ent}__${compKeyTypeSlug(tuple?.type)}`;
-}
+// /**
+//  * The older key, which puts an entry's index before its name. Nothing writes it now. A tuple without an entry ID
+//  * still loads a composition stored under it, and the next save of that variant moves it to the current key. For an
+//  * entry with an ID, migrateCompositionKeys copies it across. It matches the current key for tuples with no entry.
+//  * @param {object} tuple          Destination tuple.
+//  * @returns {string}
+//  */
+// export function legacyCompKey(tuple) {
+//   const cls = slugifyName(tuple?.classKey || 'Default') || 'Default';
+//   let ent = 'none';
+//   if (Number.isInteger(tuple?.entryIndex) && tuple.entryIndex >= 0) ent = `e${tuple.entryIndex}`;
+//   else if (tuple?.entry) ent = slugifyName(tuple.entry) || 'entry';
+//   return `${cls}__${ent}__${compKeyTypeSlug(tuple?.type)}`;
+// }
 
 /* -------------------------------------------- */
 
@@ -936,40 +936,40 @@ export function withEntryIdentity(actor, tuple) {
   return { ...tuple, tabId: tab.id, ...(entryId ? { entryId } : {}) };
 }
 
-/**
- * Copy compositions stored under an entry's name or index key to its ID key, when exactly one entry claims the old
- * key. The old keys are kept, and keys more than one entry could claim come back as `ambiguousKeys`. Character
- * Studio's _migrateConditionalCompositions runs it once per actor and warns about the ambiguous ones.
- */
-export function migrateCompositionKeys(comp, tabs) {
-  const rows = [];
-  for (const tab of tabs) {
-    for (const [entryIndex, entry] of (tab.entries ?? []).entries()) {
-      if (!entry.id) continue;
-      for (const { value: type } of typeOptions()) {
-        const tuple = { classKey: tab.name, tabId: tab.id, entry: entry.name, entryIndex, type };
-        rows.push({ named: compKey(tuple), indexed: legacyCompKey(tuple),
-          target: compKey({ ...tuple, entryId: entry.id }) });
-      }
-    }
-  }
-  const owners = new Map();
-  for (const row of rows) for (const key of [row.named, row.indexed]) {
-    if (!owners.has(key)) owners.set(key, new Set());
-    owners.get(key).add(row.target);
-  }
-  const updates = {};
-  const ambiguousKeys = [];
-  for (const [key, targets] of owners) {
-    if (comp?.[key] && targets.size > 1) ambiguousKeys.push(key);
-  }
-  for (const row of rows) {
-    if (comp?.[row.target]) continue;
-    const source = [row.named, row.indexed].find(key => comp?.[key] && owners.get(key).size === 1);
-    if (source) updates[row.target] = structuredClone(comp[source]);
-  }
-  return { updates, ambiguousKeys };
-}
+// /**
+//  * Copy compositions stored under an entry's name or index key to its ID key, when exactly one entry claims the old
+//  * key. The old keys are kept, and keys more than one entry could claim come back as `ambiguousKeys`. Character
+//  * Studio's _migrateConditionalCompositions runs it once per actor and warns about the ambiguous ones.
+//  */
+// export function migrateCompositionKeys(comp, tabs) {
+//   const rows = [];
+//   for (const tab of tabs) {
+//     for (const [entryIndex, entry] of (tab.entries ?? []).entries()) {
+//       if (!entry.id) continue;
+//       for (const { value: type } of typeOptions()) {
+//         const tuple = { classKey: tab.name, tabId: tab.id, entry: entry.name, entryIndex, type };
+//         rows.push({ named: compKey(tuple), indexed: legacyCompKey(tuple),
+//           target: compKey({ ...tuple, entryId: entry.id }) });
+//       }
+//     }
+//   }
+//   const owners = new Map();
+//   for (const row of rows) for (const key of [row.named, row.indexed]) {
+//     if (!owners.has(key)) owners.set(key, new Set());
+//     owners.get(key).add(row.target);
+//   }
+//   const updates = {};
+//   const ambiguousKeys = [];
+//   for (const [key, targets] of owners) {
+//     if (comp?.[key] && targets.size > 1) ambiguousKeys.push(key);
+//   }
+//   for (const row of rows) {
+//     if (comp?.[row.target]) continue;
+//     const source = [row.named, row.indexed].find(key => comp?.[key] && owners.get(key).size === 1);
+//     if (source) updates[row.target] = structuredClone(comp[source]);
+//   }
+//   return { updates, ambiguousKeys };
+// }
 
 /**
  * The entry selector's options for a class. Values are entry IDs where they exist, and entries sharing a name get
