@@ -36,7 +36,7 @@
         "id": "emblem-rpg",
         "type": "system",
         "compatibility": {
-          "minimum": "1.0.0"
+          "minimum": "1.0.1"
         },
         "manifest": "https://github.com/crow-of-minerva/emblem-rpg/releases/latest/download/system.json"
       }
